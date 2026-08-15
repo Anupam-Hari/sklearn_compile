@@ -1,10 +1,11 @@
-from pathlib import Path
 import ast
+from pathlib import Path
 
-from .models import ASTNode
 
+def parse_python_file(path: str | Path) -> ast.Module:
+    path = Path(path)
 
-def parse_python_file(path: Path) -> ast.Module:
-    source = path.read_text(encoding="utf-8")
+    with open(path, "r") as f:
+        source = f.read()
 
-    return ast.parse(source, filename=str(path))
+    return ast.parse(source)
