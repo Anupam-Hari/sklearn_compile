@@ -126,46 +126,88 @@ class CppGenerator:
         self._emit("")
         self._emit(f"#endif  // {guard}")
     
-    def _generate_from_ir(self, ir_module: IRModule):
-        """Generate C++ code from IR module."""
+    def _generate_from_ir(self, ir_module):
         if not ir_module.operations:
             self._emit("// Empty IR graph")
             return
-        
-        # Simple code structure generation based on IR operations
-        self._emit("// Generated from IR")
-        self._emit("")
-        
-        # For now, generate a simple compute function
-        self._emit("inline void compute() {")
-        self._indent()
-        
+
+        current_function = None
+
         for op in ir_module.operations:
+
+            if op.opcode == "FunctionEntry":
+
+                if current_function is not None:
+                    self._dedent()
+                    self._emit("}")
+
+                function_name = op.attributes["name"]
+
+                self._emit(f"inline void {function_name}() {{")
+                self._indent()
+
+                current_function = function_name
+                continue
+
+            if op.opcode == "FunctionExit":
+
+                self._dedent()
+                self._emit("}")
+
+                current_function = None
+                continue
+
             self._generate_operation(op)
-        
-        self._dedent()
-        self._emit("}")
     
     def _generate_operation(self, op: IROperation):
         """Generate C++ code for an IR operation."""
         opcode = op.opcode
         
         # Handle different operation types
-        if opcode == "FunctionEntry":
-            self._emit(f"// Function: {op.attributes.get('name', 'unknown')}")
-        
-        elif opcode == "FunctionExit":
-            self._emit(f"// End function")
-        
-        elif opcode in ["BeginLoop", "BeginWhile", "BeginFor"]:
+        if opcode in "BeginLoop":
             loop_type = op.attributes.get('type', 'for')
             self._emit(f"// Begin {loop_type} loop")
             if loop_type == "for":
                 self._emit("for (int i = 0; i < n; ++i) {")
                 self._indent()
         
-        elif opcode in ["EndLoop", "EndWhile", "EndFor"]:
+        elif opcode == "BeginFor":
+
+            target = op.attributes.get("target", "i")
+            iterator = op.attributes.get("iterator", "items")
+
+            self._emit(
+                f"for (auto {target} : {iterator}) {{"
+            )
+
+            self._indent()
+
+
+        elif opcode == "EndFor":
+
             self._dedent()
+
+            self._emit("}")
+
+
+        elif opcode == "BeginWhile":
+
+            condition = op.attributes.get(
+                "condition",
+                "true",
+            )
+
+            self._emit(
+                f"while ({condition}) {{"
+            )
+
+            self._indent()
+
+
+        elif opcode == "EndWhile":
+
+            self._dedent()
+
             self._emit("}")
         
         elif opcode == "BinaryOp":
@@ -176,20 +218,42 @@ class CppGenerator:
             if len(inputs) >= 2 and len(outputs) >= 1:
                 self._emit(f"{outputs[0]} = {inputs[0]} {op_name} {inputs[1]};")
         
-        elif opcode == "FunctionCall":
-            func_name = op.attributes.get('name', 'unknown_func')
-            inputs = op.inputs if isinstance(op.inputs, list) else [op.inputs]
-            outputs = op.outputs if isinstance(op.outputs, list) else [op.outputs]
-            
-            args = ", ".join(inputs)
-            if outputs:
-                self._emit(f"{outputs[0]} = {func_name}({args});")
-            else:
-                self._emit(f"{func_name}({args});")
-        
+        elif opcode == "Call":
+
+            func_name = op.attributes.get(
+                "name",
+                "unknown",
+            )
+
+            args = op.attributes.get(
+                "args",
+                [],
+            )
+
+            self._emit(
+                f"{func_name}({', '.join(args)});"
+            )
+
+        elif opcode == "Assignment":
+
+            target = op.attributes.get("target")
+            value = op.attributes.get("value")
+
+            self._emit(
+                f"auto {target} = {value};"
+            )
+                
         elif opcode == "Return":
-            value = op.inputs[0] if op.inputs else "nullptr"
-            self._emit(f"return {value};")
+            value = op.attributes.get("value")
+
+            if value is None:
+                self._emit("return;")
+            else:
+                self._emit(f"return {value};")
+
+        elif opcode == "Break":
+
+            self._emit("break;")
         
         else:
             # Generic operation

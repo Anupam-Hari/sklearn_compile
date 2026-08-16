@@ -38,18 +38,77 @@ class IRBuilder:
         return self.graph
     
     def _build_module(self, node):
-        """Build IR from a module node."""
-        # Process imports
-        for imp in getattr(node, 'imports', []):
-            self._add_import_op(imp)
-        
-        # Process functions
-        for func in getattr(node, 'functions', []):
-            self._build_function(func)
-        
-        # Process classes
-        for cls in getattr(node, 'classes', []):
-            self._build_class(cls)
+        for child in node.children:
+
+            if child.node_type == "import":
+                self._add_import_op(child)
+
+            elif child.node_type == "function":
+                self._build_function(child)
+
+            elif child.node_type == "class":
+                self._build_class(child)
+
+    def _build_statement(self, node):
+
+        if node.node_type == "call":
+
+            self.graph.add(
+                IROperation(
+                    opcode="Call",
+                    inputs=[],
+                    outputs=[],
+                    attributes=node.attributes,
+                )
+            )
+
+        elif node.node_type == "while":
+
+            self.graph.add(
+                IROperation(
+                    opcode="BeginWhile",
+                    inputs=[],
+                    outputs=[],
+                    attributes=node.attributes,
+                )
+            )
+
+            for child in node.children:
+                self._build_statement(child)
+
+            self.graph.add(
+                IROperation(
+                    opcode="EndWhile",
+                    inputs=[],
+                    outputs=[],
+                    attributes={},
+                )
+            )
+
+        elif node.node_type == "if":
+
+            self.graph.add(
+                IROperation(
+                    opcode="Branch",
+                    inputs=[],
+                    outputs=[],
+                    attributes=node.attributes,
+                )
+            )
+
+            for child in node.children:
+                self._build_statement(child)
+
+        elif node.node_type == "break":
+
+            self.graph.add(
+                IROperation(
+                    opcode="Break",
+                    inputs=[],
+                    outputs=[],
+                    attributes={},
+                )
+            )
     
     def _build_function(self, func):
         """Build IR from a function node."""
@@ -64,8 +123,69 @@ class IRBuilder:
         ))
         
         # Process function body (simplified)
-        if hasattr(func, 'body'):
-            self._build_block(func.body)
+        for child in func.children:
+
+            if child.node_type == "assignment":
+
+                self.graph.add(
+                    IROperation(
+                        opcode="Assignment",
+                        inputs=[],
+                        outputs=[],
+                        attributes=child.attributes,
+                    )
+                )
+
+            elif child.node_type == "call":
+
+                self.graph.add(
+                    IROperation(
+                        opcode="Call",
+                        inputs=[],
+                        outputs=[],
+                        attributes=child.attributes,
+                    )
+                )
+
+            elif child.node_type == "return":
+
+                self.graph.add(
+                    IROperation(
+                        opcode="Return",
+                        inputs=[],
+                        outputs=[],
+                        attributes=child.attributes,
+                    )
+                )
+
+            elif child.node_type == "for":
+
+                self.graph.add(
+                    IROperation(
+                        opcode="BeginFor",
+                        inputs=[],
+                        outputs=[],
+                        attributes={
+                            "iterator": child.attributes.get("iterator"),
+                            "target": child.attributes.get("target"),
+                        }
+                    )
+                )
+
+                for grandchild in child.children:
+                    self._build_statement(grandchild)
+
+                self.graph.add(
+                    IROperation(
+                        opcode="EndFor",
+                        inputs=[],
+                        outputs=[],
+                        attributes={},
+                    )
+                )
+
+            else:
+                self._build_statement(child)
         
         # Add function exit
         self.graph.add(IROperation(
@@ -78,7 +198,7 @@ class IRBuilder:
     def _build_class(self, cls):
         """Build IR from a class node."""
         cls_name = getattr(cls, 'name', 'unknown')
-        bases = getattr(cls, 'bases', [])
+        bases = cls.attributes.get("bases", [])
         
         # Add class entry
         self.graph.add(IROperation(
@@ -89,8 +209,9 @@ class IRBuilder:
         ))
         
         # Process methods
-        for method in getattr(cls, 'methods', []):
-            self._build_function(method)
+        for child in cls.children:
+            if child.node_type == "function":
+                self._build_function(child)
         
         # Add class exit
         self.graph.add(IROperation(

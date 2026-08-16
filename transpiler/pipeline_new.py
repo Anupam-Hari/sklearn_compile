@@ -23,7 +23,7 @@ def transpile_python_to_cpp(source_path: Path, output_path: Optional[Path] = Non
         Generated C++ code as string
     """
     from transpiler.parser.python_parser import parse_python_file
-    from transpiler.parser.cython_robust_parser import parse_cython_robust
+    from transpiler.parser.cython_parser import parse_cython_file
     from transpiler.normalizer.python_normalizer import normalize_python_ast
     from transpiler.ir.builder_new import build_ir_from_ast
     from transpiler.codegen.cpp_generator_new import generate_cpp_from_ir, CppConfig
@@ -41,9 +41,8 @@ def transpile_python_to_cpp(source_path: Path, output_path: Optional[Path] = Non
     # Step 1: Parse
     print("  [1/5] Parsing...")
     if is_cython:
-        parse_result = parse_cython_robust(source_code)
-        print(f"       Found {len(parse_result.get('classes', []))} classes, "
-              f"{len(parse_result.get('functions', []))} functions")
+        ast_node = parse_cython_file(source_path)
+        print(f"       Parsed successfully via built-in Cython compiler")
     else:
         ast_node = parse_python_file(source_path)
         print(f"       Parsed successfully")
@@ -51,18 +50,21 @@ def transpile_python_to_cpp(source_path: Path, output_path: Optional[Path] = Non
     # Step 2: Normalize
     print("  [2/5] Normalizing AST...")
     if is_cython:
-        # For Cython, convert parse_result to AST-like structure
-        from transpiler.ast.nodes import ModuleNode, ClassNode, FunctionNode
-        classes = [ClassNode(name=c['name'], bases=c.get('bases', []))
-                   for c in parse_result.get('classes', [])]
-        functions = [FunctionNode(name=f['name'])
-                     for f in parse_result.get('functions', [])]
-        ast_node = ModuleNode(classes=classes, functions=functions)
+        ast_node = ast_node
     else:
         ast_node = normalize_python_ast(ast_node)
-    
-    print(f"       {len(getattr(ast_node, 'functions', []))} functions, "
-          f"{len(getattr(ast_node, 'classes', []))} classes")
+
+    function_count = sum(
+        1 for child in ast_node.children
+        if getattr(child, "node_type", None) == "function"
+    )
+
+    class_count = sum(
+        1 for child in ast_node.children
+        if getattr(child, "node_type", None) == "class"
+    )
+
+    print(f"       {function_count} functions, {class_count} classes")
     
     # Step 3: Type Inference
     print("  [3/5] Type inference...")
@@ -72,6 +74,8 @@ def transpile_python_to_cpp(source_path: Path, output_path: Optional[Path] = Non
     # Step 4: Build IR
     print("  [4/5] Building intermediate representation...")
     ir_module = build_ir_from_ast(ast_node)
+    for op in ir_module.operations:
+        print(op.opcode, op.attributes)
     print(f"       Generated {len(ir_module.operations)} IR operations")
     
     # Step 5: Code Generation

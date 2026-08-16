@@ -25,9 +25,6 @@ def __getattr__(name):
     if name == "parse_python_file":
         from transpiler.parser.python_parser import parse_python_file
         return parse_python_file
-    if name == "parse_cython_robust":
-        from transpiler.parser.cython_robust_parser import parse_cython_robust
-        return parse_cython_robust
     if name == "normalize_python_ast":
         from transpiler.normalizer.python_normalizer import normalize_python_ast
         return normalize_python_ast
@@ -55,7 +52,6 @@ __all__ = [
     "analyze_project",
     "find_symbol",
     "parse_python_file",
-    "parse_cython_robust",
     "normalize_python_ast",
     "build_ir",
     "build_ir_from_ast",

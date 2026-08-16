@@ -1,11 +1,24 @@
-import ast
 from pathlib import Path
 
+from Cython.Compiler.Main import Context
+from Cython.Compiler.Main import CompilationOptions
+from Cython.Compiler.TreeFragment import parse_from_strings
 
-def parse_python_file(path: str | Path) -> ast.Module:
+
+def parse_cython_file(path: str | Path):
+
     path = Path(path)
 
-    with open(path, "r") as f:
-        source = f.read()
+    source = path.read_text()
 
-    return ast.parse(source)
+    context = Context.from_options(
+        CompilationOptions()
+    )
+
+    tree = parse_from_strings(
+        name=str(path),
+        code=source,
+        context=context,
+    )
+
+    return tree

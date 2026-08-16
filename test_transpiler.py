@@ -67,11 +67,20 @@ def test_normalization():
         ast_node = parse_python_file(path)
         normalized = normalize_python_ast(ast_node)
 
-        if not hasattr(normalized, "functions"):
-            print("  ✗ Normalized AST missing 'functions' attribute")
+        functions = [
+            child
+            for child in normalized.children
+            if child.node_type == "function"
+        ]
+
+        if not functions:
+            print("  ✗ No functions found in normalized AST")
             return False
 
-        print(f"  ✓ Normalized AST with {len(normalized.functions)} functions")
+        print(
+            f"  ✓ Normalized AST with {len(functions)} functions"
+        )
+
         return True
     except Exception as e:
         print(f"  ✗ Error: {e}")

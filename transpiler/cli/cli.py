@@ -131,9 +131,9 @@ def cmd_parse(args):
         if args.format == "tree":
             _print_ast_tree(normalized)
         elif args.format == "text":
-            print(f"Functions: {len(normalized.functions)}")
-            print(f"Classes: {len(normalized.classes)}")
-            print(f"Imports: {len(normalized.imports)}")
+            print(f"Functions: {len(get_functions(normalized))}")
+            print(f"Classes: {len(get_classes(normalized))}")
+            print(f"Imports: {len(get_imports(normalized))}")
 
         return 0
     except Exception as e:
@@ -191,6 +191,28 @@ def cmd_verify(args):
             traceback.print_exc()
         return 1
 
+def get_functions(node):
+    return [
+        child
+        for child in node.children
+        if child.node_type == "function"
+    ]
+
+
+def get_classes(node):
+    return [
+        child
+        for child in node.children
+        if child.node_type == "class"
+    ]
+
+
+def get_imports(node):
+    return [
+        child
+        for child in node.children
+        if child.node_type == "import"
+    ]
 
 def _print_ast_tree(node, indent=0):
     """Print AST tree structure."""
@@ -198,16 +220,29 @@ def _print_ast_tree(node, indent=0):
 
     if isinstance(node, ModuleNode):
         print("  " * indent + "Module")
-        for func in node.functions:
+        for func in get_functions(node):
             print("  " * (indent + 1) + f"def {func.name}()")
-        for cls in node.classes:
+
+        for cls in get_classes(node):
             print("  " * (indent + 1) + f"class {cls.name}:")
-            for method in cls.methods:
-                print("  " * (indent + 2) + f"def {method.name}()")
-        if node.imports:
+
+            for child in cls.children:
+                if child.node_type == "function":
+                    print(
+                        "  " * (indent + 2)
+                        + f"def {child.name}()"
+                    )
+
+        imports = get_imports(node)
+
+        if imports:
             print("  " * (indent + 1) + "Imports:")
-            for imp in node.imports:
-                print("  " * (indent + 2) + f"from {imp.module} import {imp.names}")
+
+            for imp in imports:
+                print(
+                    "  " * (indent + 2)
+                    + f"from {imp.module} import {imp.names}"
+                )
 
 
 def main():

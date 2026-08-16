@@ -3,9 +3,9 @@ from pathlib import Path
 from transpiler.dependency.imports import extract_imports
 from transpiler.dependency.symbols import extract_symbols
 from transpiler.normalizer.python_normalizer import normalize_python_ast
+from transpiler.parser.cython_parser import parse_cython_file
 from transpiler.parser.python_parser import parse_python_file
 from transpiler.project.index import build_project_index
-from transpiler.parser.cython_robust_parser import parse_cython_robust
 
 def analyze_project(root: Path):
 
@@ -30,12 +30,12 @@ def analyze_project(root: Path):
 
             elif source_file.language == "cython":
 
-                source_code = path.read_text()
-                result = parse_cython_robust(source_code)
-
-                graph.imports[path] = result.get('imports', [])
-
-                graph.symbols[path] = []
+                module = parse_cython_file(path)
+                graph.imports[path] = []
+                graph.symbols[path] = [
+                    {"name": child.name, "kind": child.node_type}
+                    for child in module.children
+                ]
 
         except Exception as e:
 

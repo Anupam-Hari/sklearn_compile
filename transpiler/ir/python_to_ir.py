@@ -15,25 +15,22 @@ class PythonToIRConverter:
         self.graph = None
         self.function_stack = []
 
-    def convert(self, module_node: ModuleNode) -> IRModule:
-        """
-        Convert a Python module to IR graph.
+    def convert(
+        self,
+        module_node: ModuleNode,
+    ) -> IRModule:
 
-        Args:
-            module_node: Normalized Python AST module
-
-        Returns:
-            IRModule representing the module
-        """
         self.graph = IRModule()
 
-        # Convert module-level functions
-        for func in module_node.functions:
-            self._convert_function(func)
+        for node in module_node.children:
 
-        # Convert classes and their methods
-        for cls in module_node.classes:
-            self._convert_class(cls)
+            if node.node_type == "function":
+
+                self._convert_function(node)
+
+            elif node.node_type == "class":
+
+                self._convert_class(node)
 
         return self.graph
 

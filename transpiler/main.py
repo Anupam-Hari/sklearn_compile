@@ -65,7 +65,10 @@ def parse_example_file(example_path: Path):
 
         normalized = normalize_python_ast(ast_node)
         print("✓ Normalized AST")
-        print(f"  - Module with {len(normalized.functions)} functions, {len(normalized.classes)} classes")
+        print(
+            f"  - Module with {len(get_functions(normalized))} functions, "
+            f"{len(get_classes(normalized))} classes"
+        )
         return normalized
     except Exception as e:
         print(f"✗ Error parsing file: {e}")
@@ -105,6 +108,20 @@ def verify_pipeline():
 
     return True
 
+def get_functions(node):
+    return [
+        child
+        for child in node.children
+        if child.node_type == "function"
+    ]
+
+
+def get_classes(node):
+    return [
+        child
+        for child in node.children
+        if child.node_type == "class"
+    ]
 
 def main():
     """Main entry point."""
