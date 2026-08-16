@@ -5,8 +5,7 @@ from transpiler.dependency.symbols import extract_symbols
 from transpiler.normalizer.python_normalizer import normalize_python_ast
 from transpiler.parser.python_parser import parse_python_file
 from transpiler.project.index import build_project_index
-from transpiler.normalizer.cython_normalizer import normalize_cython_source
-from transpiler.parser.cython_parser import parse_cython_file
+from transpiler.parser.cython_robust_parser import parse_cython_robust
 
 def analyze_project(root: Path):
 
@@ -31,21 +30,12 @@ def analyze_project(root: Path):
 
             elif source_file.language == "cython":
 
-                source = parse_cython_file(path)
+                source_code = path.read_text()
+                result = parse_cython_robust(source_code)
 
-                module = normalize_cython_source(
-                    source
-                )
+                graph.imports[path] = result.get('imports', [])
 
-                graph.imports[path] = extract_imports(
-                    module
-                )
-
-                graph.symbols[path] = extract_symbols(
-                    module,
-                    path,
-                    source_file.language,
-                )
+                graph.symbols[path] = []
 
         except Exception as e:
 

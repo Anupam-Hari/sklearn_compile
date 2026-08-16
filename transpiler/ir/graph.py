@@ -1,10 +1,11 @@
 from dataclasses import dataclass, field
 
-from .builder import IROperation
+from transpiler.ir.models import IROperation, IRModule
 
 
 @dataclass
 class IRGraph:
+    """Alias for IRModule for backwards compatibility."""
     operations: list[IROperation] = field(default_factory=list)
 
     def add(self, operation: IROperation) -> None:

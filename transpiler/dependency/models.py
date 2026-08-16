@@ -33,15 +33,3 @@ class DependencyGraph:
     files: dict[Path, SourceFile] = field(default_factory=dict)
     imports: dict[Path, list[ImportSymbol]] = field(default_factory=dict)
     symbols: dict[Path, list[Symbol]] = field(default_factory=dict)
-
-@dataclass
-class Symbol:
-    name: str
-    symbol_type: str
-    file_path: Path
-    language: str
-
-    parent: str | None = None
-    base_class: str | None = None
-
-    line_number: int = 0
