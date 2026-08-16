@@ -19,6 +19,11 @@ def extract_symbols(
                 symbol_type="class",
                 file_path=file_path,
                 language=language,
+                base_class=(
+                    cls.bases[0]
+                    if cls.bases
+                    else None
+                ),
             )
         )
 

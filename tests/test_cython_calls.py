@@ -2,6 +2,7 @@ from pathlib import Path
 
 from transpiler.cython.calls import extract_calls
 from transpiler.cython.method_extractor import extract_method
+from transpiler.symbols.builder import build_symbol_table
 
 
 path = Path(
@@ -14,7 +15,12 @@ method = extract_method(
     "build",
 )
 
-calls = extract_calls(method)
 
-for call in sorted(set(calls)):
-    print(call)
+table = build_symbol_table(method)
+
+for variable in table.variables.values():
+
+    print(
+        variable.name,
+        variable.type_name,
+    )

@@ -1,0 +1,18 @@
+BUILTIN_TYPES = {
+    "stack",
+    "vector",
+    "deque",
+    "queue",
+    "list",
+    "dict",
+    "set",
+    "int",
+    "float",
+    "double",
+    "bool",
+    "void",
+    "bint",
+    "intp_t",
+    "float64_t",
+    "cnp.ndarray",
+}

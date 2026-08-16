@@ -10,7 +10,7 @@ graph = analyze_project(
 print()
 
 print("FILES")
-print("=" * 40)
+print("=" * 80)
 
 for path in sorted(graph.files):
     print(path)
@@ -18,7 +18,7 @@ for path in sorted(graph.files):
 print()
 
 print("IMPORTS")
-print("=" * 40)
+print("=" * 80)
 
 for path, imports in graph.imports.items():
 
@@ -28,13 +28,15 @@ for path, imports in graph.imports.items():
     print()
     print(path)
 
-    for symbol in imports:
-        print(" ", symbol)
+    for imp in imports:
+        print(
+            f"    {imp.module} -> {imp.name}"
+        )
 
 print()
 
 print("SYMBOLS")
-print("=" * 40)
+print("=" * 80)
 
 for path, symbols in graph.symbols.items():
 
@@ -45,4 +47,15 @@ for path, symbols in graph.symbols.items():
     print(path)
 
     for symbol in symbols:
-        print(" ", symbol.name, symbol.symbol_type)
+
+        if symbol.parent:
+
+            print(
+                f"    {symbol.parent}.{symbol.name} ({symbol.symbol_type})"
+            )
+
+        else:
+
+            print(
+                f"    {symbol.name} ({symbol.symbol_type})"
+            )

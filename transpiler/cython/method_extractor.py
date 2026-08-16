@@ -49,21 +49,26 @@ def extract_method(
     for i in range(method_start, len(lines)):
 
         line = lines[i]
+
         stripped = line.lstrip()
 
-        current_indent = len(line) - len(stripped)
+        current_indent = (
+            len(line) - len(stripped)
+        )
 
-        if (
-            i > method_start
-            and current_indent <= method_indent
-            and stripped
-            and (
-                stripped.startswith("cpdef ")
-                or stripped.startswith("cdef class ")
-                or stripped.startswith("def ")
-            )
-        ):
-            break
+        if i > method_start:
+
+            if (
+                current_indent <= method_indent
+                and stripped
+            ):
+
+                if (
+                    stripped.startswith("def ")
+                    or stripped.startswith("cpdef ")
+                    or stripped.startswith("cdef ")
+                ):
+                    break
 
         collected.append(line)
 

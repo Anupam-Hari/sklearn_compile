@@ -11,18 +11,6 @@ def build_dependency_pipeline(project_root: Path):
 
     graph = analyze_project(project_root)
 
-    count = 0
-
-    for file_path, symbols in graph.symbols.items():
-
-        for symbol in symbols:
-
-            if symbol.name == "DecisionTreeClassifier":
-                print("FOUND:", symbol)
-                count += 1
-
-    print("MATCHES:", count)
-
     tree_symbol = find_symbol(
         graph,
         "DecisionTreeClassifier",
