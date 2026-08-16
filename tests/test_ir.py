@@ -1,21 +1,16 @@
-from transpiler.ir.builder import (
-    create_node,
-    evaluate_split,
-    extract_feature_column,
-    partition_samples,
-    sort_samples,
-)
-
-from transpiler.ir.models import IRModule
+from transpiler.ir.models import IRModule, IROperation
 
 
 module = IRModule()
 
-module.add(extract_feature_column(0))
-module.add(sort_samples())
-module.add(evaluate_split())
-module.add(partition_samples())
-module.add(create_node())
+for opcode in [
+    "ExtractFeatureColumn",
+    "SortSamples",
+    "EvaluateSplit",
+    "PartitionSamples",
+    "CreateNode",
+]:
+    module.add(IROperation(opcode=opcode, inputs=[], outputs=[], attributes={}))
 
 for operation in module.operations:
     print(operation)

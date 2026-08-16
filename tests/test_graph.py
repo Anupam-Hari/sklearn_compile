@@ -1,20 +1,15 @@
-from transpiler.ir.builder import (
-    extract_feature_column,
-    sort_samples,
-    evaluate_split,
-    partition_samples,
-    create_node,
-)
-
-from transpiler.ir.graph import IRGraph
+from transpiler.ir.models import IRModule, IROperation
 
 
-graph = IRGraph()
+graph = IRModule()
 
-graph.add(extract_feature_column(0))
-graph.add(sort_samples())
-graph.add(evaluate_split())
-graph.add(partition_samples())
-graph.add(create_node())
+for opcode in [
+    "ExtractFeatureColumn",
+    "SortSamples",
+    "EvaluateSplit",
+    "PartitionSamples",
+    "CreateNode",
+]:
+    graph.add(IROperation(opcode=opcode, inputs=[], outputs=[], attributes={}))
 
-graph.dump()
+graph.operations

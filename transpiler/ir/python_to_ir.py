@@ -1,12 +1,11 @@
 """Convert normalized Python AST to IR graph.
 
 This module bridges the gap between Python's ModuleNode AST representation
-and the IR graph format used for code generation.
+and the generic IR module used for code generation.
 """
 
 from transpiler.ast.nodes import ModuleNode, FunctionNode, ClassNode
-from transpiler.ir.graph import IRGraph
-from transpiler.ir.models import IROperation
+from transpiler.ir.models import IRModule, IROperation
 
 
 class PythonToIRConverter:
@@ -16,7 +15,7 @@ class PythonToIRConverter:
         self.graph = None
         self.function_stack = []
 
-    def convert(self, module_node: ModuleNode) -> IRGraph:
+    def convert(self, module_node: ModuleNode) -> IRModule:
         """
         Convert a Python module to IR graph.
 
@@ -24,9 +23,9 @@ class PythonToIRConverter:
             module_node: Normalized Python AST module
 
         Returns:
-            IRGraph representing the module
+            IRModule representing the module
         """
-        self.graph = IRGraph()
+        self.graph = IRModule()
 
         # Convert module-level functions
         for func in module_node.functions:
@@ -91,7 +90,7 @@ class PythonToIRConverter:
         )
 
 
-def convert_python_ast_to_ir(module_node: ModuleNode) -> IRGraph:
+def convert_python_ast_to_ir(module_node: ModuleNode) -> IRModule:
     """
     Convert a Python ModuleNode to IR graph.
 
@@ -99,7 +98,7 @@ def convert_python_ast_to_ir(module_node: ModuleNode) -> IRGraph:
         module_node: Normalized Python AST module
 
     Returns:
-        IRGraph representing the Python module
+        IRModule representing the Python module
     """
     converter = PythonToIRConverter()
     return converter.convert(module_node)
