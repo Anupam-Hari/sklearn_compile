@@ -2,6 +2,7 @@ import ast
 
 from transpiler.ast.mapping_table import PYTHON_TO_NORMALIZED
 from transpiler.ast.nodes import (
+    CallNode,
     ClassNode,
     ConstantNode,
     EnumNode,
@@ -59,6 +60,12 @@ def get_python_children(node):
 
         children.extend(node.body)
 
+    elif isinstance(node, ast.Expr):
+
+        children.append(
+            node.value,
+        )
+
     return children
 
 def normalize_import(node):
@@ -79,6 +86,22 @@ def normalize_import(node):
             alias.name
             for alias in node.names
         ],
+    )
+
+def normalize_call(node):
+
+    try:
+
+        name = ast.unparse(
+            node.func,
+        )
+
+    except Exception:
+
+        name = "unknown"
+
+    return CallNode(
+        name=name,
     )
 
 def normalize_expression(node):
@@ -236,6 +259,15 @@ def normalize_node(node):
                     normalized = VariableNode(
                         name=name,
                     )
+
+    elif isinstance(
+        node,
+        ast.Call,
+    ):
+
+        normalized = normalize_call(
+            node,
+        )
 
     elif normalized_type == "ExpressionNode":
 

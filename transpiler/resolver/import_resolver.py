@@ -6,47 +6,6 @@ from transpiler.dependency.models import (
     Symbol,
 )
 
-
-def find_imported_file(
-    graph,
-    module_name,
-):
-
-    if not module_name:
-
-        return None
-
-    module_path = Path(
-        module_name.replace(
-            ".",
-            "/",
-        )
-    )
-
-    candidates = [
-
-        module_path.with_suffix(".py"),
-
-        module_path.with_suffix(".pyx"),
-
-        module_path.with_suffix(".pxd"),
-
-        module_path / "__init__.py",
-    ]
-
-    for file_path in graph.files:
-
-        for candidate in candidates:
-
-            if str(file_path).endswith(
-                str(candidate)
-            ):
-
-                return file_path
-
-    return None
-
-
 def find_imported_symbol(
     graph,
     file_path,

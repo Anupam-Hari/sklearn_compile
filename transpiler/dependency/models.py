@@ -23,7 +23,9 @@ class Symbol:
     language: str
 
     parent: str | None = None
-    base_class: str | None = None
+    base_classes: list[str] | None = None
+
+    inherited_from: str | None = None
 
     line_number: int = 0
 

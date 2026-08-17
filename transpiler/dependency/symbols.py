@@ -27,9 +27,7 @@ def walk(node, symbols, file_path, language, parent=None):
                 symbol_type="class",
                 file_path=file_path,
                 language=language,
-                base_class=node.bases[0]
-                if node.bases
-                else None,
+                base_classes=node.bases,
                 parent=parent,
             )
         )
