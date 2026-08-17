@@ -3,8 +3,15 @@ from pathlib import Path
 from transpiler.project.analyze import analyze_project
 
 
+path = Path("sklearn/tree")
+
+print(path)
+print(path.resolve())
+print(path.exists())
+print(path.is_dir())
+
 graph = analyze_project(
-    Path("sklearn/sklearn/tree")
+    Path("sklearn/tree")
 )
 
 print()
