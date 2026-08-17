@@ -11,7 +11,7 @@ PYTHON_TO_NORMALIZED = {
     "FunctionDef": "FunctionNode",
 
     # variables
-    "Name": "VariableNode",
+    # "Name": "VariableNode",
 
     # assignments
     "Assign": "AssignmentNode",
@@ -154,7 +154,7 @@ CYTHON_TO_NORMALIZED = {
 
     # variables
     "CVarDefNode": "VariableNode",
-    "NameNode": "VariableNode",
+    #"NameNode": "VariableNode",
     "AttributeNode": "AttributeNode",
     "CArgDeclNode": "ParameterNode",
     "CNameDeclaratorNode": "VariableNode",

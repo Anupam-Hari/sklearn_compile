@@ -16,6 +16,38 @@ from transpiler.parser.python_parser import (
 
 ROOT = Path("sklearn/tree")
 
+def walk(
+    node,
+    counter,
+    parent=None,
+):
+
+    counter[
+        (
+            parent,
+            node.node_type,
+            node.name,
+        )
+    ] += 1
+
+    current_parent = parent
+
+    if node.node_type in {
+        "class",
+        "function",
+    }:
+
+        current_parent = node.name
+
+    for child in node.children:
+
+        walk(
+            child,
+            counter,
+            current_parent,
+        )
+
+
 def update_counts(module, counts):
 
     counts["imports"] += len(module.imports)
@@ -44,6 +76,7 @@ def print_summary(title, counts):
 def test_python():
 
     counts = Counter()
+    counter = Counter()
 
     python_files = sorted(ROOT.rglob("*.py"))
 
@@ -59,6 +92,31 @@ def test_python():
             tree = parse_python_file(path)
 
             module = normalize_python_ast(tree)
+
+            counter = Counter()
+
+            walk(
+                module,
+                counter,
+            )
+
+            duplicates = False
+
+            for key, count in counter.items():
+
+                if count > 1:
+
+                    if not duplicates:
+
+                        print()
+                        print(f"DUPLICATES IN {path}")
+
+                        duplicates = True
+
+                    print(
+                        key,
+                        count,
+                    )
 
             update_counts(
                 module,

@@ -6,63 +6,68 @@ from transpiler.project.analyze import analyze_project
 path = Path("sklearn/tree")
 
 print(path)
-print(path.resolve())
-print(path.exists())
-print(path.is_dir())
+# print(path.resolve())
+# print(path.exists())
+# print(path.is_dir())
 
-graph = analyze_project(
-    Path("sklearn/tree")
+graph = analyze_project(path)
+
+print()
+print("PROJECT SUMMARY")
+print("=" * 80)
+
+print(
+    f"files:    {len(graph.files)}"
+)
+
+print(
+    f"imports:  "
+    f"{sum(len(i) for i in graph.imports.values())}"
+)
+
+print(
+    f"symbols:  "
+    f"{sum(len(s) for s in graph.symbols.values())}"
 )
 
 print()
-
-print("FILES")
+print("SYMBOL TYPES")
 print("=" * 80)
 
-for path in sorted(graph.files):
-    print(path)
+symbol_counts = {}
+count = 0
 
-print()
-
-print("IMPORTS")
-print("=" * 80)
-
-for path, imports in graph.imports.items():
-
-    if not imports:
-        continue
-
-    print()
-    print(path)
-
-    for imp in imports:
-        print(
-            f"    {imp.module} -> {imp.name}"
-        )
-
-print()
-
-print("SYMBOLS")
-print("=" * 80)
-
-for path, symbols in graph.symbols.items():
-
-    if not symbols:
-        continue
-
-    print()
-    print(path)
+for symbols in graph.symbols.values():
 
     for symbol in symbols:
 
-        if symbol.parent:
+        # if symbol.symbol_type == "variable":
 
-            print(
-                f"    {symbol.parent}.{symbol.name} ({symbol.symbol_type})"
+        #     print(symbol)
+
+        #     count += 1
+
+        #     if count == 50:
+
+        #         break
+
+        symbol_type = symbol.symbol_type
+
+        symbol_counts[symbol_type] = (
+            symbol_counts.get(
+                symbol_type,
+                0,
             )
+            + 1
+        )
+    # if count == 50:
+    #         break
 
-        else:
+for symbol_type, count in sorted(
+    symbol_counts.items()
+):
 
-            print(
-                f"    {symbol.name} ({symbol.symbol_type})"
-            )
+    print(
+        f"{symbol_type:<12}"
+        f"{count}"
+    )

@@ -1,53 +1,72 @@
 from pathlib import Path
 
-from transpiler.dependency.resolver import (
-    build_dependency_tree,
-)
 from transpiler.project.analyze import analyze_project
+
+from transpiler.resolver.import_resolver import (
+    build_import_index,
+    resolve_import_symbol,
+)
 
 graph = analyze_project(
     Path("sklearn"),
 )
 
-dependencies = build_dependency_tree(
-
+graph.import_index = build_import_index(
     graph,
-
-    Path(
-        "sklearn/tree/_splitter.pyx",
-    ),
 )
 
 print()
-
+print("IMPORT RESOLUTION")
 print("=" * 80)
 
-print("RECURSIVE DEPENDENCIES")
+resolved = 0
+unresolved = 0
 
-print("=" * 80)
+for file_path, imports in graph.imports.items():
 
-seen = set()
-
-for dependency in dependencies:
-
-    key = (
-        dependency.name,
-        dependency.file_path,
-    )
-
-    if key in seen:
-
+    if not imports:
         continue
 
-    seen.add(
-        key,
-    )
+    print()
+    print(file_path)
 
-    print(
+    for imported in imports:
 
-        dependency.name,
+        symbol = resolve_import_symbol(
+            graph,
+            imported,
+        )
 
-        "->",
+        if symbol is not None:
 
-        dependency.file_path,
-    )
+            resolved += 1
+
+            print(
+                f"✓ {imported.module}.{imported.name}"
+                f" -> "
+                f"{symbol.file_path}"
+            )
+
+        else:
+
+            unresolved += 1
+
+            print(
+                f"✗ {imported.module}.{imported.name}"
+            )
+            source_file = graph.import_index.get(
+                imported.module,
+            )
+
+            print(source_file)
+
+print()
+print("=" * 80)
+
+print(
+    f"Resolved: {resolved}"
+)
+
+print(
+    f"Unresolved: {unresolved}"
+)

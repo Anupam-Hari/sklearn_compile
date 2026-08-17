@@ -19,9 +19,47 @@ UNHANDLED_PYTHON_NODES = Counter()
 
 def get_python_children(node):
 
-    return list(
-        ast.iter_child_nodes(node)
-    )
+    children = []
+
+    if isinstance(node, ast.Module):
+
+        children.extend(node.body)
+
+    elif isinstance(node, ast.ClassDef):
+
+        children.extend(node.body)
+
+    elif isinstance(node, ast.FunctionDef):
+
+        children.extend(node.body)
+
+    elif isinstance(node, ast.If):
+
+        children.extend(node.body)
+        children.extend(node.orelse)
+
+    elif isinstance(node, ast.For):
+
+        children.extend(node.body)
+        children.extend(node.orelse)
+
+    elif isinstance(node, ast.While):
+
+        children.extend(node.body)
+        children.extend(node.orelse)
+
+    elif isinstance(node, ast.Try):
+
+        children.extend(node.body)
+        children.extend(node.handlers)
+        children.extend(node.orelse)
+        children.extend(node.finalbody)
+
+    elif isinstance(node, ast.With):
+
+        children.extend(node.body)
+
+    return children
 
 def normalize_import(node):
 
