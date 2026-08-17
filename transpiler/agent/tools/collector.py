@@ -9,7 +9,7 @@ from transpiler.parser.python_parser import parse_python_file
 from transpiler.parser.cython_parser import parse_cython_file
 
 
-OUTPUT_DIR = Path("node_inventory")
+OUTPUT_DIR = Path(__file__).resolve().parent.parent / "docs" / "node_inventory"
 
 def get_cython_children(node):
 

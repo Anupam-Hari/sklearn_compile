@@ -1,7 +1,11 @@
 import os
+import json
 
 from google import genai
+from google.genai import types
+from dotenv import load_dotenv
 
+load_dotenv()
 
 class GoogleLLM:
 
@@ -23,3 +27,24 @@ class GoogleLLM:
         )
 
         return response.text
+
+    def generate_json(self, prompt):
+
+        response = self.client.models.generate_content(
+            model=self.model,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                response_mime_type="application/json",
+            ),
+        )
+
+        try:
+            return json.loads(
+                response.text,
+            )
+
+        except json.JSONDecodeError:
+
+            print(response.text)
+
+            raise

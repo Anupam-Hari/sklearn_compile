@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from transpiler.ast.inventory.collector import (
+from transpiler.agent.tools.collector import (
     collect_nodes,
 )
 

@@ -3400,7 +3400,7 @@
                 ]
             },
             "items": [
-                "('issparse', <Cython.Compiler.ExprNodes.NameNode object at 0x7e50219fe5d0>)"
+                "('issparse', <Cython.Compiler.ExprNodes.NameNode object at 0x788c3ecef1d0>)"
             ]
         }
     },
