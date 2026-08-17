@@ -12,6 +12,7 @@ class ASTNode:
 
 
 @dataclass
+@dataclass
 class ModuleNode(ASTNode):
 
     def __init__(
@@ -24,19 +25,37 @@ class ModuleNode(ASTNode):
             node_type="module",
             name=name,
             attributes=attributes or {},
-            children=children or [],
+            children=[],
         )
+
         self.imports: list[ImportNode] = []
         self.classes: list[ClassNode] = []
         self.functions: list[FunctionNode] = []
-        self.children = list(children or [])
-        for child in self.children:
-            if getattr(child, "node_type", None) == "import":
-                self.imports.append(child)
-            elif getattr(child, "node_type", None) == "class":
-                self.classes.append(child)
-            elif getattr(child, "node_type", None) == "function":
-                self.functions.append(child)
+
+        for child in children or []:
+            self.add_child(child)
+
+    def add_child(self, child):
+
+        self.children.append(child)
+
+        node_type = getattr(
+            child,
+            "node_type",
+            None,
+        )
+
+        if node_type == "import":
+
+            self.imports.append(child)
+
+        elif node_type == "class":
+
+            self.classes.append(child)
+
+        elif node_type == "function":
+
+            self.functions.append(child)
 
 
 @dataclass
