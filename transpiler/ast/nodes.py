@@ -31,6 +31,8 @@ class ModuleNode(ASTNode):
         self.imports = []
         self.classes = []
         self.functions = []
+        self.calls = []
+
         self.variables = []
         self.constants = []
         self.typedefs = []
@@ -39,6 +41,7 @@ class ModuleNode(ASTNode):
         self.externs = []
 
         for child in children or []:
+
             self.add_child(child)
 
     def add_child(self, child):
@@ -52,30 +55,43 @@ class ModuleNode(ASTNode):
         )
 
         if node_type == "import":
+
             self.imports.append(child)
 
         elif node_type == "class":
+
             self.classes.append(child)
 
         elif node_type == "function":
+
             self.functions.append(child)
 
+        elif node_type == "call":
+
+            self.calls.append(child)
+
         elif node_type == "variable":
+
             self.variables.append(child)
 
         elif node_type == "constant":
+
             self.constants.append(child)
 
         elif node_type == "typedef":
+
             self.typedefs.append(child)
 
         elif node_type == "struct":
+
             self.structs.append(child)
 
         elif node_type == "enum":
+
             self.enums.append(child)
 
         elif node_type == "extern":
+
             self.externs.append(child)
 
 
@@ -94,6 +110,13 @@ class ClassNode(ASTNode):
         self.bases = bases or []
         self.methods = methods or []
         self.children.extend(self.methods)
+
+@dataclass
+class CallNode(ASTNode):
+
+    name: str = ""
+
+    node_type: str = "call"
 
 
 @dataclass

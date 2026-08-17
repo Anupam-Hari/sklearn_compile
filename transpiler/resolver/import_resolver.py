@@ -6,11 +6,12 @@ from transpiler.dependency.models import (
     Symbol,
 )
 
+
 def find_imported_symbol(
-    graph,
-    file_path,
-    name,
-):
+    graph: DependencyGraph,
+    file_path: Path,
+    name: str,
+) -> Symbol | None:
 
     for symbol in graph.symbols.get(
         file_path,
@@ -24,7 +25,9 @@ def find_imported_symbol(
     return None
 
 
-def build_import_index(graph):
+def build_import_index(
+    graph: DependencyGraph,
+) -> dict[str, Path]:
 
     modules = {}
 
@@ -65,10 +68,10 @@ def build_import_index(graph):
 
 
 def resolve_import_symbol(
-    graph,
+    graph: DependencyGraph,
     imported,
-    visited=None,
-):
+    visited: set | None = None,
+) -> Symbol | None:
 
     if visited is None:
 
@@ -130,9 +133,9 @@ def resolve_import_symbol(
 
 
 def resolve_file_imports(
-    graph,
-    file_path,
-):
+    graph: DependencyGraph,
+    file_path: Path,
+) -> list[Symbol]:
 
     dependencies = []
 
@@ -158,10 +161,10 @@ def resolve_file_imports(
 
 
 def build_import_tree(
-    graph,
-    file_path,
-    visited=None,
-):
+    graph: DependencyGraph,
+    file_path: Path,
+    visited: set | None = None,
+) -> list[Symbol]:
 
     if visited is None:
 
@@ -205,7 +208,9 @@ def build_import_tree(
     return dependencies
 
 
-def resolve_imports(graph):
+def resolve_imports(
+    graph: DependencyGraph,
+) -> None:
 
     graph.import_index = (
         build_import_index(
@@ -222,9 +227,7 @@ def resolve_imports(graph):
         for imported in imports:
 
             symbol = resolve_import_symbol(
-
                 graph,
-
                 imported,
             )
 

@@ -1,8 +1,16 @@
-def build_class_index(graph):
+from transpiler.dependency.models import (
+    DependencyGraph,
+    Symbol,
+)
+
+
+def build_class_index(
+    graph: DependencyGraph,
+) -> dict[str, Symbol]:
 
     classes = {}
 
-    for file_path, symbols in graph.symbols.items():
+    for symbols in graph.symbols.values():
 
         for symbol in symbols:
 
@@ -14,10 +22,11 @@ def build_class_index(graph):
 
     return classes
 
+
 def resolve_base_classes(
-    graph,
-    class_symbol,
-):
+    graph: DependencyGraph,
+    class_symbol: Symbol,
+) -> list[Symbol]:
 
     if not class_symbol.base_classes:
 
@@ -39,13 +48,18 @@ def resolve_base_classes(
 
     return parents
 
-def resolve_classes(graph):
 
-    graph.class_index = build_class_index(
-        graph,
+def resolve_classes(
+    graph: DependencyGraph,
+) -> None:
+
+    graph.class_index = (
+        build_class_index(
+            graph,
+        )
     )
 
-    inheritance = {}
+    graph.class_inheritance = {}
 
     for symbols in graph.symbols.values():
 
@@ -55,14 +69,11 @@ def resolve_classes(graph):
 
                 continue
 
-            parent = resolve_base_classes(
-
+            parents = resolve_base_classes(
                 graph,
-
                 symbol,
             )
 
-            inheritance[symbol.name] = parent
-
-    return inheritance
-
+            graph.class_inheritance[
+                symbol.name
+            ] = parents

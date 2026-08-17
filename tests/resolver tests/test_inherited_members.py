@@ -5,7 +5,7 @@ from transpiler.project.analyze import (
 )
 
 from transpiler.resolver.class_resolver import (
-    build_class_index,
+    resolve_classes,
 )
 
 from transpiler.resolver.inherited_member_resolver import (
@@ -16,16 +16,12 @@ graph = analyze_project(
     Path("sklearn/tree"),
 )
 
-graph.class_index = (
-    build_class_index(
-        graph,
-    )
+resolve_classes(
+    graph,
 )
 
-members = (
-    resolve_inherited_members(
-        graph,
-    )
+resolve_inherited_members(
+    graph,
 )
 
 print()
@@ -39,17 +35,19 @@ print(
 )
 
 for cls, methods in (
-    members.items()
+    graph.inherited_members.items()
 ):
 
-    if methods:
+    if not methods:
 
-        print()
+        continue
 
-        print(cls)
+    print()
 
-        for method in methods:
+    print(cls)
 
-            print(
-                f"    {method}"
-            )
+    for method in methods:
+
+        print(
+            f"    {method}"
+        )

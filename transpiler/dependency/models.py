@@ -29,25 +29,42 @@ class Symbol:
 
     line_number: int = 0
 
+@dataclass
+class Call:
+
+    name: str
+
+    parent_class: str | None = None
+
+    parent_function: str | None = None
+
 
 @dataclass
 class DependencyGraph:
 
-    files: dict = field(
-        default_factory=dict
-    )
+    files: dict = field(default_factory=dict)
 
-    imports: dict = field(
-        default_factory=dict
-    )
+    modules: dict = field(default_factory=dict)
 
-    symbols: dict = field(
-        default_factory=dict
-    )
+    imports: dict = field(default_factory=dict)
 
-    dependencies: dict = field(
-        default_factory=dict
-    )
+    symbols: dict = field(default_factory=dict)
+
+    dependencies: dict = field(default_factory=dict)
+
+    calls: dict = field(default_factory=dict)
+
+    import_index: dict = field(default_factory=dict)
+
+    class_index: dict = field(default_factory=dict)
+
+    function_index: dict = field(default_factory=dict)
+
+    class_inheritance: dict = field(default_factory=dict)
+
+    resolved_calls: dict = field(default_factory=dict)
+
+    inherited_members: dict = field(default_factory=dict)
 
 @dataclass
 class ResolvedDependency:

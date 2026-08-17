@@ -1,16 +1,13 @@
-from transpiler.dependency.models import Symbol
+from transpiler.dependency.models import (
+    DependencyGraph,
+    Symbol,
+)
+
 
 def find_class(
-    graph,
-    class_name,
-):
-
-    if not hasattr(
-        graph,
-        "class_index",
-    ):
-
-        return None
+    graph: DependencyGraph,
+    class_name: str,
+) -> Symbol | None:
 
     return graph.class_index.get(
         class_name,
@@ -18,10 +15,10 @@ def find_class(
 
 
 def get_inherited_methods(
-    graph,
-    class_symbol,
+    graph: DependencyGraph,
+    class_symbol: Symbol,
     visited=None,
-):
+) -> list[Symbol]:
 
     if visited is None:
 
@@ -54,6 +51,7 @@ def get_inherited_methods(
                 methods.append(
                     symbol,
                 )
+
                 local_method_names.add(
                     symbol.name,
                 )
@@ -84,48 +82,47 @@ def get_inherited_methods(
         for method in parent_methods:
 
             if method.name in local_method_names:
+
                 continue
 
-            inherited_method = Symbol(
-                name=method.name,
-                symbol_type=method.symbol_type,
-                file_path=method.file_path,
-                language=method.language,
-                parent=class_symbol.name,
-                inherited_from=parent.name,
-            )
-
             methods.append(
-                inherited_method,
+
+                Symbol(
+
+                    name=method.name,
+
+                    symbol_type=method.symbol_type,
+
+                    file_path=method.file_path,
+
+                    language=method.language,
+
+                    parent=class_symbol.name,
+
+                    inherited_from=parent.name,
+                )
             )
 
     return methods
 
 
 def resolve_inherited_members(
-    graph,
-):
+    graph: DependencyGraph,
+) -> None:
 
-    inherited_members = {}
+    graph.inherited_members = {}
 
     for symbols in graph.symbols.values():
 
         for symbol in symbols:
 
-            if (
-                symbol.symbol_type
-                != "class"
-            ):
+            if symbol.symbol_type != "class":
 
                 continue
 
-            members = get_inherited_methods(
+            graph.inherited_members[
+                symbol.name
+            ] = get_inherited_methods(
                 graph,
                 symbol,
             )
-
-            inherited_members[
-                symbol.name
-            ] = members
-
-    return inherited_members

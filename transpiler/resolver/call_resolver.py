@@ -1,4 +1,20 @@
-def build_function_index(graph):
+from transpiler.dependency.models import (
+    DependencyGraph,
+    Symbol,
+)
+
+from transpiler.dependency.calls import (
+    extract_calls,
+)
+
+from transpiler.resolver.import_resolver import (
+    resolve_import_symbol,
+)
+
+
+def build_function_index(
+    graph: DependencyGraph,
+) -> dict[str, list[Symbol]]:
 
     functions = {}
 
@@ -13,16 +29,15 @@ def build_function_index(graph):
             functions.setdefault(
                 symbol.name,
                 [],
-            ).append(
-                symbol,
-            )
+            ).append(symbol)
 
     return functions
 
+
 def resolve_call(
-    graph,
-    call_name,
-):
+    graph: DependencyGraph,
+    call_name: str,
+) -> Symbol | None:
 
     if "." in call_name:
 
@@ -39,11 +54,12 @@ def resolve_call(
 
     return matches[0]
 
+
 def find_method_in_class(
-    graph,
-    class_name,
-    method_name,
-):
+    graph: DependencyGraph,
+    class_name: str,
+    method_name: str,
+) -> Symbol | None:
 
     class_symbol = graph.class_index.get(
         class_name,
@@ -68,11 +84,34 @@ def find_method_in_class(
 
     return None
 
-def resolve_self_call(
+
+def resolve_imported_call(
     graph,
-    class_name,
+    file_path,
     call_name,
 ):
+
+    for imported in graph.imports.get(
+        file_path,
+        [],
+    ):
+
+        if imported.name != call_name:
+
+            continue
+
+        return resolve_import_symbol(
+            graph,
+            imported,
+        )
+
+    return None
+
+def resolve_self_call(
+    graph: DependencyGraph,
+    class_name: str,
+    call_name: str,
+) -> Symbol | None:
 
     if not call_name.startswith(
         "self."
@@ -90,3 +129,69 @@ def resolve_self_call(
         class_name,
         method_name,
     )
+
+
+def resolve_calls(
+    graph: DependencyGraph,
+) -> None:
+
+    graph.function_index = (
+        build_function_index(
+            graph,
+        )
+    )
+
+    graph.resolved_calls = {}
+
+    for file_path, calls in graph.calls.items():
+
+        resolved = []
+
+        for call in calls:
+
+            symbol = None
+
+            if (
+                call.name.startswith(
+                    "self."
+                )
+                and call.parent_class
+            ):
+
+                symbol = resolve_self_call(
+                    graph,
+                    call.parent_class,
+                    call.name,
+                )
+
+            elif "." not in call.name:
+
+                symbol = resolve_call(
+                    graph,
+                    call.name,
+                )
+
+                if symbol is None:
+
+                    symbol = resolve_imported_call(
+                        graph,
+                        file_path,
+                        call.name,
+                    )
+
+            else:
+
+                symbol = resolve_call(
+                    graph,
+                    call.name,
+                )
+
+            if symbol is not None:
+
+                resolved.append(
+                    symbol,
+                )
+
+        graph.resolved_calls[
+            file_path
+        ] = resolved

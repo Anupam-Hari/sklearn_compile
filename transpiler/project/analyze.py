@@ -2,11 +2,23 @@ from pathlib import Path
 
 from transpiler.dependency.imports import extract_imports
 from transpiler.dependency.symbols import extract_symbols
-from transpiler.normalizer.python_normalizer import normalize_python_ast
-from transpiler.normalizer.cython_normalizer import normalize_cython_ast
-from transpiler.parser.cython_parser import parse_cython_file
-from transpiler.parser.python_parser import parse_python_file
-from transpiler.project.index import build_project_index
+from transpiler.dependency.calls import extract_calls
+from transpiler.normalizer.cython_normalizer import (
+    normalize_cython_ast,
+)
+from transpiler.normalizer.python_normalizer import (
+    normalize_python_ast,
+)
+from transpiler.parser.cython_parser import (
+    parse_cython_file,
+)
+from transpiler.parser.python_parser import (
+    parse_python_file,
+)
+from transpiler.project.index import (
+    build_project_index,
+)
+
 
 def analyze_project(root: Path):
 
@@ -14,7 +26,12 @@ def analyze_project(root: Path):
 
     for path, source_file in graph.files.items():
 
+        if "tests" in path.parts:
+
+            continue
+
         try:
+
             if source_file.language == "python":
 
                 tree = parse_python_file(path)
@@ -25,13 +42,13 @@ def analyze_project(root: Path):
 
                 tree = parse_cython_file(path)
 
-                module = normalize_cython_ast(
-                    tree,
-                )
+                module = normalize_cython_ast(tree)
 
             else:
 
                 continue
+
+            graph.modules[path] = module
 
             graph.imports[path] = extract_imports(
                 module,
@@ -43,12 +60,20 @@ def analyze_project(root: Path):
                 language=source_file.language,
             )
 
+            graph.calls[path] = extract_calls(
+                module,
+            )
+
         except Exception as e:
 
             print(f"Skipping {path}: {e}")
 
+            graph.modules[path] = []
+
             graph.imports[path] = []
 
             graph.symbols[path] = []
+
+            graph.calls[path] = []
 
     return graph

@@ -22,6 +22,10 @@ def walk(
     parent=None,
 ):
 
+    if node.node_type == "call":
+
+        print(node)
+
     counter[
         (
             parent,
@@ -47,7 +51,6 @@ def walk(
             current_parent,
         )
 
-
 def update_counts(module, counts):
 
     counts["imports"] += len(module.imports)
@@ -59,6 +62,7 @@ def update_counts(module, counts):
     counts["structs"] += len(module.structs)
     counts["enums"] += len(module.enums)
     counts["total"] += len(module.children)
+    counts["calls"] += len(module.calls)
 
 
 def print_summary(title, counts):

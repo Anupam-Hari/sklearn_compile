@@ -260,10 +260,7 @@ def normalize_node(node):
                         name=name,
                     )
 
-    elif isinstance(
-        node,
-        ast.Call,
-    ):
+    elif normalized_type == "CallNode":
 
         normalized = normalize_call(
             node,

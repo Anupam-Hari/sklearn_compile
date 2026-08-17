@@ -1,6 +1,7 @@
 from transpiler.ast.mapping_table import CYTHON_TO_NORMALIZED
 from transpiler.ast.unsupported_nodes import UNSUPPORTED_CYTHON_NODES
 from transpiler.ast.nodes import (
+    CallNode,
     ClassNode,
     EnumNode,
     FunctionNode,
@@ -89,6 +90,21 @@ def _get_name(node):
 
     return "unknown"
 
+def normalize_call(node):
+
+    function = getattr(
+        node,
+        "function",
+        None,
+    )
+
+    name = _get_name(
+        function,
+    )
+
+    return CallNode(
+        name=name,
+    )
 
 def normalize_import(node):
 
@@ -269,6 +285,10 @@ def normalize_node(node):
     elif normalized_type == "AssignmentNode":
 
         normalized = normalize_assignment(node)
+
+    elif normalized_type == "CallNode":
+
+        normalized = normalize_call(node)
 
     else:
 
