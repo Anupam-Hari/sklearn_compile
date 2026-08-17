@@ -1,24 +1,16 @@
-import unittest
 from pathlib import Path
 
 from transpiler.parser.cython_parser import parse_cython_file
 
 
-class TestCythonParser(unittest.TestCase):
-    def test_dump_cython_ast_for_criterion_pyx(self):
-        path = Path("sklearn/tree/_criterion.pyx")
+path = Path("sklearn/tree/_tree.pxd")
 
-        tree = parse_cython_file(path)
+lines = path.read_text().splitlines()
 
-        print(tree)
+for i, line in enumerate(lines, 1):
 
-    def test_dump_cython_ast_for_criterion_pxd(self):
-        path = Path("sklearn/tree/_criterion.pxd")
+    print(f"{i:4}: {line}")
 
-        tree = parse_cython_file(path)
+tree = parse_cython_file(path)
 
-        print(tree)
-
-
-if __name__ == "__main__":
-    unittest.main()
+print(type(tree).__name__)

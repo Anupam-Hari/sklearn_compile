@@ -136,7 +136,7 @@ def resolve_import_symbol(
     )
 
     if key in visited:
-
+    
         return None
 
     visited.add(

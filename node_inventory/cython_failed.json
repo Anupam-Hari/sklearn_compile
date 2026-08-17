@@ -1,0 +1,32 @@
+[
+    {
+        "file": "sklearn/tree/_tree.pxd",
+        "exception": "AttributeError",
+        "message": "'_thread._local' object has no attribute 'cython_errors_stack'"
+    },
+    {
+        "file": "sklearn/utils/_sorting.pxd",
+        "exception": "AttributeError",
+        "message": "'_thread._local' object has no attribute 'cython_errors_stack'"
+    },
+    {
+        "file": "sklearn/utils/_cython_blas.pyx",
+        "exception": "RuntimeError",
+        "message": "Only file sources for code supported"
+    },
+    {
+        "file": "sklearn/svm/_libsvm.pyx",
+        "exception": "RuntimeError",
+        "message": "Only file sources for code supported"
+    },
+    {
+        "file": "sklearn/svm/_liblinear.pyx",
+        "exception": "RuntimeError",
+        "message": "Only file sources for code supported"
+    },
+    {
+        "file": "sklearn/neighbors/_quad_tree.pxd",
+        "exception": "AttributeError",
+        "message": "'_thread._local' object has no attribute 'cython_errors_stack'"
+    }
+]
