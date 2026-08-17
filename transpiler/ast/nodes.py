@@ -97,10 +97,19 @@ class ModuleNode(ASTNode):
 
 @dataclass
 class ImportNode(ASTNode):
-    def __init__(self, module: str = "", names: list[str] | None = None, attributes: dict | None = None, children: list[ASTNode] | None = None):
-        super().__init__(node_type="import", name=module, attributes={**(attributes or {}), "names": names or []}, children=children or [])
+
+    def __init__(self, module="", names=None, level=0, attributes=None, children=None):
+
+        super().__init__(
+            node_type="import",
+            name=module,
+            attributes=attributes or {},
+            children=children or [],
+        )
+
         self.module = module
         self.names = names or []
+        self.level = level
 
 
 @dataclass

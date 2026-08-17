@@ -82,10 +82,8 @@ def normalize_import(node):
 
     return ImportNode(
         module=node.module or "",
-        names=[
-            alias.name
-            for alias in node.names
-        ],
+        names=[alias.name for alias in node.names],
+        level=node.level,
     )
 
 def normalize_call(node):

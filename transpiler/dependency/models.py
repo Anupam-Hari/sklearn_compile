@@ -13,6 +13,7 @@ class SourceFile:
 class ImportSymbol:
     module: str
     name: str | None = None
+    level: int = 0
 
 
 @dataclass

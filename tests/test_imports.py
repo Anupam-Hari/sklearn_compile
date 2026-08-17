@@ -3,7 +3,7 @@ from pathlib import Path
 from transpiler.project.analyze import analyze_project
 
 
-path = Path("sklearn/tree")
+path = Path("sklearn")
 
 print(path)
 
@@ -23,25 +23,39 @@ print(
 )
 
 print()
-
-print("IMPORTS")
+print("RELATIVE IMPORTS")
 print("=" * 80)
 
-import_count = 0
+targets = {
+    "_typing",
+    "_internal",
+    "_aliases",
+}
 
 for file_path, imports in sorted(graph.imports.items()):
 
-    if not imports:
+    matches = [
+        imp
+        for imp in imports
+        if imp.module in targets
+    ]
+
+    if not matches:
         continue
 
     print()
     print(file_path)
 
-    for imp in imports:
+    for imp in matches:
 
-        print(vars(imp))
-
-print()
-print(
-    f"Total imports: {import_count}"
-)
+        print(
+            {
+                "module": imp.module,
+                "name": imp.name,
+                "level": getattr(
+                    imp,
+                    "level",
+                    None,
+                ),
+            }
+        )

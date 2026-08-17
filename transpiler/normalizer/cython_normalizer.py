@@ -158,6 +158,7 @@ def normalize_import(node):
     return ImportNode(
         module=module_name,
         names=names,
+        level=getattr(node, "relative_level", 0),
     )
 
 def normalize_expression(node):

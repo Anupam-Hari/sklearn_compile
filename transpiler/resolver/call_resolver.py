@@ -65,6 +65,8 @@ def find_method_in_class(
         class_name,
     )
 
+    # print(class_symbol)
+
     if class_symbol is None:
 
         return None
@@ -119,10 +121,11 @@ def resolve_self_call(
 
         return None
 
-    method_name = call_name.split(
-        ".",
-        1,
-    )[1]
+    method_name = (
+        call_name
+        .split(".", 1)[1]
+        .split("(", 1)[0]
+    )
 
     return find_method_in_class(
         graph,
@@ -130,6 +133,69 @@ def resolve_self_call(
         method_name,
     )
 
+def resolve_super_call(
+    graph,
+    class_name,
+    call_name,
+):
+
+    if not call_name.startswith(
+        "super()."
+    ):
+
+        return None
+
+    class_symbol = graph.class_index.get(
+        class_name,
+    )
+
+    if class_symbol is None:
+
+        return None
+
+    if not class_symbol.base_classes:
+
+        return None
+
+    method_name = (
+        call_name
+        .split(".", 1)[1]
+        .split("(", 1)[0]
+    )
+
+    # print(
+    #     class_name,
+    #     class_symbol.base_classes,
+    #     method_name,
+    # )
+
+    for base_class in (
+        class_symbol.base_classes
+    ):
+
+        parent_method = (
+            find_method_in_class(
+                graph,
+                base_class,
+                method_name,
+            )
+        )
+
+        # print(
+        #     class_name,
+        #     "->",
+        #     base_class,
+        #     "->",
+        #     method_name,
+        #     "->",
+        #     parent_method,
+        # )
+
+        if parent_method is not None:
+
+            return parent_method
+
+    return None
 
 def resolve_calls(
     graph: DependencyGraph,
@@ -159,6 +225,19 @@ def resolve_calls(
             ):
 
                 symbol = resolve_self_call(
+                    graph,
+                    call.parent_class,
+                    call.name,
+                )
+
+            elif (
+                call.name.startswith(
+                    "super()."
+                )
+                and call.parent_class
+            ):
+
+                symbol = resolve_super_call(
                     graph,
                     call.parent_class,
                     call.name,

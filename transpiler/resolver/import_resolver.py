@@ -24,6 +24,23 @@ def find_imported_symbol(
 
     return None
 
+def find_import_by_name(
+    graph: DependencyGraph,
+    file_path: Path,
+    name: str,
+):
+
+    for imported in graph.imports.get(
+        file_path,
+        [],
+    ):
+
+        if imported.name == name:
+
+            return imported
+
+    return None
+
 
 def build_import_index(
     graph: DependencyGraph,
@@ -33,7 +50,7 @@ def build_import_index(
 
     for path in graph.files:
 
-        module = str(path)
+        module = path.as_posix()
 
         module = module.replace(
             "/",
@@ -51,7 +68,7 @@ def build_import_index(
             ):
 
                 module = module[
-                    : -len(suffix)
+                    :-len(suffix)
                 ]
 
                 break
@@ -66,11 +83,45 @@ def build_import_index(
 
     return modules
 
+def resolve_module_path(
+    graph,
+    current_file,
+    module,
+    level,
+):
+
+    if level == 0:
+
+        return graph.import_index.get(
+            module,
+        )
+
+    parts = current_file.as_posix().split("/")
+
+    package = parts[:-1]
+
+    package = package[:-(level - 1)]
+
+    if module:
+
+        package.extend(
+            module.split(".")
+        )
+
+    resolved_module = ".".join(
+        package,
+    )
+
+    return graph.import_index.get(
+        resolved_module,
+    )
+
 
 def resolve_import_symbol(
     graph: DependencyGraph,
     imported,
-    visited: set | None = None,
+    current_file=None,
+    visited=None,
 ) -> Symbol | None:
 
     if visited is None:
@@ -78,23 +129,38 @@ def resolve_import_symbol(
         visited = set()
 
     key = (
+        current_file,
         imported.module,
         imported.name,
+        imported.level,
     )
 
     if key in visited:
 
         return None
 
-    visited.add(key)
+    visited.add(
+        key,
+    )
 
     if imported.name is None:
 
         return None
 
-    source_file = graph.import_index.get(
-        imported.module,
-    )
+    if imported.level:
+
+        source_file = resolve_module_path(
+            graph,
+            current_file,
+            imported.module,
+            imported.level,
+        )
+
+    else:
+
+        source_file = graph.import_index.get(
+            imported.module,
+        )
 
     if source_file is None:
 
@@ -110,26 +176,22 @@ def resolve_import_symbol(
 
         return symbol
 
-    for nested_import in graph.imports.get(
+    nested_import = find_import_by_name(
+        graph,
         source_file,
-        [],
-    ):
+        imported.name,
+    )
 
-        if nested_import.name != imported.name:
+    if nested_import is None:
 
-            continue
+        return None
 
-        symbol = resolve_import_symbol(
-            graph,
-            nested_import,
-            visited,
-        )
-
-        if symbol is not None:
-
-            return symbol
-
-    return None
+    return resolve_import_symbol(
+        graph,
+        nested_import,
+        current_file=source_file,
+        visited=visited,
+    )
 
 
 def resolve_file_imports(
@@ -149,6 +211,7 @@ def resolve_file_imports(
         symbol = resolve_import_symbol(
             graph,
             imported,
+            current_file=file_path,
         )
 
         if symbol is not None:
@@ -194,13 +257,9 @@ def build_import_tree(
         )
 
         dependencies.extend(
-
             build_import_tree(
-
                 graph,
-
                 dependency.file_path,
-
                 visited,
             )
         )
@@ -229,6 +288,7 @@ def resolve_imports(
             symbol = resolve_import_symbol(
                 graph,
                 imported,
+                current_file=file_path,
             )
 
             if symbol is None:
@@ -236,15 +296,10 @@ def resolve_imports(
                 continue
 
             resolved.append(
-
                 ResolvedDependency(
-
                     imported_name=imported.name,
-
                     imported_from=imported.module,
-
                     source_file=symbol.file_path,
-
                     symbol_type=symbol.symbol_type,
                 )
             )

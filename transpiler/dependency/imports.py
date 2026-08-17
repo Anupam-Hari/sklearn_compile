@@ -21,6 +21,7 @@ def extract_imports(
                     ImportSymbol(
                         module=node.module,
                         name=name,
+                        level=node.level,
                     )
                 )
 
@@ -31,6 +32,7 @@ def extract_imports(
                 imports.append(
                     ImportSymbol(
                         module=name,
+                        level=node.level,
                     )
                 )
 
