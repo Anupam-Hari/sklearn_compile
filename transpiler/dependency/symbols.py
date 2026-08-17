@@ -1,6 +1,3 @@
-from pathlib import Path
-
-from transpiler.ast.nodes import ModuleNode
 from transpiler.dependency.models import Symbol
 
 
@@ -9,6 +6,7 @@ def extract_symbols(
     file_path,
     language="python",
 ):
+
     symbols = []
 
     for node in module.children:
@@ -43,6 +41,61 @@ def extract_symbols(
                 Symbol(
                     name=node.name,
                     symbol_type="function",
+                    file_path=file_path,
+                    language=language,
+                )
+            )
+
+        elif node.node_type == "variable":
+
+            symbols.append(
+                Symbol(
+                    name=node.name,
+                    symbol_type="variable",
+                    file_path=file_path,
+                    language=language,
+                )
+            )
+
+        elif node.node_type == "constant":
+
+            symbols.append(
+                Symbol(
+                    name=node.name,
+                    symbol_type="constant",
+                    file_path=file_path,
+                    language=language,
+                )
+            )
+
+        elif node.node_type == "struct":
+
+            symbols.append(
+                Symbol(
+                    name=node.name,
+                    symbol_type="struct",
+                    file_path=file_path,
+                    language=language,
+                )
+            )
+
+        elif node.node_type == "enum":
+
+            symbols.append(
+                Symbol(
+                    name=node.name,
+                    symbol_type="enum",
+                    file_path=file_path,
+                    language=language,
+                )
+            )
+
+        elif node.node_type == "typedef":
+
+            symbols.append(
+                Symbol(
+                    name=node.name,
+                    symbol_type="typedef",
                     file_path=file_path,
                     language=language,
                 )

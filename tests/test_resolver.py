@@ -1,28 +1,53 @@
 from pathlib import Path
 
-from transpiler.dependency.resolver import find_symbol
+from transpiler.dependency.resolver import (
+    build_dependency_tree,
+)
 from transpiler.project.analyze import analyze_project
 
-
 graph = analyze_project(
-    Path("sklearn/sklearn/tree")
+    Path("sklearn"),
 )
 
-targets = [
-    "DecisionTreeClassifier",
-    "DepthFirstTreeBuilder",
-    "BestFirstTreeBuilder",
-]
+dependencies = build_dependency_tree(
 
-for target in targets:
+    graph,
 
-    symbol = find_symbol(
-        graph,
-        target,
+    Path(
+        "sklearn/tree/_splitter.pyx",
+    ),
+)
+
+print()
+
+print("=" * 80)
+
+print("RECURSIVE DEPENDENCIES")
+
+print("=" * 80)
+
+seen = set()
+
+for dependency in dependencies:
+
+    key = (
+        dependency.name,
+        dependency.file_path,
     )
 
-    print()
+    if key in seen:
 
-    print(target)
+        continue
 
-    print(symbol)
+    seen.add(
+        key,
+    )
+
+    print(
+
+        dependency.name,
+
+        "->",
+
+        dependency.file_path,
+    )

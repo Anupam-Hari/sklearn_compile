@@ -2,11 +2,48 @@ from transpiler.ast.mapping_table import CYTHON_TO_NORMALIZED
 from transpiler.ast.unsupported_nodes import UNSUPPORTED_CYTHON_NODES
 from transpiler.ast.nodes import (
     ClassNode,
+    EnumNode,
     FunctionNode,
     ImportNode,
     ModuleNode,
+    StructNode,
+    TypeDefNode,
+    VariableNode,
+    ExpressionNode,
+    ExternNode,
+    AssignmentNode,
 )
 
+from collections import Counter
+
+UNHANDLED_CYTHON_NODES = Counter()
+
+def get_cython_children(node):
+
+    children = []
+
+    if not hasattr(node, "__dict__"):
+
+        return children
+
+    for value in vars(node).values():
+
+        if hasattr(value, "__dict__"):
+
+            children.append(value)
+
+        elif isinstance(
+            value,
+            (list, tuple),
+        ):
+
+            for item in value:
+
+                if hasattr(item, "__dict__"):
+
+                    children.append(item)
+
+    return children
 
 def _get_name(node):
 
@@ -107,6 +144,11 @@ def normalize_import(node):
         names=names,
     )
 
+def normalize_expression(node):
+
+    return ExpressionNode(
+        name=_get_name(node),
+    )
 
 def normalize_function(node):
 
@@ -117,47 +159,147 @@ def normalize_function(node):
 
 def normalize_class(node):
 
-    cls = ClassNode(
+    return ClassNode(
         name=_get_name(node),
         bases=[],
         methods=[],
     )
 
-    body = getattr(
+def normalize_variable(node):
+
+    return VariableNode(
+        name=_get_name(node),
+    )
+
+def normalize_struct(node):
+
+    return StructNode(
+        name=_get_name(node),
+    )
+
+def normalize_enum(node):
+
+    return EnumNode(
+        name=_get_name(node),
+    )
+
+def normalize_assignment(node):
+
+    lhs = getattr(
         node,
-        "body",
+        "lhs",
         None,
     )
 
-    stats = getattr(
-        body,
-        "stats",
-        [],
+    name = _get_name(lhs)
+
+    return AssignmentNode(
+        name=name,
     )
 
-    for child in stats:
+def normalize_extern(node):
 
-        child_type = type(child).__name__
+    return ExternNode(
+        name=_get_name(node),
+    )
 
-        if child_type in {
-            "DefNode",
-            "CFuncDefNode",
-        }:
+def normalize_typedef(node):
 
-            method = normalize_function(
-                child,
+    return TypeDefNode(
+        name=_get_name(node),
+    )
+
+
+def normalize_node(node):
+
+    node_type = type(node).__name__
+
+    if node_type in UNSUPPORTED_CYTHON_NODES:
+
+        return None
+
+    normalized_type = CYTHON_TO_NORMALIZED.get(
+        node_type,
+    )
+
+    if normalized_type is None:
+
+        UNHANDLED_CYTHON_NODES[
+            node_type
+        ] += 1
+
+        return None
+
+    if normalized_type == "ImportNode":
+
+        normalized = normalize_import(node)
+
+    elif normalized_type == "ClassNode":
+
+        normalized = normalize_class(node)
+
+    elif normalized_type == "FunctionNode":
+
+        normalized = normalize_function(node)
+
+    elif normalized_type == "VariableNode":
+
+        normalized = normalize_variable(node)
+
+    elif normalized_type == "StructNode":
+
+        normalized = normalize_struct(node)
+
+    elif normalized_type == "EnumNode":
+
+        normalized = normalize_enum(node)
+
+    elif normalized_type == "TypeDefNode":
+
+        normalized = normalize_typedef(node)
+
+    elif normalized_type == "ExpressionNode":
+
+        normalized = normalize_expression(node)
+
+    elif normalized_type == "ExternNode":
+
+        normalized = normalize_extern(node)
+
+    elif normalized_type == "AssignmentNode":
+
+        normalized = normalize_assignment(node)
+
+    else:
+
+        UNHANDLED_CYTHON_NODES[
+            node_type
+        ] += 1
+
+        return None
+
+    for child in get_cython_children(node):
+
+        normalized_child = normalize_node(
+            child,
+        )
+
+        if normalized_child is not None:
+
+            normalized.children.append(
+                normalized_child,
             )
 
-            cls.methods.append(
-                method,
-            )
+            if (
+                normalized.node_type == "class"
+                and normalized_child.node_type == "function"
+            ):
 
-            cls.children.append(
-                method,
-            )
+                normalized.methods.append(
+                    normalized_child,
+                )
 
-    return cls
-
+    return normalized
 
 def normalize_cython_ast(tree):
 
@@ -177,31 +319,12 @@ def normalize_cython_ast(tree):
 
     for node in stats:
 
-        node_type = type(node).__name__
+        normalized = normalize_node(node)
 
-        if node_type in UNSUPPORTED_CYTHON_NODES:
-            continue
-
-        normalized_type = CYTHON_TO_NORMALIZED.get(
-            node_type
-        )
-
-        if normalized_type == "ImportNode":
+        if normalized is not None:
 
             module.add_child(
-                normalize_import(node)
-            )
-
-        elif normalized_type == "ClassNode":
-
-            module.add_child(
-                normalize_class(node)
-            )
-
-        elif normalized_type == "FunctionNode":
-
-            module.add_child(
-                normalize_function(node)
+                normalized,
             )
 
     return module

@@ -3,11 +3,25 @@ import ast
 from transpiler.ast.mapping_table import PYTHON_TO_NORMALIZED
 from transpiler.ast.nodes import (
     ClassNode,
+    ConstantNode,
+    EnumNode,
     FunctionNode,
     ImportNode,
     ModuleNode,
+    StructNode,
+    TypeDefNode,
+    VariableNode,
+    ExpressionNode,
 )
+from collections import Counter
 
+UNHANDLED_PYTHON_NODES = Counter()
+
+def get_python_children(node):
+
+    return list(
+        ast.iter_child_nodes(node)
+    )
 
 def normalize_import(node):
 
@@ -29,6 +43,19 @@ def normalize_import(node):
         ],
     )
 
+def normalize_expression(node):
+
+    try:
+
+        name = ast.unparse(node)
+
+    except Exception:
+
+        name = "expression"
+
+    return ExpressionNode(
+        name=name,
+    )
 
 def normalize_function(node):
 
@@ -53,36 +80,163 @@ def normalize_class(node):
 
             pass
 
-    cls = ClassNode(
+    return ClassNode(
         name=node.name,
         bases=bases,
         methods=[],
     )
 
-    for child in node.body:
+def normalize_variable(node):
 
-        child_type = type(child).__name__
+    return VariableNode(
+        name=node.id,
+    )
 
-        normalized_type = PYTHON_TO_NORMALIZED.get(
-            child_type,
+def normalize_constant(node):
+
+    value = getattr(
+        node,
+        "value",
+        None,
+    )
+
+    return ConstantNode(
+        name=str(value),
+        value=value,
+    )
+
+def normalize_struct(node):
+
+    return StructNode(
+        name=node.name,
+    )
+
+def normalize_enum(node):
+
+    return EnumNode(
+        name=node.name,
+    )
+
+def normalize_typedef(node):
+
+    return TypeDefNode(
+        name=node.name,
+    )
+
+def normalize_node(node):
+
+    node_type = type(node).__name__
+
+    normalized_type = PYTHON_TO_NORMALIZED.get(
+        node_type,
+    )
+
+    normalized = None
+
+    if normalized_type == "ImportNode":
+
+        normalized = normalize_import(node)
+
+    elif normalized_type == "ClassNode":
+
+        normalized = normalize_class(node)
+
+    elif normalized_type == "FunctionNode":
+
+        normalized = normalize_function(node)
+
+    elif normalized_type == "VariableNode":
+
+        normalized = normalize_variable(node)
+
+    elif normalized_type == "AssignmentNode":
+
+        if isinstance(node, ast.Assign):
+
+            for target in node.targets:
+
+                if isinstance(target, ast.Name):
+
+                    name = target.id
+
+                    if name.isupper():
+
+                        normalized = ConstantNode(
+                            name=name,
+                            value=ast.unparse(
+                                node.value,
+                            ),
+                        )
+
+                    else:
+
+                        normalized = VariableNode(
+                            name=name,
+                        )
+
+                    break
+
+        elif isinstance(node, ast.AnnAssign):
+
+            if isinstance(node.target, ast.Name):
+
+                name = node.target.id
+
+                if name.isupper():
+
+                    normalized = ConstantNode(
+                        name=name,
+                        value=(
+                            ast.unparse(node.value)
+                            if node.value
+                            else None
+                        ),
+                    )
+
+                else:
+
+                    normalized = VariableNode(
+                        name=name,
+                    )
+
+    elif normalized_type == "ExpressionNode":
+
+        normalized = normalize_expression(node)
+
+    else:
+
+        UNHANDLED_PYTHON_NODES[
+            node_type
+        ] += 1
+
+        return None
+
+    if normalized is None:
+
+        return None
+
+    for child in get_python_children(node):
+
+        normalized_child = normalize_node(
+            child,
         )
 
-        if normalized_type == "FunctionNode":
+        if normalized_child is not None:
 
-            method = normalize_function(
-                child,
+            normalized.children.append(
+                normalized_child,
             )
 
-            cls.methods.append(
-                method,
-            )
+            if (
+                normalized.node_type == "class"
+                and normalized_child.node_type == "function"
+            ):
 
-            cls.children.append(
-                method,
-            )
+                normalized.methods.append(
+                    normalized_child,
+                )
 
-    return cls
-
+    return normalized
 
 def normalize_python_ast(tree):
 
@@ -90,22 +244,14 @@ def normalize_python_ast(tree):
 
     for node in tree.body:
 
-        if isinstance(node, (ast.Import, ast.ImportFrom)):
+        normalized = normalize_node(
+            node,
+        )
+
+        if normalized is not None:
 
             module.add_child(
-                normalize_import(node)
-            )
-
-        elif isinstance(node, ast.ClassDef):
-
-            module.add_child(
-                normalize_class(node)
-            )
-
-        elif isinstance(node, ast.FunctionDef):
-
-            module.add_child(
-                normalize_function(node)
+                normalized,
             )
 
     return module

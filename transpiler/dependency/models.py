@@ -30,6 +30,30 @@ class Symbol:
 
 @dataclass
 class DependencyGraph:
-    files: dict[Path, SourceFile] = field(default_factory=dict)
-    imports: dict[Path, list[ImportSymbol]] = field(default_factory=dict)
-    symbols: dict[Path, list[Symbol]] = field(default_factory=dict)
+
+    files: dict = field(
+        default_factory=dict
+    )
+
+    imports: dict = field(
+        default_factory=dict
+    )
+
+    symbols: dict = field(
+        default_factory=dict
+    )
+
+    dependencies: dict = field(
+        default_factory=dict
+    )
+
+@dataclass
+class ResolvedDependency:
+
+    imported_name: str
+
+    imported_from: str
+
+    source_file: Path
+
+    symbol_type: str

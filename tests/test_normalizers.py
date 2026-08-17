@@ -1,164 +1,137 @@
+from collections import Counter
 from pathlib import Path
-from pprint import pprint
 
 from transpiler.normalizer.cython_normalizer import (
-    normalize_cython_ast,
+    normalize_cython_ast, UNHANDLED_CYTHON_NODES
 )
 from transpiler.normalizer.python_normalizer import (
-    normalize_python_ast,
+    normalize_python_ast, UNHANDLED_PYTHON_NODES
 )
 from transpiler.parser.cython_parser import (
-    parse_cython_file,
+    parse_cython_file, 
 )
 from transpiler.parser.python_parser import (
     parse_python_file,
 )
 
+ROOT = Path("sklearn/tree")
 
-PYTHON_FILE = Path(
-    "sklearn/tree/_classes.py",
-)
+def update_counts(module, counts):
 
-CYTHON_FILE = Path(
-    "sklearn/tree/_splitter.pyx",
-)
-
-# print(PYTHON_FILE)
-# print(PYTHON_FILE.resolve())
-# print(PYTHON_FILE.exists())
-# print(PYTHON_FILE.is_dir())
-
-# print(CYTHON_FILE)
-# print(CYTHON_FILE.resolve())
-# print(CYTHON_FILE.exists())
-# print(CYTHON_FILE.is_dir())
+    counts["imports"] += len(module.imports)
+    counts["classes"] += len(module.classes)
+    counts["functions"] += len(module.functions)
+    counts["variables"] += len(module.variables)
+    counts["constants"] += len(module.constants)
+    counts["typedefs"] += len(module.typedefs)
+    counts["structs"] += len(module.structs)
+    counts["enums"] += len(module.enums)
+    counts["total"] += len(module.children)
 
 
-def print_node(node, indent=0):
+def print_summary(title, counts):
 
-    prefix = "    " * indent
+    print()
+    print("=" * 80)
+    print(title)
+    print("=" * 80)
 
-    print(
-        f"{prefix}"
-        f"{node.node_type}: "
-        f"{node.name}"
-    )
+    for key, value in counts.items():
 
-    if hasattr(node, "bases") and node.bases:
-
-        print(
-            f"{prefix}    bases: "
-            f"{node.bases}"
-        )
-
-    if hasattr(node, "module"):
-
-        print(
-            f"{prefix}    module: "
-            f"{node.module}"
-        )
-
-    if hasattr(node, "names"):
-
-        print(
-            f"{prefix}    names: "
-            f"{node.names}"
-        )
-
-    for child in node.children:
-
-        print_node(
-            child,
-            indent + 1,
-        )
+        print(f"{key:<12}{value}")
 
 
 def test_python():
 
-    print()
-    print("=" * 80)
-    print("PYTHON")
-    print("=" * 80)
+    counts = Counter()
 
-    tree = parse_python_file(
-        PYTHON_FILE,
-    )
+    python_files = sorted(ROOT.rglob("*.py"))
 
-    module = normalize_python_ast(
-        tree,
-    )
+    for path in python_files:
 
-    print()
-    print("IMPORTS")
-    print("-" * 40)
+        if "tests" in path.parts:
+            continue
 
-    pprint(module.imports)
+        print(f"Parsing {path}")
 
-    print()
-    print("CLASSES")
-    print("-" * 40)
+        try:
 
-    pprint(module.classes)
+            tree = parse_python_file(path)
 
-    print()
-    print("FUNCTIONS")
-    print("-" * 40)
+            module = normalize_python_ast(tree)
 
-    pprint(module.functions)
+            update_counts(
+                module,
+                counts,
+            )
 
-    print()
-    print("NORMALIZED TREE")
-    print("-" * 40)
+        except Exception as e:
 
-    print_node(
-        module,
+            print(f"FAILED: {path}")
+            print(e)
+
+    print_summary(
+        "PYTHON",
+        counts,
     )
 
 
 def test_cython():
 
-    print()
-    print("=" * 80)
-    print("CYTHON")
-    print("=" * 80)
+    counts = Counter()
 
-    tree = parse_cython_file(
-        CYTHON_FILE,
+    cython_files = sorted(
+        list(ROOT.rglob("*.pyx"))
+        + list(ROOT.rglob("*.pxd"))
     )
 
-    module = normalize_cython_ast(
-        tree,
+    for path in cython_files:
+
+        if "tests" in path.parts:
+            continue
+
+        print(f"Parsing {path}")
+
+        try:
+
+            tree = parse_cython_file(path)
+
+            module = normalize_cython_ast(tree)
+
+            update_counts(
+                module,
+                counts,
+            )
+
+        except Exception as e:
+
+            print(f"FAILED: {path}")
+            print(e)
+
+    print_summary(
+        "CYTHON",
+        counts,
     )
 
     print()
-    print("IMPORTS")
+    print("UNHANDLED PYTHON NODES")
     print("-" * 40)
 
-    pprint(module.imports)
+    for node, count in UNHANDLED_PYTHON_NODES.items():
+
+        print(f"{node:<30}{count}")
 
     print()
-    print("CLASSES")
+    print("UNHANDLED CYTHON NODES")
     print("-" * 40)
 
-    pprint(module.classes)
+    for node, count in UNHANDLED_CYTHON_NODES.items():
 
-    print()
-    print("FUNCTIONS")
-    print("-" * 40)
-
-    pprint(module.functions)
-
-    print()
-    print("NORMALIZED TREE")
-    print("-" * 40)
-
-    print_node(
-        module,
-    )
+        print(f"{node:<30}{count}")
 
 
 if __name__ == "__main__":
 
-    # test_python()
+    test_python()
 
     test_cython()
