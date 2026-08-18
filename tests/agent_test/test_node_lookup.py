@@ -1,16 +1,50 @@
 from pprint import pprint
 
 from transpiler.agent.tools.node_lookup import (
-    get_node,
+    get_normalized_node_schema,
 )
 
+TEST_NODES = [
+    # control flow
+    "IfNode",
+    "ForNode",
+    "TryNode",
 
-node = get_node(
+    # functions
+    "FunctionNode",
+    "ParameterNode",
 
-    "python",
+    # operations
+    "BinaryOperationNode",
+    "CompareNode",
+    "BooleanNode",
 
-    "keyword",
+    # collections
+    "ListNode",
+    "DictNode",
 
-)
+    # Cython-specific types
+    "PointerNode",
+    "SimpleTypeNode",
 
-pprint(node)
+    # imports
+    "ImportNode",
+
+    # generators
+    "GeneratorNode",
+
+    # classes
+    "ClassNode",
+]
+
+for node in TEST_NODES:
+
+    print(f"\n{'=' * 80}")
+    print(node)
+    print('=' * 80)
+
+    pprint(
+        get_normalized_node_schema(
+            node,
+        )
+    )

@@ -1,4 +1,5 @@
 from pathlib import Path
+import traceback
 
 from transpiler.dependency.imports import extract_imports
 from transpiler.dependency.symbols import extract_symbols
@@ -19,6 +20,28 @@ from transpiler.project.index import (
     build_project_index,
 )
 
+def validate(node):
+
+    if not hasattr(node, "children"):
+        return
+
+    for child in node.children:
+
+        if not hasattr(child, "node_type"):
+
+            print(
+                f"INVALID CHILD: "
+                f"{type(child)} "
+                f"inside "
+                f"{type(node).__name__}"
+            )
+
+            print(child)
+
+            raise TypeError
+
+        validate(child)
+
 
 def analyze_project(root: Path):
 
@@ -38,11 +61,15 @@ def analyze_project(root: Path):
 
                 module = normalize_python_ast(tree)
 
+                validate(module)
+
             elif source_file.language == "cython":
 
                 tree = parse_cython_file(path)
 
                 module = normalize_cython_ast(tree)
+
+                validate(module)
 
             else:
 
@@ -66,7 +93,9 @@ def analyze_project(root: Path):
 
         except Exception as e:
 
-            print(f"Skipping {path}: {e}")
+            print(f"\nFAILED: {path}\n")
+
+            traceback.print_exc()
 
             graph.modules[path] = []
 

@@ -1,186 +1,321 @@
-NODE_MAPPING = {'python': {'mapped': {'Add': 'BinaryOperationNode',
-                       'And': 'BooleanNode',
-                       'AnnAssign': 'AssignmentNode',
-                       'Assert': 'IfNode',
-                       'Assign': 'AssignmentNode',
-                       'Attribute': 'AttributeNode',
-                       'AugAssign': 'AssignmentNode',
-                       'BinOp': 'BinaryOperationNode',
-                       'BitAnd': 'BinaryOperationNode',
-                       'BitOr': 'BinaryOperationNode',
-                       'BitXor': 'BinaryOperationNode',
-                       'BoolOp': 'BooleanNode',
-                       'Break': 'BreakNode',
-                       'Call': 'CallNode',
-                       'ClassDef': 'ClassNode',
-                       'Compare': 'CompareNode',
-                       'Constant': 'LiteralNode',
-                       'Continue': 'ContinueNode',
-                       'Delete': 'ExpressionNode',
-                       'Dict': 'DictNode',
-                       'DictComp': 'DictComprehensionNode',
-                       'Div': 'BinaryOperationNode',
-                       'Eq': 'CompareNode',
-                       'ExceptHandler': 'ExceptNode',
-                       'Expr': 'ExpressionNode',
-                       'FloorDiv': 'BinaryOperationNode',
-                       'For': 'ForNode',
-                       'FormattedValue': 'LiteralNode',
-                       'FunctionDef': 'FunctionNode',
-                       'GeneratorExp': 'GeneratorNode',
-                       'Global': 'VariableNode',
-                       'Gt': 'CompareNode',
-                       'GtE': 'CompareNode',
-                       'If': 'IfNode',
-                       'IfExp': 'ConditionalExpressionNode',
-                       'Import': 'ImportNode',
-                       'ImportFrom': 'ImportNode',
-                       'In': 'CompareNode',
-                       'Invert': 'UnaryOperationNode',
-                       'Is': 'CompareNode',
-                       'IsNot': 'CompareNode',
-                       'JoinedStr': 'LiteralNode',
-                       'Lambda': 'LambdaNode',
-                       'List': 'ListNode',
-                       'ListComp': 'ListComprehensionNode',
-                       'Lt': 'CompareNode',
-                       'LtE': 'CompareNode',
-                       'MatMult': 'BinaryOperationNode',
-                       'Mod': 'BinaryOperationNode',
-                       'Module': 'ModuleNode',
-                       'Mult': 'BinaryOperationNode',
-                       'Name': 'VariableNode',
-                       'NamedExpr': 'AssignmentNode',
-                       'Nonlocal': 'VariableNode',
-                       'Not': 'UnaryOperationNode',
-                       'NotEq': 'CompareNode',
-                       'NotIn': 'CompareNode',
-                       'Or': 'BooleanNode',
-                       'Pass': 'PassNode',
-                       'Pow': 'BinaryOperationNode',
-                       'Raise': 'RaiseNode',
-                       'Return': 'ReturnNode',
-                       'Set': 'SetNode',
-                       'SetComp': 'SetComprehensionNode',
-                       'Slice': 'SliceNode',
-                       'Starred': 'ExpressionNode',
-                       'Sub': 'BinaryOperationNode',
-                       'Subscript': 'IndexNode',
-                       'Try': 'TryNode',
-                       'Tuple': 'TupleNode',
-                       'UAdd': 'UnaryOperationNode',
-                       'USub': 'UnaryOperationNode',
-                       'UnaryOp': 'UnaryOperationNode',
-                       'While': 'WhileNode',
-                       'With': 'WithNode',
-                       'Yield': 'ReturnNode',
-                       'YieldFrom': 'ReturnNode'},
-            'unsupported': {'Del': 'Del',
-                            'Load': 'Load',
-                            'Store': 'Store',
-                            'alias': 'alias',
-                            'arg': 'arg',
-                            'arguments': 'arguments',
-                            'comprehension': 'comprehension',
-                            'keyword': 'keyword',
-                            'withitem': 'withitem'}},
- 'cython': {'mapped': {'AddNode': 'BinaryOperationNode',
-                       'AttributeNode': 'AttributeNode',
-                       'BoolNode': 'LiteralNode',
-                       'BreakStatNode': 'BreakNode',
-                       'BytesNode': 'LiteralNode',
-                       'CondExprNode': 'ConditionalExpressionNode',
-                       'ContinueStatNode': 'ContinueNode',
-                       'DefNode': 'FunctionNode',
-                       'DictNode': 'DictNode',
-                       'DivNode': 'BinaryOperationNode',
-                       'ExceptClauseNode': 'ExceptNode',
-                       'ExprStatNode': 'ExpressionNode',
-                       'FloatNode': 'LiteralNode',
-                       'ForInStatNode': 'ForNode',
-                       'FormattedValueNode': 'LiteralNode',
-                       'FromImportStatNode': 'ImportNode',
-                       'GeneralCallNode': 'CallNode',
-                       'GeneratorExpressionNode': 'GeneratorNode',
-                       'IdentifierStringNode': 'LiteralNode',
-                       'IfClauseNode': 'IfNode',
-                       'IfStatNode': 'IfNode',
-                       'ImportNode': 'ImportNode',
-                       'InPlaceAssignmentNode': 'AssignmentNode',
-                       'IndexNode': 'IndexNode',
-                       'IntBinopNode': 'BinaryOperationNode',
-                       'IntNode': 'LiteralNode',
-                       'IteratorNode': 'GeneratorNode',
-                       'JoinedStrNode': 'LiteralNode',
-                       'LambdaNode': 'LambdaNode',
-                       'ListNode': 'ListNode',
-                       'ModNode': 'BinaryOperationNode',
-                       'ModuleNode': 'ModuleNode',
-                       'MulNode': 'BinaryOperationNode',
-                       'NameNode': 'VariableNode',
-                       'NoneNode': 'LiteralNode',
-                       'NotNode': 'UnaryOperationNode',
-                       'NullNode': 'LiteralNode',
-                       'PassStatNode': 'PassNode',
-                       'PowNode': 'BinaryOperationNode',
-                       'PrimaryCmpNode': 'CompareNode',
-                       'PyClassDefNode': 'ClassNode',
-                       'RaiseStatNode': 'RaiseNode',
-                       'ReturnStatNode': 'ReturnNode',
-                       'SimpleCallNode': 'CallNode',
-                       'SingleAssignmentNode': 'AssignmentNode',
-                       'SliceIndexNode': 'IndexNode',
-                       'SliceNode': 'SliceNode',
-                       'StarredUnpackingNode': 'ExpressionNode',
-                       'StatListNode': 'ExpressionNode',
-                       'SubNode': 'BinaryOperationNode',
-                       'TryExceptStatNode': 'TryNode',
-                       'TupleNode': 'TupleNode',
-                       'TypecastNode': 'ExpressionNode',
-                       'UnaryMinusNode': 'UnaryOperationNode',
-                       'UnicodeNode': 'LiteralNode',
-                       'WhileStatNode': 'WhileNode',
-                       'WithStatNode': 'WithNode',
-                       'YieldExprNode': 'ReturnNode'},
-            'types': {'CArgDeclNode': 'CArgDeclNode',
-                      'CArrayDeclaratorNode': 'CArrayDeclaratorNode',
-                      'CComplexBaseTypeNode': 'CComplexBaseTypeNode',
-                      'CConstOrVolatileTypeNode': 'CConstOrVolatileTypeNode',
-                      'CFuncDeclaratorNode': 'CFuncDeclaratorNode',
-                      'CNameDeclaratorNode': 'CNameDeclaratorNode',
-                      'CNestedBaseTypeNode': 'CNestedBaseTypeNode',
-                      'CPtrDeclaratorNode': 'CPtrDeclaratorNode',
-                      'CReferenceDeclaratorNode': 'CReferenceDeclaratorNode',
-                      'CSimpleBaseTypeNode': 'CSimpleBaseTypeNode',
-                      'CTupleBaseTypeNode': 'CTupleBaseTypeNode',
-                      'FusedTypeNode': 'FusedTypeNode',
-                      'MemoryViewSliceTypeNode': 'MemoryViewSliceTypeNode',
-                      'SizeofTypeNode': 'SizeofTypeNode',
-                      'TemplatedTypeNode': 'TemplatedTypeNode'},
-            'unsupported': {'AmpersandNode': 'UnaryOperationNode',
-                            'AssertStatNode': 'IfNode',
-                            'BoolBinopNode': 'BooleanNode',
-                            'CClassDefNode': 'CClassDefNode',
-                            'CDefExternNode': 'CDefExternNode',
-                            'CEnumDefItemNode': 'CEnumDefItemNode',
-                            'CEnumDefNode': 'CEnumDefNode',
-                            'CFuncDefNode': 'CFuncDefNode',
-                            'CImportStatNode': 'CImportStatNode',
-                            'CStructOrUnionDefNode': 'CStructOrUnionDefNode',
-                            'CTypeDefNode': 'CTypeDefNode',
-                            'CVarDefNode': 'CVarDefNode',
-                            'CascadedAssignmentNode': 'CascadedAssignmentNode',
-                            'CascadedCmpNode': 'CascadedCmpNode',
-                            'ClassCellInjectorNode': 'ClassCellInjectorNode',
-                            'ComprehensionAppendNode': 'ComprehensionAppendNode',
-                            'ComprehensionNode': 'ComprehensionNode',
-                            'CythonArrayNode': 'CythonArrayNode',
-                            'DecoratorNode': 'DecoratorNode',
-                            'DictComprehensionAppendNode': 'DictComprehensionAppendNode',
-                            'DictItemNode': 'DictItemNode',
-                            'ForFromStatNode': 'ForFromStatNode',
-                            'FromCImportStatNode': 'FromCImportStatNode',
-                            'GILExitNode': 'GILExitNode',
-                            'GILStatNode': 'GILStatNode',
-                            'PyClassNamespaceNode': 'PyClassNamespaceNode',
-                            'SizeofVarNode': 'SizeofVarNode'}}}
+NODE_MAPPING = {
+    "python": {
+        "mapped": {
+            # modules
+            "Module": "ModuleNode",
+
+            # function definitions
+            "arg": "ParameterNode",
+            "arguments": "ArgumentsNode",
+
+            # imports
+            "Import": "ImportNode",
+            "ImportFrom": "ImportNode",
+            "alias": "ImportAliasNode",
+
+            # classes and functions
+            "ClassDef": "ClassNode",
+            "FunctionDef": "FunctionNode",
+            "Lambda": "LambdaNode",
+
+            # comprehensions
+            "comprehension": "ComprehensionNode",
+
+            # variables
+            "Name": "VariableNode",
+            "Global": "VariableNode",
+            "Nonlocal": "VariableNode",
+
+            # assignments
+            "Assign": "AssignmentNode",
+            "AnnAssign": "AssignmentNode",
+            "AugAssign": "AssignmentNode",
+            "NamedExpr": "AssignmentNode",
+
+            # expressions
+            "Expr": "ExpressionNode",
+            "Attribute": "AttributeNode",
+            "Call": "CallNode",
+            "Starred": "ExpressionNode",
+
+            # control flow
+            "If": "IfNode",
+            "For": "ForNode",
+            "While": "WhileNode",
+            "With": "WithNode",
+            "Try": "TryNode",
+
+            # exceptions
+            "ExceptHandler": "ExceptNode",
+            "Raise": "RaiseNode",
+            "Assert": "AssertNode",  # requires an AssertNode
+
+            # calls
+            "keyword": "KeywordArgumentNode",
+
+            # with statements
+            "withitem": "WithItemNode",
+
+            # returns
+            "Return": "ReturnNode",
+            "Yield": "YieldNode",  # requires a YieldNode
+            "YieldFrom": "YieldFromNode",  # requires a YieldFromNode
+
+            # loop control
+            "Break": "BreakNode",
+            "Continue": "ContinueNode",
+            "Pass": "PassNode",
+
+            # comparisons
+            "Compare": "CompareNode",
+            "Eq": "CompareNode",
+            "Gt": "CompareNode",
+            "GtE": "CompareNode",
+            "Lt": "CompareNode",
+            "LtE": "CompareNode",
+            "Is": "CompareNode",
+            "IsNot": "CompareNode",
+            "In": "CompareNode",
+            "NotEq": "CompareNode",
+            "NotIn": "CompareNode",
+
+            # boolean operations
+            "BoolOp": "BooleanNode",
+            "And": "BooleanNode",
+            "Or": "BooleanNode",
+
+            # binary operations
+            "BinOp": "BinaryOperationNode",
+            "Add": "BinaryOperationNode",
+            "Sub": "BinaryOperationNode",
+            "Mult": "BinaryOperationNode",
+            "Div": "BinaryOperationNode",
+            "FloorDiv": "BinaryOperationNode",
+            "Mod": "BinaryOperationNode",
+            "Pow": "BinaryOperationNode",
+            "MatMult": "BinaryOperationNode",
+            "BitAnd": "BinaryOperationNode",
+            "BitOr": "BinaryOperationNode",
+            "BitXor": "BinaryOperationNode",
+
+            # unary operations
+            "UnaryOp": "UnaryOperationNode",
+            "UAdd": "UnaryOperationNode",
+            "USub": "UnaryOperationNode",
+            "Invert": "UnaryOperationNode",
+            "Not": "UnaryOperationNode",
+
+            # conditional expressions
+            "IfExp": "ConditionalExpressionNode",
+
+            # collections
+            "List": "ListNode",
+            "Tuple": "TupleNode",
+            "Dict": "DictNode",
+            "Set": "SetNode",
+
+            # comprehensions
+            "ListComp": "ListComprehensionNode",
+            "DictComp": "DictComprehensionNode",
+            "SetComp": "SetComprehensionNode",
+            "GeneratorExp": "GeneratorNode",
+
+            # indexing
+            "Subscript": "IndexNode",
+            "Slice": "SliceNode",
+
+            # literals
+            "Constant": "LiteralNode",
+            "FormattedValue": "FormattedValueNode",  # requires a FormattedValueNode
+            "JoinedStr": "FStringNode",  # requires an FStringNode
+
+            # deletion
+            "Delete": "DeleteNode",  # requires a DeleteNode
+        },
+
+        "unsupported": {
+
+        },
+    },
+    "cython": {
+        "mapped": {
+
+            # modules
+            "ModuleNode": "ModuleNode",
+
+            # imports
+            "ImportNode": "ImportNode",
+            "FromImportStatNode": "ImportNode",
+
+            # classes
+            "PyClassDefNode": "ClassNode",
+            "CClassDefNode": "ClassNode",
+
+            # functions
+            "DefNode": "FunctionNode",
+            "CFuncDefNode": "FunctionNode",
+
+            # variables
+            "NameNode": "VariableNode",
+            "AttributeNode": "AttributeNode",
+            "CVarDefNode": "VariableNode",
+
+            # assignments
+            "SingleAssignmentNode": "AssignmentNode",
+            "InPlaceAssignmentNode": "AssignmentNode",
+            "CascadedAssignmentNode": "AssignmentNode",
+
+            # expressions
+            "ExprStatNode": "ExpressionNode",
+            "TypecastNode": "CastNode",
+
+            # calls
+            "SimpleCallNode": "CallNode",
+            "GeneralCallNode": "CallNode",
+
+            # control flow
+            "IfClauseNode": "IfNode",
+            "IfStatNode": "IfNode",
+            "ForInStatNode": "ForNode",
+            "ForFromStatNode": "ForNode",
+            "WhileStatNode": "WhileNode",
+            "WithStatNode": "WithNode",
+            "TryExceptStatNode": "TryNode",
+            "ExceptClauseNode": "ExceptNode",
+
+            # returns
+            "ReturnStatNode": "ReturnNode",
+            "YieldExprNode": "YieldNode",
+
+            # loop control
+            "BreakStatNode": "BreakNode",
+            "ContinueStatNode": "ContinueNode",
+            "PassStatNode": "PassNode",
+
+            # comparisons
+            "PrimaryCmpNode": "CompareNode",
+            "CascadedCmpNode": "CompareNode",
+
+            # boolean operations
+            "BoolBinopNode": "BooleanNode",
+
+            # binary operations
+            "AddNode": "BinaryOperationNode",
+            "SubNode": "BinaryOperationNode",
+            "MulNode": "BinaryOperationNode",
+            "DivNode": "BinaryOperationNode",
+            "ModNode": "BinaryOperationNode",
+            "PowNode": "BinaryOperationNode",
+            "IntBinopNode": "BinaryOperationNode",
+            "AmpersandNode": "BinaryOperationNode",
+
+            # unary operations
+            "NotNode": "UnaryOperationNode",
+            "UnaryMinusNode": "UnaryOperationNode",
+
+            # conditional expressions
+            "CondExprNode": "ConditionalExpressionNode",
+
+            # collections
+            "ListNode": "ListNode",
+            "TupleNode": "TupleNode",
+            "DictNode": "DictNode",
+            "DictItemNode": "DictItemNode",
+
+            # comprehensions
+            "ComprehensionNode": "ComprehensionNode",
+            "ComprehensionAppendNode": "ComprehensionNode",
+            "DictComprehensionAppendNode": "ComprehensionNode",
+
+            # generators
+            "GeneratorExpressionNode": "GeneratorNode",
+            "IteratorNode": "GeneratorNode",
+
+            # indexing
+            "IndexNode": "IndexNode",
+            "SliceNode": "SliceNode",
+            "SliceIndexNode": "SliceNode",
+
+            # lambdas
+            "LambdaNode": "LambdaNode",
+
+            # literals
+            "IntNode": "LiteralNode",
+            "FloatNode": "LiteralNode",
+            "BoolNode": "LiteralNode",
+            "NoneNode": "LiteralNode",
+            "NullNode": "LiteralNode",
+            "BytesNode": "LiteralNode",
+            "UnicodeNode": "LiteralNode",
+            "IdentifierStringNode": "LiteralNode",
+            "FormattedValueNode": "FormattedStringNode",
+            "JoinedStrNode": "FormattedStringNode",
+
+            # assertions
+            "AssertStatNode": "AssertNode",
+
+            # arrays
+            "CythonArrayNode": "ArrayNode",
+
+            # unpacking
+            "StarredUnpackingNode": "ExpressionNode",
+
+            # C declarations
+            "CStructOrUnionDefNode": "StructNode",
+            "CEnumDefNode": "EnumNode",
+            "CTypeDefNode": "TypeDefNode",
+            "CDefExternNode": "ExternNode",
+
+            # imports
+            "CImportStatNode": "ImportNode",
+            "FromCImportStatNode": "ImportNode",
+        },
+
+        "types": {
+
+            # declarations
+            "CArgDeclNode": "ParameterNode",
+            "CFuncDeclaratorNode": "FunctionDeclaratorNode",
+            "CNameDeclaratorNode": "VariableDeclaratorNode",
+            "CEnumDefItemNode": "EnumValueNode",
+
+            # pointers, arrays, references
+            "CPtrDeclaratorNode": "PointerNode",
+            "CArrayDeclaratorNode": "ArrayDeclaratorNode",
+            "CReferenceDeclaratorNode": "ReferenceNode",
+
+            # base types
+            "CSimpleBaseTypeNode": "SimpleTypeNode",
+            "CComplexBaseTypeNode": "ComplexTypeNode",
+            "CConstOrVolatileTypeNode": "QualifiedTypeNode",
+            "CNestedBaseTypeNode": "NestedTypeNode",
+            "CTupleBaseTypeNode": "TupleTypeNode",
+
+            # advanced types
+            "FusedTypeNode": "FusedTypeNode",
+            "MemoryViewSliceTypeNode": "MemoryViewTypeNode",
+            "TemplatedTypeNode": "TemplatedTypeNode",
+
+            # sizeof
+            "SizeofTypeNode": "SizeofTypeNode",
+            "SizeofVarNode": "SizeofVariableNode",
+        },
+
+        "unsupported": {
+
+            # decorators
+            "DecoratorNode": "DecoratorNode",
+
+            # GIL
+            "GILStatNode": "GILStatNode",
+            "GILExitNode": "GILExitNode",
+
+            # class internals
+            "PyClassNamespaceNode": "PyClassNamespaceNode",
+            "ClassCellInjectorNode": "ClassCellInjectorNode",
+
+            # statement containers
+            "StatListNode": "StatListNode",
+        },
+    }
+}

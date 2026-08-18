@@ -17,131 +17,83 @@ def extract_symbols(
 
     return symbols
 
-def walk(node, symbols, file_path, language, parent=None):
 
-    if node.node_type == "class":
+def walk(
+    node,
+    symbols,
+    file_path,
+    language,
+    parent=None,
+):
+
+    SYMBOL_TYPES = {
+        "class": "class",
+        "function": "function",
+        "parameter": "parameter",
+        "variable": "variable",
+        "struct": "struct",
+        "enum": "enum",
+        "enum_value": "enum_value",
+        "typedef": "typedef",
+        "extern": "extern",
+        "function_declarator": "function_declarator",
+        "variable_declarator": "variable_declarator",
+        "simple_type": "simple_type",
+        "complex_type": "complex_type",
+        "qualified_type": "qualified_type",
+        "nested_type": "nested_type",
+        "tuple_type": "tuple_type",
+        "fused_type": "fused_type",
+        "memory_view_type": "memory_view_type",
+        "templated_type": "templated_type",
+    }
+
+    current_parent = parent
+
+    if node.node_type in SYMBOL_TYPES:
+
+        symbol_kwargs = {
+            "name": node.name,
+            "symbol_type": SYMBOL_TYPES[
+                node.node_type
+            ],
+            "file_path": file_path,
+            "language": language,
+            "parent": parent,
+        }
+
+        if node.node_type == "class":
+
+            symbol_kwargs[
+                "base_classes"
+            ] = getattr(
+                node,
+                "bases",
+                [],
+            )
+
+            current_parent = node.name
+
+        elif node.node_type == "function":
+
+            current_parent = node.name
 
         symbols.append(
             Symbol(
-                name=node.name,
-                symbol_type="class",
-                file_path=file_path,
-                language=language,
-                base_classes=node.bases,
-                parent=parent,
+                **symbol_kwargs,
             )
         )
 
-        parent = node.name
-
-    elif node.node_type == "function":
-
-        symbols.append(
-            Symbol(
-                name=node.name,
-                symbol_type="function",
-                file_path=file_path,
-                language=language,
-                parent=parent,
-            )
-        )
-
-    elif node.node_type == "variable":
-
-        symbols.append(
-            Symbol(
-                name=node.name,
-                symbol_type="variable",
-                file_path=file_path,
-                language=language,
-                parent=parent,
-            )
-        )
-
-    elif node.node_type == "constant":
-
-        symbols.append(
-            Symbol(
-                name=node.name,
-                symbol_type="constant",
-                file_path=file_path,
-                language=language,
-                parent=parent,
-            )
-        )
-
-    elif node.node_type == "struct":
-
-        symbols.append(
-            Symbol(
-                name=node.name,
-                symbol_type="struct",
-                file_path=file_path,
-                language=language,
-                parent=parent,
-            )
-        )
-
-    elif node.node_type == "enum":
-
-        symbols.append(
-            Symbol(
-                name=node.name,
-                symbol_type="enum",
-                file_path=file_path,
-                language=language,
-                parent=parent,
-            )
-        )
-
-    elif node.node_type == "typedef":
-
-        symbols.append(
-            Symbol(
-                name=node.name,
-                symbol_type="typedef",
-                file_path=file_path,
-                language=language,
-                parent=parent,
-            )
-        )
-
-    elif node.node_type == "extern":
-
-        symbols.append(
-            Symbol(
-                name=node.name,
-                symbol_type="extern",
-                file_path=file_path,
-                language=language,
-                parent=parent,
-            )
-        )
-
-    for child in node.children:
+    for child in getattr(
+        node,
+        "children",
+        [],
+    ):
 
         walk(
             child,
             symbols,
             file_path,
             language,
-            parent,
+            current_parent,
         )
-
-
-def extract_symbols(
-    module,
-    file_path,
-    language="python",
-):
-
-    symbols = []
-
-    walk(
-        module,
-        symbols,
-        file_path,
-        language,
-    )
-
-    return symbols

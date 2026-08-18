@@ -3,7 +3,7 @@ from pathlib import Path
 from transpiler.project.analyze import analyze_project
 
 
-path = Path("sklearn/tree")
+path = Path("sklearn")
 
 print(path)
 # print(path.resolve())

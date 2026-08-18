@@ -1,21 +1,12 @@
-from transpiler.ast.mapping_table import CYTHON_TO_NORMALIZED
-from transpiler.ast.unsupported_nodes import UNSUPPORTED_CYTHON_NODES
-from transpiler.ast.nodes import (
-    CallNode,
-    ClassNode,
-    EnumNode,
-    FunctionNode,
-    ImportNode,
-    ModuleNode,
-    StructNode,
-    TypeDefNode,
-    VariableNode,
-    ExpressionNode,
-    ExternNode,
-    AssignmentNode,
+from collections import Counter
+
+from transpiler.ast.mapping_table import NODE_MAPPING
+from transpiler.ast.nodes import *
+from transpiler.ast.unsupported_nodes import (
+    UNSUPPORTED_CYTHON_NODES,
 )
 
-from collections import Counter
+CYTHON_TO_NORMALIZED = NODE_MAPPING["cython"]["mapped"]
 
 UNHANDLED_CYTHON_NODES = Counter()
 
@@ -46,13 +37,17 @@ def get_cython_children(node):
 
     return children
 
-def _get_name(node):
+def safe_unparse(node):
+
+    if node is None:
+        return None
 
     for attr in (
         "name",
         "class_name",
         "func_name",
         "cname",
+        "id",
     ):
 
         value = getattr(node, attr, None)
@@ -64,10 +59,7 @@ def _get_name(node):
 
     if declarator is not None:
 
-        if hasattr(
-            declarator,
-            "declared_name",
-        ):
+        if hasattr(declarator, "declared_name"):
 
             try:
 
@@ -88,22 +80,384 @@ def _get_name(node):
         if value:
             return value
 
-    return "unknown"
+    return type(node).__name__
 
-def normalize_call(node):
+def normalize_generic(node):
 
-    function = getattr(
+    node_name = getattr(node, "name", None)
+
+    if node_name is None:
+
+        node_name = getattr(
+            node,
+            "id",
+            None,
+        )
+
+    return ASTNode(
+        node_type="generic",
+        name=node_name,
+    )
+
+def normalize_parameter(node):
+
+    return ParameterNode(
+        name=getattr(node, "arg", None)
+        or getattr(node, "name", None),
+        annotation=getattr(
+            node,
+            "annotation",
+            None,
+        ),
+    )
+
+def normalize_arguments(node):
+
+    return ArgumentsNode()
+
+def normalize_assignment(node):
+
+    targets = []
+
+    value = None
+
+    if hasattr(node, "targets"):
+
+        targets = node.targets
+
+    elif hasattr(node, "target"):
+
+        targets = [node.target]
+
+    value = getattr(
         node,
-        "function",
+        "value",
         None,
     )
 
-    name = _get_name(
-        function,
+    return AssignmentNode(
+        targets=[],
+        value=safe_unparse(value)
+        if value
+        else None,
     )
 
+def normalize_attribute(node):
+
+    return AttributeNode(
+        value=safe_unparse(
+            getattr(
+                node,
+                "value",
+                None,
+            )
+        ),
+        attribute=getattr(
+            node,
+            "attr",
+            None,
+        )
+        or getattr(
+            node,
+            "attribute",
+            None,
+        ),
+    )
+
+def normalize_if(node):
+
+    return IfNode(
+        condition=safe_unparse(
+            getattr(
+                node,
+                "test",
+                None,
+            )
+        ),
+        body=[],
+        orelse=[],
+    )
+
+def normalize_for(node):
+
+    return ForNode(
+        target=safe_unparse(
+            getattr(
+                node,
+                "target",
+                None,
+            )
+        ),
+        iterable=safe_unparse(
+            getattr(
+                node,
+                "iter",
+                None,
+            )
+            or getattr(
+                node,
+                "iterator",
+                None,
+            )
+        ),
+        body=[],
+    )
+
+def normalize_while(node):
+
+    return WhileNode(
+        condition=safe_unparse(
+            getattr(
+                node,
+                "test",
+                None,
+            )
+        ),
+        body=[],
+    )
+
+def normalize_with(node):
+
+    return WithNode(
+        items=[],
+        body=[],
+    )
+
+def normalize_try(node):
+
+    return TryNode(
+        body=[],
+        handlers=[],
+        finalbody=[],
+    )
+
+def normalize_except(node):
+
+    return ExceptNode(
+        exception_type=safe_unparse(
+            getattr(
+                node,
+                "type",
+                None,
+            )
+        ),
+        body=[],
+    )
+
+def normalize_return(node):
+
+    return ReturnNode(
+        attributes={
+            "value": safe_unparse(
+                getattr(
+                    node,
+                    "value",
+                    None,
+                )
+            )
+        }
+    )
+
+def normalize_yield(node):
+
+    return YieldNode(
+        attributes={
+            "value": safe_unparse(
+                getattr(
+                    node,
+                    "value",
+                    None,
+                )
+            )
+        }
+    )
+
+def normalize_compare(node):
+
+    return CompareNode(
+        left=safe_unparse(
+            getattr(
+                node,
+                "left",
+                None,
+            )
+        ),
+        operator=type(
+            getattr(
+                node,
+                "ops",
+                [None],
+            )[0]
+        ).__name__
+        if getattr(
+            node,
+            "ops",
+            None,
+        )
+        else None,
+    )
+
+def normalize_boolean(node):
+
+    return BooleanNode(
+        operator=type(
+            getattr(
+                node,
+                "op",
+                None,
+            )
+        ).__name__
+        if getattr(
+            node,
+            "op",
+            None,
+        )
+        else None,
+    )
+
+def normalize_binary_operation(node):
+
+    return BinaryOperationNode(
+        left=safe_unparse(
+            getattr(
+                node,
+                "left",
+                None,
+            )
+        ),
+        operator=type(
+            getattr(
+                node,
+                "op",
+                None,
+            )
+        ).__name__
+        if getattr(
+            node,
+            "op",
+            None,
+        )
+        else None,
+        right=safe_unparse(
+            getattr(
+                node,
+                "right",
+                None,
+            )
+        ),
+    )
+
+def normalize_unary_operation(node):
+
+    return UnaryOperationNode(
+        operator=type(
+            getattr(
+                node,
+                "op",
+                None,
+            )
+        ).__name__
+        if getattr(
+            node,
+            "op",
+            None,
+        )
+        else None,
+        operand=safe_unparse(
+            getattr(
+                node,
+                "operand",
+                None,
+            )
+        ),
+    )
+
+def normalize_conditional_expression(node):
+
+    return ConditionalExpressionNode()
+
+def normalize_collection(node):
+
+    values = getattr(
+        node,
+        "elts",
+        [],
+    )
+
+    return type(node)
+
+def normalize_list(node):
+
+    return ListNode()
+
+def normalize_tuple(node):
+
+    return TupleNode()
+
+def normalize_dict(node):
+
+    return DictNode()
+
+def normalize_set(node):
+
+    return SetNode()
+
+def normalize_comprehension(node):
+
+    return ComprehensionNode()
+
+def normalize_generator(node):
+
+    return GeneratorNode()
+
+def normalize_index(node):
+
+    return IndexNode()
+
+def normalize_slice(node):
+
+    return SliceNode()
+
+def normalize_literal(node):
+
+    return LiteralNode(
+        value=getattr(
+            node,
+            "value",
+            None,
+        ),
+    )
+
+def normalize_formatted_value(node):
+
+    return FormattedValueNode()
+
+def normalize_fstring(node):
+
+    return FStringNode()
+
+def normalize_delete(node):
+
+    return DeleteNode()
+
+def normalize_struct(node):
+
+    return StructNode(
+        name=safe_unparse(node),
+    )
+
+def normalize_typedef(node):
+
+    return TypeDefNode(
+        name=safe_unparse(node),
+    )
+
+def normalize_call(node):
+
     return CallNode(
-        name=name,
+        function=safe_unparse(
+            getattr(node, "function", None)
+        )
     )
 
 def normalize_import(node):
@@ -122,7 +476,7 @@ def normalize_import(node):
 
             else:
 
-                name = _get_name(item)
+                name = safe_unparse(item)
 
                 if name != "unknown":
 
@@ -153,7 +507,7 @@ def normalize_import(node):
 
         else:
 
-            names.append(_get_name(item))
+            names.append(safe_unparse(item))
 
     return ImportNode(
         module=module_name,
@@ -164,20 +518,20 @@ def normalize_import(node):
 def normalize_expression(node):
 
     return ExpressionNode(
-        name=_get_name(node),
+        value=safe_unparse(node),
     )
 
 def normalize_function(node):
 
     return FunctionNode(
-        name=_get_name(node),
+        name=getattr(node, "name", None),
     )
 
 
 def normalize_class(node):
 
     return ClassNode(
-        name=_get_name(node),
+        name=getattr(node, "name", None),
         bases=[],
         methods=[],
     )
@@ -185,47 +539,20 @@ def normalize_class(node):
 def normalize_variable(node):
 
     return VariableNode(
-        name=_get_name(node),
-    )
-
-def normalize_struct(node):
-
-    return StructNode(
-        name=_get_name(node),
+        name=safe_unparse(node),
     )
 
 def normalize_enum(node):
 
     return EnumNode(
-        name=_get_name(node),
-    )
-
-def normalize_assignment(node):
-
-    lhs = getattr(
-        node,
-        "lhs",
-        None,
-    )
-
-    name = _get_name(lhs)
-
-    return AssignmentNode(
-        name=name,
+        name=safe_unparse(node),
     )
 
 def normalize_extern(node):
 
     return ExternNode(
-        name=_get_name(node),
+        name=safe_unparse(node),
     )
-
-def normalize_typedef(node):
-
-    return TypeDefNode(
-        name=_get_name(node),
-    )
-
 
 def normalize_node(node):
 
@@ -235,75 +562,30 @@ def normalize_node(node):
 
         return None
 
-    normalized_type = CYTHON_TO_NORMALIZED.get(
+    normalized_name = CYTHON_TO_NORMALIZED.get(
         node_type,
     )
 
-    if normalized_type is None:
+    if normalized_name is None:
 
-        UNHANDLED_CYTHON_NODES[
-            node_type
-        ] += 1
+        UNHANDLED_CYTHON_NODES[node_type] += 1
 
         return None
 
-    if normalized_type == "ImportNode":
+    normalizer = NORMALIZER_FUNCTIONS.get(
+        normalized_name,
+        normalize_generic,
+    )
 
-        normalized = normalize_import(node)
+    normalized = normalizer(node)
 
-    elif normalized_type == "ClassNode":
-
-        normalized = normalize_class(node)
-
-    elif normalized_type == "FunctionNode":
-
-        normalized = normalize_function(node)
-
-    elif normalized_type == "VariableNode":
-
-        normalized = normalize_variable(node)
-
-    elif normalized_type == "StructNode":
-
-        normalized = normalize_struct(node)
-
-    elif normalized_type == "EnumNode":
-
-        normalized = normalize_enum(node)
-
-    elif normalized_type == "TypeDefNode":
-
-        normalized = normalize_typedef(node)
-
-    elif normalized_type == "ExpressionNode":
-
-        normalized = normalize_expression(node)
-
-    elif normalized_type == "ExternNode":
-
-        normalized = normalize_extern(node)
-
-    elif normalized_type == "AssignmentNode":
-
-        normalized = normalize_assignment(node)
-
-    elif normalized_type == "CallNode":
-
-        normalized = normalize_call(node)
-
-    else:
-
-        UNHANDLED_CYTHON_NODES[
-            node_type
-        ] += 1
+    if normalized is None:
 
         return None
 
     for child in get_cython_children(node):
 
-        normalized_child = normalize_node(
-            child,
-        )
+        normalized_child = normalize_node(child)
 
         if normalized_child is not None:
 
@@ -312,8 +594,8 @@ def normalize_node(node):
             )
 
             if (
-                normalized.node_type == "class"
-                and normalized_child.node_type == "function"
+                isinstance(normalized, ClassNode)
+                and isinstance(normalized_child, FunctionNode)
             ):
 
                 normalized.methods.append(
@@ -344,8 +626,79 @@ def normalize_cython_ast(tree):
 
         if normalized is not None:
 
-            module.add_child(
-                normalized,
-            )
+            module.children.append(normalized)
 
     return module
+
+NORMALIZER_FUNCTIONS = {
+
+    "ImportNode": normalize_import,
+    "ImportAliasNode": normalize_generic,
+
+    "ParameterNode": normalize_parameter,
+    "ArgumentsNode": normalize_arguments,
+
+    "FunctionNode": normalize_function,
+    "LambdaNode": normalize_function,
+
+    "ClassNode": normalize_class,
+
+    "VariableNode": normalize_variable,
+    "AssignmentNode": normalize_assignment,
+
+    "ExpressionNode": normalize_expression,
+    "AttributeNode": normalize_attribute,
+    "CallNode": normalize_call,
+    "CastNode": normalize_generic,
+
+    "IfNode": normalize_if,
+    "ForNode": normalize_for,
+    "WhileNode": normalize_while,
+    "WithNode": normalize_with,
+    "TryNode": normalize_try,
+
+    "ExceptNode": normalize_except,
+    "RaiseNode": normalize_generic,
+    "AssertNode": normalize_generic,
+
+    "ReturnNode": normalize_return,
+    "YieldNode": normalize_yield,
+    "YieldFromNode": normalize_yield,
+
+    "BreakNode": normalize_generic,
+    "ContinueNode": normalize_generic,
+    "PassNode": normalize_generic,
+
+    "CompareNode": normalize_compare,
+    "BooleanNode": normalize_boolean,
+    "BinaryOperationNode": normalize_binary_operation,
+    "UnaryOperationNode": normalize_unary_operation,
+    "ConditionalExpressionNode": normalize_conditional_expression,
+
+    "ListNode": normalize_list,
+    "TupleNode": normalize_tuple,
+    "DictNode": normalize_dict,
+    "SetNode": normalize_set,
+
+    "ComprehensionNode": normalize_comprehension,
+    "ListComprehensionNode": normalize_comprehension,
+    "DictComprehensionNode": normalize_comprehension,
+    "SetComprehensionNode": normalize_comprehension,
+
+    "GeneratorNode": normalize_generator,
+
+    "IndexNode": normalize_index,
+    "SliceNode": normalize_slice,
+
+    "LiteralNode": normalize_literal,
+    "FormattedValueNode": normalize_formatted_value,
+    "FStringNode": normalize_fstring,
+    "FormattedStringNode": normalize_fstring,
+
+    "DeleteNode": normalize_delete,
+
+    "StructNode": normalize_struct,
+    "EnumNode": normalize_enum,
+    "TypeDefNode": normalize_typedef,
+    "ExternNode": normalize_extern,
+}

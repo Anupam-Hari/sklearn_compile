@@ -3,6 +3,10 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 
+# =============================================================================
+# Base node
+# =============================================================================
+
 @dataclass
 class ASTNode:
     node_type: str
@@ -11,8 +15,9 @@ class ASTNode:
     children: list["ASTNode"] = field(default_factory=list)
 
 
-@dataclass
-class ModuleNode(ASTNode):
+class TypedNode(ASTNode):
+
+    NODE_TYPE = "node"
 
     def __init__(
         self,
@@ -20,650 +25,830 @@ class ModuleNode(ASTNode):
         attributes=None,
         children=None,
     ):
-
         super().__init__(
-            node_type="module",
+            node_type=self.NODE_TYPE,
             name=name,
-            attributes=attributes or {},
-            children=[],
-        )
-
-        self.imports = []
-        self.classes = []
-        self.functions = []
-        self.calls = []
-
-        self.variables = []
-        self.constants = []
-        self.typedefs = []
-        self.structs = []
-        self.enums = []
-        self.externs = []
-
-        for child in children or []:
-
-            self.add_child(child)
-
-    def add_child(self, child):
-
-        self.children.append(child)
-
-        node_type = getattr(
-            child,
-            "node_type",
-            None,
-        )
-
-        if node_type == "import":
-
-            self.imports.append(child)
-
-        elif node_type == "class":
-
-            self.classes.append(child)
-
-        elif node_type == "function":
-
-            self.functions.append(child)
-
-        elif node_type == "call":
-
-            self.calls.append(child)
-
-        elif node_type == "variable":
-
-            self.variables.append(child)
-
-        elif node_type == "constant":
-
-            self.constants.append(child)
-
-        elif node_type == "typedef":
-
-            self.typedefs.append(child)
-
-        elif node_type == "struct":
-
-            self.structs.append(child)
-
-        elif node_type == "enum":
-
-            self.enums.append(child)
-
-        elif node_type == "extern":
-
-            self.externs.append(child)
-
-
-@dataclass
-class ImportNode(ASTNode):
-
-    def __init__(self, module="", names=None, level=0, attributes=None, children=None):
-
-        super().__init__(
-            node_type="import",
-            name=module,
             attributes=attributes or {},
             children=children or [],
         )
+
+
+# =============================================================================
+# Module
+# =============================================================================
+
+class ModuleNode(TypedNode):
+
+    NODE_TYPE = "module"
+
+    def __init__(
+        self,
+        name=None,
+        functions=None,
+        classes=None,
+        imports=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(name, attributes, children)
+
+        self.functions = functions or []
+        self.classes = classes or []
+        self.imports = imports or []
+
+        self.children.extend(self.imports)
+        self.children.extend(self.classes)
+        self.children.extend(self.functions)
+
+
+# =============================================================================
+# Imports
+# =============================================================================
+
+class ImportNode(TypedNode):
+
+    NODE_TYPE = "import"
+
+    def __init__(
+        self,
+        module="",
+        names=None,
+        level=0,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(module, attributes, children)
 
         self.module = module
         self.names = names or []
         self.level = level
 
 
-@dataclass
-class ClassNode(ASTNode):
-    def __init__(self, name: str, bases: list[str] | None = None, methods: list["FunctionNode"] | None = None, attributes: dict | None = None, children: list[ASTNode] | None = None):
-        super().__init__(node_type="class", name=name, attributes={**(attributes or {}), "bases": bases or []}, children=children or [])
+class ImportAliasNode(TypedNode):
+
+    NODE_TYPE = "import_alias"
+
+    def __init__(
+        self,
+        name,
+        alias=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(name, attributes, children)
+
+        self.alias = alias
+
+
+# =============================================================================
+# Functions
+# =============================================================================
+
+class ParameterNode(TypedNode):
+
+    NODE_TYPE = "parameter"
+
+    def __init__(
+        self,
+        name,
+        annotation=None,
+        default=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(name, attributes, children)
+
+        self.annotation = annotation
+        self.default = default
+
+
+class ArgumentsNode(TypedNode):
+
+    NODE_TYPE = "arguments"
+
+    def __init__(
+        self,
+        parameters=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(None, attributes, children)
+
+        self.parameters = parameters or []
+        self.children.extend(self.parameters)
+
+
+class FunctionNode(TypedNode):
+
+    NODE_TYPE = "function"
+
+    def __init__(
+        self,
+        name,
+        parameters=None,
+        returns=None,
+        decorators=None,
+        body=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(name, attributes, children)
+
+        self.parameters = parameters or []
+        self.decorators = decorators or []
+        self.returns = returns
+        self.body = body or []
+
+        self.children.extend(self.parameters)
+        self.children.extend(self.body)
+
+
+class LambdaNode(TypedNode):
+
+    NODE_TYPE = "lambda"
+
+    def __init__(
+        self,
+        parameters=None,
+        body=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(None, attributes, children)
+
+        self.parameters = parameters or []
+        self.body = body
+
+
+# =============================================================================
+# Classes
+# =============================================================================
+
+class ClassNode(TypedNode):
+
+    NODE_TYPE = "class"
+
+    def __init__(
+        self,
+        name,
+        bases=None,
+        methods=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(name, attributes, children)
+
         self.bases = bases or []
         self.methods = methods or []
+
         self.children.extend(self.methods)
 
-@dataclass
-class CallNode(ASTNode):
 
-    name: str = ""
+# =============================================================================
+# Variables and assignments
+# =============================================================================
 
-    node_type: str = "call"
+class VariableNode(TypedNode):
+
+    NODE_TYPE = "variable"
+
+    def __init__(
+        self,
+        name,
+        scope=None,
+        value=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(name, attributes, children)
+
+        self.scope = scope
+        self.value = value
 
 
-@dataclass
-class FunctionNode(ASTNode):
-    def __init__(self, name: str, attributes: dict | None = None, children: list[ASTNode] | None = None):
-        super().__init__(node_type="function", name=name, attributes=attributes or {}, children=children or [])
+class AssignmentNode(TypedNode):
+
+    NODE_TYPE = "assignment"
+
+    def __init__(
+        self,
+        targets=None,
+        value=None,
+        operator="=",
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(None, attributes, children)
+
+        self.targets = targets or []
+        self.value = value
+        self.operator = operator
 
 
-@dataclass
-class VariableNode(ASTNode):
-    def __init__(self, name: str, attributes: dict | None = None, children: list[ASTNode] | None = None):
-        super().__init__(node_type="variable", name=name, attributes=attributes or {}, children=children or [])
+# =============================================================================
+# Expressions
+# =============================================================================
 
-@dataclass
-class ConstantNode(ASTNode):
+class ExpressionNode(TypedNode):
+
+    NODE_TYPE = "expression"
+
+    def __init__(
+        self,
+        value=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(None, attributes, children)
+
+        self.value = value
+
+
+class AttributeNode(TypedNode):
+
+    NODE_TYPE = "attribute"
+
+    def __init__(
+        self,
+        value=None,
+        attribute=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(attribute, attributes, children)
+
+        self.value = value
+        self.attribute = attribute
+
+
+class CastNode(TypedNode):
+
+    NODE_TYPE = "cast"
+
+    def __init__(
+        self,
+        target_type=None,
+        value=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(None, attributes, children)
+
+        self.target_type = target_type
+        self.value = value
+
+        if value:
+            self.children.append(value)
+
+
+class CallNode(TypedNode):
+
+    NODE_TYPE = "call"
+    def __init__(
+        self,
+        function=None,
+        arguments=None,
+        keywords=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(
+            None,
+            attributes,
+            children,
+        )
+        self.function = function
+        self.arguments = arguments or []
+        self.keywords = keywords or []
+
+
+class KeywordArgumentNode(TypedNode):
+
+    NODE_TYPE = "keyword_argument"
 
     def __init__(
         self,
         name,
         value=None,
+        attributes=None,
+        children=None,
     ):
-
-        super().__init__(
-            node_type="constant",
-            name=name,
-            attributes={
-                "value": value,
-            },
-        )
+        super().__init__(name, attributes, children)
 
         self.value = value
 
-@dataclass
-class StructNode(ASTNode):
+        if value:
+            self.children.append(value)
+
+
+# =============================================================================
+# Control flow
+# =============================================================================
+
+class IfNode(TypedNode):
+
+    NODE_TYPE = "if"
 
     def __init__(
         self,
-        name,
+        condition=None,
+        body=None,
+        orelse=None,
         attributes=None,
         children=None,
     ):
+        super().__init__(None, attributes, children)
 
-        super().__init__(
-            node_type="struct",
-            name=name,
-            attributes=attributes or {},
-            children=children or [],
-        )
+        self.condition = condition
+        self.body = body or []
+        self.orelse = orelse or []
 
-@dataclass
-class EnumNode(ASTNode):
+        if condition:
+            self.children.append(condition)
+
+        self.children.extend(self.body)
+        self.children.extend(self.orelse)
+
+
+class ForNode(TypedNode):
+
+    NODE_TYPE = "for"
 
     def __init__(
         self,
-        name,
+        target=None,
+        iterable=None,
+        body=None,
         attributes=None,
         children=None,
     ):
+        super().__init__(None, attributes, children)
 
-        super().__init__(
-            node_type="enum",
-            name=name,
-            attributes=attributes or {},
-            children=children or [],
-        )
+        self.target = target
+        self.iterable = iterable
+        self.body = body or []
 
-@dataclass
-class ExpressionNode(ASTNode):
+        if target:
+            self.children.append(target)
+
+        if iterable:
+            self.children.append(iterable)
+
+        self.children.extend(self.body)
+
+
+class WhileNode(TypedNode):
+
+    NODE_TYPE = "while"
 
     def __init__(
         self,
-        name=None,
+        condition=None,
+        body=None,
         attributes=None,
         children=None,
     ):
+        super().__init__(None, attributes, children)
 
-        super().__init__(
-            node_type="expression",
-            name=name,
-            attributes=attributes or {},
-            children=children or [],
-        )
+        self.condition = condition
+        self.body = body or []
 
-@dataclass
-class AttributeNode(ASTNode):
+        if condition:
+            self.children.append(condition)
+
+        self.children.extend(self.body)
+
+
+class WithNode(TypedNode):
+
+    NODE_TYPE = "with"
 
     def __init__(
         self,
-        name,
-        value=None,
+        items=None,
+        body=None,
+        attributes=None,
+        children=None,
     ):
+        super().__init__(None, attributes, children)
 
-        super().__init__(
-            node_type="attribute",
-            name=name,
-            attributes={
-                "value": value,
-            },
-        )
+        self.items = items or []
+        self.body = body or []
 
-        self.value = value
+        self.children.extend(self.items)
+        self.children.extend(self.body)
 
-@dataclass
-class CompareNode(ASTNode):
+
+class WithItemNode(TypedNode):
+
+    NODE_TYPE = "with_item"
+
+    def __init__(
+        self,
+        context=None,
+        alias=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(alias, attributes, children)
+
+        self.context = context
+        self.alias = alias
+
+        if context:
+            self.children.append(context)
+
+
+class TryNode(TypedNode):
+
+    NODE_TYPE = "try"
+
+    def __init__(
+        self,
+        body=None,
+        handlers=None,
+        finalbody=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(None, attributes, children)
+
+        self.body = body or []
+        self.handlers = handlers or []
+        self.finalbody = finalbody or []
+
+        self.children.extend(self.body)
+        self.children.extend(self.handlers)
+        self.children.extend(self.finalbody)
+
+# =============================================================================
+# Exceptions
+# =============================================================================
+
+class ExceptNode(TypedNode):
+
+    NODE_TYPE = "except"
+
+    def __init__(
+        self,
+        exception_type=None,
+        body=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(None, attributes, children)
+
+        self.exception_type = exception_type
+        self.body = body or []
+
+        self.children.extend(self.body)
+
+
+class RaiseNode(TypedNode):
+
+    NODE_TYPE = "raise"
+
+    def __init__(
+        self,
+        exception=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(None, attributes, children)
+
+        self.exception = exception
+
+        if exception:
+            self.children.append(exception)
+
+
+class AssertNode(TypedNode):
+    NODE_TYPE = "assert"
+
+
+# =============================================================================
+# Return / yield
+# =============================================================================
+
+class ReturnNode(TypedNode):
+    NODE_TYPE = "return"
+
+
+class YieldNode(TypedNode):
+    NODE_TYPE = "yield"
+
+
+class YieldFromNode(TypedNode):
+    NODE_TYPE = "yield_from"
+
+
+# =============================================================================
+# Loop control
+# =============================================================================
+
+class BreakNode(TypedNode):
+    NODE_TYPE = "break"
+
+
+class ContinueNode(TypedNode):
+    NODE_TYPE = "continue"
+
+
+class PassNode(TypedNode):
+    NODE_TYPE = "pass"
+
+
+# =============================================================================
+# Operators
+# =============================================================================
+
+class CompareNode(TypedNode):
+
+    NODE_TYPE = "compare"
+
+    def __init__(
+        self,
+        left=None,
+        operator=None,
+        right=None,
+        attributes=None,
+        children=None,
+    ):
+        super().__init__(None, attributes, children)
+
+        self.left = left
+        self.operator = operator
+        self.right = right
+
+        if left:
+            self.children.append(left)
+
+        if right:
+            self.children.append(right)
+
+
+class BooleanNode(TypedNode):
+
+    NODE_TYPE = "boolean"
 
     def __init__(
         self,
         operator=None,
-        left=None,
-        right=None,
+        operands=None,
+        attributes=None,
+        children=None,
     ):
+        super().__init__(None, attributes, children)
 
-        super().__init__(
-            node_type="compare",
-            name=operator,
-            attributes={
-                "left": left,
-                "right": right,
-            },
-        )
+        self.operator = operator
+        self.operands = operands or []
 
-@dataclass
-class BinaryOperationNode(ASTNode):
+        self.children.extend(self.operands)
+
+
+class BinaryOperationNode(TypedNode):
+
+    NODE_TYPE = "binary_operation"
 
     def __init__(
         self,
-        operator=None,
         left=None,
+        operator=None,
         right=None,
+        attributes=None,
+        children=None,
     ):
+        super().__init__(None, attributes, children)
 
-        super().__init__(
-            node_type="binary_operation",
-            name=operator,
-            attributes={
-                "left": left,
-                "right": right,
-            },
-        )
+        self.left = left
+        self.operator = operator
+        self.right = right
 
-@dataclass
-class UnaryOperationNode(ASTNode):
+        if left:
+            self.children.append(left)
+
+        if right:
+            self.children.append(right)
+
+
+class UnaryOperationNode(TypedNode):
+
+    NODE_TYPE = "unary_operation"
 
     def __init__(
         self,
         operator=None,
         operand=None,
+        attributes=None,
+        children=None,
     ):
+        super().__init__(None, attributes, children)
 
-        super().__init__(
-            node_type="unary_operation",
-            name=operator,
-            attributes={
-                "operand": operand,
-            },
-        )
+        self.operator = operator
+        self.operand = operand
 
-@dataclass
-class ListNode(ASTNode):
-
-    def __init__(self, children=None):
-
-        super().__init__(
-            node_type="list",
-            children=children or [],
-        )
+        if operand:
+            self.children.append(operand)
 
 
-@dataclass
-class TupleNode(ASTNode):
-
-    def __init__(self, children=None):
-
-        super().__init__(
-            node_type="tuple",
-            children=children or [],
-        )
+class ConditionalExpressionNode(TypedNode):
+    NODE_TYPE = "conditional_expression"
 
 
-@dataclass
-class DictNode(ASTNode):
+# =============================================================================
+# Collections
+# =============================================================================
 
-    def __init__(self, children=None):
-
-        super().__init__(
-            node_type="dict",
-            children=children or [],
-        )
+class ListNode(TypedNode):
+    NODE_TYPE = "list"
 
 
-@dataclass
-class SetNode(ASTNode):
+class TupleNode(TypedNode):
+    NODE_TYPE = "tuple"
 
-    def __init__(self, children=None):
 
-        super().__init__(
-            node_type="set",
-            children=children or [],
-        )
+class DictNode(TypedNode):
+    NODE_TYPE = "dict"
 
-@dataclass
-class IndexNode(ASTNode):
+
+class SetNode(TypedNode):
+    NODE_TYPE = "set"
+
+
+class DictItemNode(TypedNode):
+    NODE_TYPE = "dict_item"
+
+
+# =============================================================================
+# Comprehensions
+# =============================================================================
+
+class ComprehensionNode(TypedNode):
+    NODE_TYPE = "comprehension"
+
+
+class ListComprehensionNode(TypedNode):
+    NODE_TYPE = "list_comprehension"
+
+
+class DictComprehensionNode(TypedNode):
+    NODE_TYPE = "dict_comprehension"
+
+
+class SetComprehensionNode(TypedNode):
+    NODE_TYPE = "set_comprehension"
+
+
+class GeneratorNode(TypedNode):
+    NODE_TYPE = "generator"
+
+
+# =============================================================================
+# Indexing
+# =============================================================================
+
+class IndexNode(TypedNode):
+    NODE_TYPE = "index"
+
+
+class SliceNode(TypedNode):
+    NODE_TYPE = "slice"
+
+
+# =============================================================================
+# Literals
+# =============================================================================
+
+class LiteralNode(TypedNode):
+
+    NODE_TYPE = "literal"
 
     def __init__(
         self,
         value=None,
-        index=None,
+        attributes=None,
+        children=None,
     ):
-
-        super().__init__(
-            node_type="index",
-            attributes={
-                "value": value,
-                "index": index,
-            },
-        )
-
-@dataclass
-class SliceNode(ASTNode):
-
-    def __init__(
-        self,
-        start=None,
-        stop=None,
-        step=None,
-    ):
-
-        super().__init__(
-            node_type="slice",
-            attributes={
-                "start": start,
-                "stop": stop,
-                "step": step,
-            },
-        )
-
-@dataclass
-class TypeDefNode(ASTNode):
-
-    def __init__(self, name):
-
-        super().__init__(
-            node_type="typedef",
-            name=name,
-        )
-
-@dataclass
-class TypeDefNode(ASTNode):
-
-    def __init__(self, name):
-
-        super().__init__(
-            node_type="typedef",
-            name=name,
-        )
-
-@dataclass
-class ExternNode(ASTNode):
-
-    def __init__(self, name):
-
-        super().__init__(
-            node_type="extern",
-            name=name,
-        )
-
-@dataclass
-class ParameterNode(ASTNode):
-
-    def __init__(
-        self,
-        name,
-        type_name=None,
-    ):
-
-        super().__init__(
-            node_type="parameter",
-            name=name,
-            attributes={
-                "type": type_name,
-            },
-        )
-
-#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-@dataclass
-class AssignmentNode(ASTNode):
-    def __init__(
-        self,
-        name: str,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-        attrs = attributes or {}
-        attrs["target"] = name
-
-        super().__init__(
-            node_type="assignment",
-            name=name,
-            attributes=attrs,
-            children=children or [],
-        )
-
-@dataclass
-class CallNode(ASTNode):
-    def __init__(
-        self,
-        name: str,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-        super().__init__(
-            node_type="call",
-            name=name,
-            attributes=attributes or {},
-            children=children or [],
-        )
-
-        self.attributes["name"] = name
-
-@dataclass
-class IfNode(ASTNode):
-
-    def __init__(
-        self,
-        condition: str | None = None,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-        super().__init__(
-            node_type="if",
-            name="if",
-            attributes={
-                **(attributes or {}),
-                "condition": condition,
-            },
-            children=children or [],
-        )
-
-        self.condition = condition
-
-@dataclass
-class WhileNode(ASTNode):
-
-    def __init__(
-        self,
-        condition: str | None = None,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-        super().__init__(
-            node_type="while",
-            name="while",
-            attributes={
-                **(attributes or {}),
-                "condition": condition,
-            },
-            children=children or [],
-        )
-
-        self.condition = condition
-
-@dataclass
-class ForNode(ASTNode):
-
-    def __init__(
-        self,
-        target: str | None = None,
-        iterator: str | None = None,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-        super().__init__(
-            node_type="for",
-            name=target,
-            attributes={
-                **(attributes or {}),
-                "target": target,
-                "iterator": iterator,
-            },
-            children=children or [],
-        )
-
-        self.target = target
-        self.iterator = iterator
-
-@dataclass
-class ReturnNode(ASTNode):
-
-    def __init__(
-        self,
-        value: str | None = None,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-        super().__init__(
-            node_type="return",
-            name="return",
-            attributes={
-                **(attributes or {}),
-                "value": value,
-            },
-            children=children or [],
-        )
+        super().__init__(None, attributes, children)
 
         self.value = value
 
-@dataclass
-class RaiseNode(ASTNode):
 
-    def __init__(
-        self,
-        exception: str | None = None,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-
-        super().__init__(
-            node_type="raise",
-            name="raise",
-            attributes={
-                **(attributes or {}),
-                "exception": exception,
-            },
-            children=children or [],
-        )
-
-        self.exception = exception
+class FormattedValueNode(TypedNode):
+    NODE_TYPE = "formatted_value"
 
 
-@dataclass
-class BreakNode(ASTNode):
-
-    def __init__(
-        self,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-
-        super().__init__(
-            node_type="break",
-            name="break",
-            attributes=attributes or {},
-            children=children or [],
-        )
+class FStringNode(TypedNode):
+    NODE_TYPE = "f_string"
 
 
-@dataclass
-class ContinueNode(ASTNode):
-
-    def __init__(
-        self,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-
-        super().__init__(
-            node_type="continue",
-            name="continue",
-            attributes=attributes or {},
-            children=children or [],
-        )
+class FormattedStringNode(TypedNode):
+    NODE_TYPE = "formatted_string"
 
 
-@dataclass
-class PassNode(ASTNode):
+# =============================================================================
+# Misc
+# =============================================================================
 
-    def __init__(
-        self,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-
-        super().__init__(
-            node_type="pass",
-            name="pass",
-            attributes=attributes or {},
-            children=children or [],
-        )
+class DeleteNode(TypedNode):
+    NODE_TYPE = "delete"
 
 
-@dataclass
-class WithNode(ASTNode):
-
-    def __init__(
-        self,
-        context: str | None = None,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-
-        super().__init__(
-            node_type="with",
-            name="with",
-            attributes={
-                **(attributes or {}),
-                "context": context,
-            },
-            children=children or [],
-        )
-
-        self.context = context
+class ArrayNode(TypedNode):
+    NODE_TYPE = "array"
 
 
-@dataclass
-class TryNode(ASTNode):
+# =============================================================================
+# C declarations
+# =============================================================================
 
-    def __init__(
-        self,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-
-        super().__init__(
-            node_type="try",
-            name="try",
-            attributes=attributes or {},
-            children=children or [],
-        )
+class StructNode(TypedNode):
+    NODE_TYPE = "struct"
 
 
-@dataclass
-class ExceptNode(ASTNode):
+class EnumNode(TypedNode):
+    NODE_TYPE = "enum"
 
-    def __init__(
-        self,
-        exception_type: str | None = None,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
 
-        super().__init__(
-            node_type="except",
-            name="except",
-            attributes={
-                **(attributes or {}),
-                "exception_type": exception_type,
-            },
-            children=children or [],
-        )
+class EnumValueNode(TypedNode):
+    NODE_TYPE = "enum_value"
 
-        self.exception_type = exception_type
+
+class TypeDefNode(TypedNode):
+    NODE_TYPE = "typedef"
+
+
+class ExternNode(TypedNode):
+    NODE_TYPE = "extern"
+
+
+# =============================================================================
+# Declarators
+# =============================================================================
+
+class FunctionDeclaratorNode(TypedNode):
+    NODE_TYPE = "function_declarator"
+
+
+class VariableDeclaratorNode(TypedNode):
+    NODE_TYPE = "variable_declarator"
+
+
+class PointerNode(TypedNode):
+    NODE_TYPE = "pointer"
+
+
+class ArrayDeclaratorNode(TypedNode):
+    NODE_TYPE = "array_declarator"
+
+
+class ReferenceNode(TypedNode):
+    NODE_TYPE = "reference"
+
+
+# =============================================================================
+# C types
+# =============================================================================
+
+class SimpleTypeNode(TypedNode):
+    NODE_TYPE = "simple_type"
+
+
+class ComplexTypeNode(TypedNode):
+    NODE_TYPE = "complex_type"
+
+
+class QualifiedTypeNode(TypedNode):
+    NODE_TYPE = "qualified_type"
+
+
+class NestedTypeNode(TypedNode):
+    NODE_TYPE = "nested_type"
+
+
+class TupleTypeNode(TypedNode):
+    NODE_TYPE = "tuple_type"
+
+
+class FusedTypeNode(TypedNode):
+    NODE_TYPE = "fused_type"
+
+
+class MemoryViewTypeNode(TypedNode):
+    NODE_TYPE = "memory_view_type"
+
+
+class TemplatedTypeNode(TypedNode):
+    NODE_TYPE = "templated_type"
+
+
+# =============================================================================
+# sizeof
+# =============================================================================
+
+class SizeofTypeNode(TypedNode):
+    NODE_TYPE = "sizeof_type"
+
+
+class SizeofVariableNode(TypedNode):
+    NODE_TYPE = "sizeof_variable"
