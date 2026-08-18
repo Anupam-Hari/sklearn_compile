@@ -1,19 +1,7 @@
 import ast
 
 from transpiler.ast.mapping_table import PYTHON_TO_NORMALIZED
-from transpiler.ast.nodes import (
-    CallNode,
-    ClassNode,
-    ConstantNode,
-    EnumNode,
-    FunctionNode,
-    ImportNode,
-    ModuleNode,
-    StructNode,
-    TypeDefNode,
-    VariableNode,
-    ExpressionNode,
-)
+from transpiler.ast.nodes import *
 from collections import Counter
 
 UNHANDLED_PYTHON_NODES = Counter()
@@ -49,6 +37,10 @@ def get_python_children(node):
         children.extend(node.body)
         children.extend(node.orelse)
 
+    elif isinstance(node, ast.With):
+
+        children.extend(node.body)
+
     elif isinstance(node, ast.Try):
 
         children.extend(node.body)
@@ -56,15 +48,13 @@ def get_python_children(node):
         children.extend(node.orelse)
         children.extend(node.finalbody)
 
-    elif isinstance(node, ast.With):
+    elif isinstance(node, ast.ExceptHandler):
 
         children.extend(node.body)
 
     elif isinstance(node, ast.Expr):
 
-        children.append(
-            node.value,
-        )
+        children.append(node.value)
 
     return children
 
@@ -100,15 +90,66 @@ def normalize_call(node):
 
         name = "unknown"
 
+    arguments = []
+
+    for argument in node.args:
+
+        normalized = normalize_node(
+            argument,
+        )
+
+        if normalized is not None:
+
+            arguments.append(
+                normalized,
+            )
+
     return CallNode(
         name=name,
+        arguments=arguments,
+    )
+
+def normalize_return(node):
+
+    value = None
+
+    if node.value is not None:
+
+        value = normalize_node(
+            node.value,
+        )
+
+    return ReturnNode(
+        value=value,
+    )
+
+def normalize_binary_operation(node):
+
+    operator = type(
+        node.op,
+    ).__name__
+
+    left = normalize_node(
+        node.left,
+    )
+
+    right = normalize_node(
+        node.right,
+    )
+
+    return BinaryOperationNode(
+        operator=operator,
+        left=left,
+        right=right,
     )
 
 def normalize_expression(node):
 
     try:
 
-        name = ast.unparse(node)
+        name = ast.unparse(
+            node,
+        )
 
     except Exception:
 
@@ -123,7 +164,6 @@ def normalize_function(node):
     return FunctionNode(
         name=node.name,
     )
-
 
 def normalize_class(node):
 
@@ -144,7 +184,70 @@ def normalize_class(node):
     return ClassNode(
         name=node.name,
         bases=bases,
-        methods=[],
+    )
+
+def normalize_literal(node):
+
+    return LiteralNode(
+        value=getattr(
+            node,
+            "value",
+            None,
+        ),
+    )
+
+def normalize_assignment(node):
+
+    target = None
+
+    if isinstance(node, ast.Assign):
+
+        if node.targets:
+
+            try:
+
+                target = ast.unparse(
+                    node.targets[0],
+                )
+
+            except Exception:
+
+                pass
+
+    elif isinstance(node, ast.AnnAssign):
+
+        try:
+
+            target = ast.unparse(
+                node.target,
+            )
+
+        except Exception:
+
+            pass
+
+    elif isinstance(node, ast.AugAssign):
+
+        try:
+
+            target = ast.unparse(
+                node.target,
+            )
+
+        except Exception:
+
+            pass
+
+    value = None
+    if node.value is not None:
+
+        value = normalize_node(
+            node.value,
+        )
+
+    return AssignmentNode(
+        target=target,
+        value=value,
     )
 
 def normalize_variable(node):
@@ -153,19 +256,15 @@ def normalize_variable(node):
         name=node.id,
     )
 
-def normalize_constant(node):
+def normalize_literal(node):
 
-    value = getattr(
-        node,
-        "value",
-        None,
+    return LiteralNode(
+        value=getattr(
+            node,
+            "value",
+            None,
+        ),
     )
-
-    return ConstantNode(
-        name=str(value),
-        value=value,
-    )
-
 def normalize_struct(node):
 
     return StructNode(
@@ -187,6 +286,12 @@ def normalize_typedef(node):
 def normalize_node(node):
 
     node_type = type(node).__name__
+    print(
+        node_type,
+        PYTHON_TO_NORMALIZED.get(
+            node_type,
+        ),
+    )
 
     normalized_type = PYTHON_TO_NORMALIZED.get(
         node_type,
@@ -206,69 +311,113 @@ def normalize_node(node):
 
         normalized = normalize_function(node)
 
-    elif normalized_type == "VariableNode":
-
-        normalized = normalize_variable(node)
-
     elif normalized_type == "AssignmentNode":
 
-        if isinstance(node, ast.Assign):
-
-            for target in node.targets:
-
-                if isinstance(target, ast.Name):
-
-                    name = target.id
-
-                    if name.isupper():
-
-                        normalized = ConstantNode(
-                            name=name,
-                            value=ast.unparse(
-                                node.value,
-                            ),
-                        )
-
-                    else:
-
-                        normalized = VariableNode(
-                            name=name,
-                        )
-
-                    break
-
-        elif isinstance(node, ast.AnnAssign):
-
-            if isinstance(node.target, ast.Name):
-
-                name = node.target.id
-
-                if name.isupper():
-
-                    normalized = ConstantNode(
-                        name=name,
-                        value=(
-                            ast.unparse(node.value)
-                            if node.value
-                            else None
-                        ),
-                    )
-
-                else:
-
-                    normalized = VariableNode(
-                        name=name,
-                    )
+        normalized = normalize_assignment(node)
 
     elif normalized_type == "CallNode":
 
-        normalized = normalize_call(
-            node,
-        )
+        normalized = normalize_call(node)
 
     elif normalized_type == "ExpressionNode":
 
         normalized = normalize_expression(node)
+
+    elif normalized_type == "AttributeNode":
+
+        normalized = AttributeNode()
+
+    elif normalized_type == "IfNode":
+
+        normalized = IfNode()
+
+    elif normalized_type == "ForNode":
+
+        normalized = ForNode()
+
+    elif normalized_type == "WhileNode":
+
+        normalized = WhileNode()
+
+    elif normalized_type == "WithNode":
+
+        normalized = WithNode()
+
+    elif normalized_type == "TryNode":
+
+        normalized = TryNode()
+
+    elif normalized_type == "ExceptNode":
+
+        normalized = ExceptNode()
+
+    elif normalized_type == "ReturnNode":
+
+        normalized = normalize_return(node)
+
+    elif normalized_type == "RaiseNode":
+
+        normalized = RaiseNode()
+
+    elif normalized_type == "BreakNode":
+
+        normalized = BreakNode()
+
+    elif normalized_type == "ContinueNode":
+
+        normalized = ContinueNode()
+
+    elif normalized_type == "PassNode":
+
+        normalized = PassNode()
+
+    elif normalized_type == "CompareNode":
+
+        normalized = CompareNode()
+
+    elif normalized_type == "BooleanNode":
+
+        normalized = BooleanNode()
+
+    elif normalized_type == "BinaryOperationNode":
+
+        normalized = normalize_binary_operation(node)
+
+    elif normalized_type == "UnaryOperationNode":
+
+        normalized = UnaryOperationNode()
+
+    elif normalized_type == "ListNode":
+
+        normalized = ListNode()
+
+    elif normalized_type == "TupleNode":
+
+        normalized = TupleNode()
+
+    elif normalized_type == "DictNode":
+
+        normalized = DictNode()
+
+    elif normalized_type == "SetNode":
+
+        normalized = SetNode()
+
+    elif normalized_type == "IndexNode":
+
+        normalized = SliceNode()
+
+    elif normalized_type == "SliceNode":
+
+        normalized = SliceNode()
+
+    elif isinstance(node, ast.Constant):
+
+        normalized = normalize_literal(node)
+
+    elif isinstance(node, ast.Name):
+
+        normalized = normalize_variable(node)
 
     else:
 
@@ -278,30 +427,48 @@ def normalize_node(node):
 
         return None
 
-    if normalized is None:
-
-        return None
-
-    for child in get_python_children(node):
+    for child in get_python_children(
+        node,
+    ):
 
         normalized_child = normalize_node(
             child,
         )
+
+        if isinstance(
+            normalized,
+            ReturnNode,
+        ):
+
+            return normalized
+
+        if isinstance(
+            normalized,
+            (
+                ReturnNode,
+                BinaryOperationNode,
+            ),
+        ):
+
+            return normalized
+
+        if isinstance(
+            normalized,
+            (
+                ReturnNode,
+                BinaryOperationNode,
+                AssignmentNode,
+                CallNode,
+            ),
+        ):
+
+            return normalized
 
         if normalized_child is not None:
 
             normalized.children.append(
                 normalized_child,
             )
-
-            if (
-                normalized.node_type == "class"
-                and normalized_child.node_type == "function"
-            ):
-
-                normalized.methods.append(
-                    normalized_child,
-                )
 
     return normalized
 
@@ -317,7 +484,7 @@ def normalize_python_ast(tree):
 
         if normalized is not None:
 
-            module.add_child(
+            module.children.append(
                 normalized,
             )
 

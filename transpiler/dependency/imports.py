@@ -1,23 +1,40 @@
 from transpiler.ast.nodes import ModuleNode
-from transpiler.dependency.models import ImportSymbol
+from transpiler.dependency.models import (
+    DependencyGraph,
+    ImportSymbol,
+)
 
 
 def extract_imports(
+    graph: DependencyGraph,
     module: ModuleNode,
-) -> list[ImportSymbol]:
+    file_path,
+) -> None:
 
-    imports = []
+    graph.imports[file_path] = []
 
-    for node in module.children:
+    walk(
+        graph,
+        module,
+        file_path,
+    )
 
-        if node.node_type != "import":
-            continue
+
+def walk(
+    graph,
+    node,
+    file_path,
+) -> None:
+
+    if node.node_type == "import":
 
         if node.module:
 
             for name in node.names:
 
-                imports.append(
+                graph.imports[
+                    file_path
+                ].append(
                     ImportSymbol(
                         module=node.module,
                         name=name,
@@ -28,10 +45,18 @@ def extract_imports(
 
             for name in node.names:
 
-                imports.append(
+                graph.imports[
+                    file_path
+                ].append(
                     ImportSymbol(
                         module=name,
                     )
                 )
 
-    return imports
+    for child in node.children:
+
+        walk(
+            graph,
+            child,
+            file_path,
+        )

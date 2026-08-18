@@ -9,7 +9,7 @@ from transpiler.resolver.inherited_member_resolver import (
 from transpiler.resolver.call_resolver import (resolve_call, resolve_calls, resolve_self_call)
 
 
-ROOT = Path("sklearn/tree")
+ROOT = Path("sklearn")
 
 
 def print_section(title: str):

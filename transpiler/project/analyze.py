@@ -50,18 +50,23 @@ def analyze_project(root: Path):
 
             graph.modules[path] = module
 
-            graph.imports[path] = extract_imports(
+            extract_imports(
+                graph,
                 module,
+                path,
             )
 
-            graph.symbols[path] = extract_symbols(
-                module=module,
-                file_path=path,
-                language=source_file.language,
+            extract_symbols(
+                graph,
+                module,
+                path,
+                source_file.language,
             )
 
-            graph.calls[path] = extract_calls(
+            extract_calls(
+                graph,
                 module,
+                path,
             )
 
         except Exception as e:

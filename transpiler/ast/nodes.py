@@ -5,656 +5,259 @@ from dataclasses import dataclass, field
 
 @dataclass
 class ASTNode:
-    node_type: str
-    name: str | None = None
-    attributes: dict = field(default_factory=dict)
-    children: list["ASTNode"] = field(default_factory=list)
+
+    children: list["ASTNode"] = field(
+        default_factory=list,
+    )
 
 
 @dataclass
-class ModuleNode(ASTNode):
+class DeclarationNode(ASTNode):
 
-    def __init__(
-        self,
-        name=None,
-        attributes=None,
-        children=None,
-    ):
-
-        super().__init__(
-            node_type="module",
-            name=name,
-            attributes=attributes or {},
-            children=[],
-        )
-
-        self.imports = []
-        self.classes = []
-        self.functions = []
-        self.calls = []
-
-        self.variables = []
-        self.constants = []
-        self.typedefs = []
-        self.structs = []
-        self.enums = []
-        self.externs = []
-
-        for child in children or []:
-
-            self.add_child(child)
-
-    def add_child(self, child):
-
-        self.children.append(child)
-
-        node_type = getattr(
-            child,
-            "node_type",
-            None,
-        )
-
-        if node_type == "import":
-
-            self.imports.append(child)
-
-        elif node_type == "class":
-
-            self.classes.append(child)
-
-        elif node_type == "function":
-
-            self.functions.append(child)
-
-        elif node_type == "call":
-
-            self.calls.append(child)
-
-        elif node_type == "variable":
-
-            self.variables.append(child)
-
-        elif node_type == "constant":
-
-            self.constants.append(child)
-
-        elif node_type == "typedef":
-
-            self.typedefs.append(child)
-
-        elif node_type == "struct":
-
-            self.structs.append(child)
-
-        elif node_type == "enum":
-
-            self.enums.append(child)
-
-        elif node_type == "extern":
-
-            self.externs.append(child)
+    pass
 
 
 @dataclass
-class ImportNode(ASTNode):
-    def __init__(self, module: str = "", names: list[str] | None = None, attributes: dict | None = None, children: list[ASTNode] | None = None):
-        super().__init__(node_type="import", name=module, attributes={**(attributes or {}), "names": names or []}, children=children or [])
-        self.module = module
-        self.names = names or []
+class StatementNode(ASTNode):
 
+    pass
 
-@dataclass
-class ClassNode(ASTNode):
-    def __init__(self, name: str, bases: list[str] | None = None, methods: list["FunctionNode"] | None = None, attributes: dict | None = None, children: list[ASTNode] | None = None):
-        super().__init__(node_type="class", name=name, attributes={**(attributes or {}), "bases": bases or []}, children=children or [])
-        self.bases = bases or []
-        self.methods = methods or []
-        self.children.extend(self.methods)
-
-@dataclass
-class CallNode(ASTNode):
-
-    name: str = ""
-
-    node_type: str = "call"
-
-
-@dataclass
-class FunctionNode(ASTNode):
-    def __init__(self, name: str, attributes: dict | None = None, children: list[ASTNode] | None = None):
-        super().__init__(node_type="function", name=name, attributes=attributes or {}, children=children or [])
-
-
-@dataclass
-class VariableNode(ASTNode):
-    def __init__(self, name: str, attributes: dict | None = None, children: list[ASTNode] | None = None):
-        super().__init__(node_type="variable", name=name, attributes=attributes or {}, children=children or [])
-
-@dataclass
-class ConstantNode(ASTNode):
-
-    def __init__(
-        self,
-        name,
-        value=None,
-    ):
-
-        super().__init__(
-            node_type="constant",
-            name=name,
-            attributes={
-                "value": value,
-            },
-        )
-
-        self.value = value
-
-@dataclass
-class StructNode(ASTNode):
-
-    def __init__(
-        self,
-        name,
-        attributes=None,
-        children=None,
-    ):
-
-        super().__init__(
-            node_type="struct",
-            name=name,
-            attributes=attributes or {},
-            children=children or [],
-        )
-
-@dataclass
-class EnumNode(ASTNode):
-
-    def __init__(
-        self,
-        name,
-        attributes=None,
-        children=None,
-    ):
-
-        super().__init__(
-            node_type="enum",
-            name=name,
-            attributes=attributes or {},
-            children=children or [],
-        )
 
 @dataclass
 class ExpressionNode(ASTNode):
 
-    def __init__(
-        self,
-        name=None,
-        attributes=None,
-        children=None,
-    ):
-
-        super().__init__(
-            node_type="expression",
-            name=name,
-            attributes=attributes or {},
-            children=children or [],
-        )
+    pass
 
 @dataclass
-class AttributeNode(ASTNode):
+class ModuleNode(DeclarationNode):
 
-    def __init__(
-        self,
-        name,
-        value=None,
-    ):
-
-        super().__init__(
-            node_type="attribute",
-            name=name,
-            attributes={
-                "value": value,
-            },
-        )
-
-        self.value = value
-
-@dataclass
-class CompareNode(ASTNode):
-
-    def __init__(
-        self,
-        operator=None,
-        left=None,
-        right=None,
-    ):
-
-        super().__init__(
-            node_type="compare",
-            name=operator,
-            attributes={
-                "left": left,
-                "right": right,
-            },
-        )
-
-@dataclass
-class BinaryOperationNode(ASTNode):
-
-    def __init__(
-        self,
-        operator=None,
-        left=None,
-        right=None,
-    ):
-
-        super().__init__(
-            node_type="binary_operation",
-            name=operator,
-            attributes={
-                "left": left,
-                "right": right,
-            },
-        )
-
-@dataclass
-class UnaryOperationNode(ASTNode):
-
-    def __init__(
-        self,
-        operator=None,
-        operand=None,
-    ):
-
-        super().__init__(
-            node_type="unary_operation",
-            name=operator,
-            attributes={
-                "operand": operand,
-            },
-        )
-
-@dataclass
-class ListNode(ASTNode):
-
-    def __init__(self, children=None):
-
-        super().__init__(
-            node_type="list",
-            children=children or [],
-        )
+    name: str | None = None
 
 
 @dataclass
-class TupleNode(ASTNode):
+class ImportNode(DeclarationNode):
 
-    def __init__(self, children=None):
+    module: str = ""
 
-        super().__init__(
-            node_type="tuple",
-            children=children or [],
-        )
-
-
-@dataclass
-class DictNode(ASTNode):
-
-    def __init__(self, children=None):
-
-        super().__init__(
-            node_type="dict",
-            children=children or [],
-        )
+    names: list[str] = field(
+        default_factory=list,
+    )
 
 
 @dataclass
-class SetNode(ASTNode):
+class ParameterNode(DeclarationNode):
 
-    def __init__(self, children=None):
+    name: str = ""
 
-        super().__init__(
-            node_type="set",
-            children=children or [],
-        )
+    annotation: str | None = None
 
-@dataclass
-class IndexNode(ASTNode):
-
-    def __init__(
-        self,
-        value=None,
-        index=None,
-    ):
-
-        super().__init__(
-            node_type="index",
-            attributes={
-                "value": value,
-                "index": index,
-            },
-        )
-
-@dataclass
-class SliceNode(ASTNode):
-
-    def __init__(
-        self,
-        start=None,
-        stop=None,
-        step=None,
-    ):
-
-        super().__init__(
-            node_type="slice",
-            attributes={
-                "start": start,
-                "stop": stop,
-                "step": step,
-            },
-        )
-
-@dataclass
-class TypeDefNode(ASTNode):
-
-    def __init__(self, name):
-
-        super().__init__(
-            node_type="typedef",
-            name=name,
-        )
-
-@dataclass
-class TypeDefNode(ASTNode):
-
-    def __init__(self, name):
-
-        super().__init__(
-            node_type="typedef",
-            name=name,
-        )
-
-@dataclass
-class ExternNode(ASTNode):
-
-    def __init__(self, name):
-
-        super().__init__(
-            node_type="extern",
-            name=name,
-        )
-
-@dataclass
-class ParameterNode(ASTNode):
-
-    def __init__(
-        self,
-        name,
-        type_name=None,
-    ):
-
-        super().__init__(
-            node_type="parameter",
-            name=name,
-            attributes={
-                "type": type_name,
-            },
-        )
-
-#AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-@dataclass
-class AssignmentNode(ASTNode):
-    def __init__(
-        self,
-        name: str,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-        attrs = attributes or {}
-        attrs["target"] = name
-
-        super().__init__(
-            node_type="assignment",
-            name=name,
-            attributes=attrs,
-            children=children or [],
-        )
-
-@dataclass
-class CallNode(ASTNode):
-    def __init__(
-        self,
-        name: str,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-        super().__init__(
-            node_type="call",
-            name=name,
-            attributes=attributes or {},
-            children=children or [],
-        )
-
-        self.attributes["name"] = name
-
-@dataclass
-class IfNode(ASTNode):
-
-    def __init__(
-        self,
-        condition: str | None = None,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-        super().__init__(
-            node_type="if",
-            name="if",
-            attributes={
-                **(attributes or {}),
-                "condition": condition,
-            },
-            children=children or [],
-        )
-
-        self.condition = condition
-
-@dataclass
-class WhileNode(ASTNode):
-
-    def __init__(
-        self,
-        condition: str | None = None,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-        super().__init__(
-            node_type="while",
-            name="while",
-            attributes={
-                **(attributes or {}),
-                "condition": condition,
-            },
-            children=children or [],
-        )
-
-        self.condition = condition
-
-@dataclass
-class ForNode(ASTNode):
-
-    def __init__(
-        self,
-        target: str | None = None,
-        iterator: str | None = None,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-        super().__init__(
-            node_type="for",
-            name=target,
-            attributes={
-                **(attributes or {}),
-                "target": target,
-                "iterator": iterator,
-            },
-            children=children or [],
-        )
-
-        self.target = target
-        self.iterator = iterator
-
-@dataclass
-class ReturnNode(ASTNode):
-
-    def __init__(
-        self,
-        value: str | None = None,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-        super().__init__(
-            node_type="return",
-            name="return",
-            attributes={
-                **(attributes or {}),
-                "value": value,
-            },
-            children=children or [],
-        )
-
-        self.value = value
-
-@dataclass
-class RaiseNode(ASTNode):
-
-    def __init__(
-        self,
-        exception: str | None = None,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-
-        super().__init__(
-            node_type="raise",
-            name="raise",
-            attributes={
-                **(attributes or {}),
-                "exception": exception,
-            },
-            children=children or [],
-        )
-
-        self.exception = exception
+    default: str | None = None
 
 
 @dataclass
-class BreakNode(ASTNode):
+class VariableNode(DeclarationNode):
 
-    def __init__(
-        self,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
+    name: str = ""
 
-        super().__init__(
-            node_type="break",
-            name="break",
-            attributes=attributes or {},
-            children=children or [],
-        )
+    value: str | None = None
 
 
 @dataclass
-class ContinueNode(ASTNode):
+class FunctionNode(DeclarationNode):
 
-    def __init__(
-        self,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
+    name: str = ""
 
-        super().__init__(
-            node_type="continue",
-            name="continue",
-            attributes=attributes or {},
-            children=children or [],
-        )
+    parameters: list[ParameterNode] = field(
+        default_factory=list,
+    )
+
+    returns: str | None = None
 
 
 @dataclass
-class PassNode(ASTNode):
+class ClassNode(DeclarationNode):
 
-    def __init__(
-        self,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
+    name: str = ""
 
-        super().__init__(
-            node_type="pass",
-            name="pass",
-            attributes=attributes or {},
-            children=children or [],
-        )
+    bases: list[str] = field(
+        default_factory=list,
+    )
 
 
 @dataclass
-class WithNode(ASTNode):
+class StructNode(DeclarationNode):
 
-    def __init__(
-        self,
-        context: str | None = None,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-
-        super().__init__(
-            node_type="with",
-            name="with",
-            attributes={
-                **(attributes or {}),
-                "context": context,
-            },
-            children=children or [],
-        )
-
-        self.context = context
+    name: str = ""
 
 
 @dataclass
-class TryNode(ASTNode):
+class EnumNode(DeclarationNode):
 
-    def __init__(
-        self,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
-
-        super().__init__(
-            node_type="try",
-            name="try",
-            attributes=attributes or {},
-            children=children or [],
-        )
+    name: str = ""
 
 
 @dataclass
-class ExceptNode(ASTNode):
+class TypeDefNode(DeclarationNode):
 
-    def __init__(
-        self,
-        exception_type: str | None = None,
-        attributes: dict | None = None,
-        children: list[ASTNode] | None = None,
-    ):
+    name: str = ""
 
-        super().__init__(
-            node_type="except",
-            name="except",
-            attributes={
-                **(attributes or {}),
-                "exception_type": exception_type,
-            },
-            children=children or [],
-        )
 
-        self.exception_type = exception_type
+@dataclass
+class ExternNode(DeclarationNode):
+
+    name: str = ""
+
+@dataclass
+class AssignmentNode(StatementNode):
+
+    target: str | None = None
+
+    value: ExpressionNode | None = None
+
+
+@dataclass
+class ReturnNode(StatementNode):
+
+    value: ExpressionNode | None = None
+
+
+@dataclass
+class RaiseNode(StatementNode):
+
+    pass
+
+
+@dataclass
+class BreakNode(StatementNode):
+
+    pass
+
+
+@dataclass
+class ContinueNode(StatementNode):
+
+    pass
+
+
+@dataclass
+class PassNode(StatementNode):
+
+    pass
+
+@dataclass
+class IfNode(StatementNode):
+
+    pass
+
+
+@dataclass
+class ForNode(StatementNode):
+
+    pass
+
+
+@dataclass
+class WhileNode(StatementNode):
+
+    pass
+
+
+@dataclass
+class WithNode(StatementNode):
+
+    pass
+
+
+@dataclass
+class ExceptNode(StatementNode):
+
+    pass
+
+
+@dataclass
+class TryNode(StatementNode):
+
+    pass
+
+@dataclass
+class CallNode(ExpressionNode):
+
+    name: str = ""
+
+    arguments: list[ExpressionNode] = field(
+        default_factory=list,
+    )
+
+@dataclass
+class AttributeNode(ExpressionNode):
+
+    name: str = ""
+
+
+@dataclass
+class CompareNode(ExpressionNode):
+
+    operator: str = ""
+
+
+@dataclass
+class BooleanNode(ExpressionNode):
+
+    operator: str = ""
+
+
+@dataclass
+class BinaryOperationNode(ExpressionNode):
+
+    operator: str = ""
+
+    left: ExpressionNode | None = None
+
+    right: ExpressionNode | None = None
+
+
+@dataclass
+class UnaryOperationNode(ExpressionNode):
+
+    operator: str = ""
+
+@dataclass
+class ListNode(ExpressionNode):
+
+    pass
+
+
+@dataclass
+class TupleNode(ExpressionNode):
+
+    pass
+
+
+@dataclass
+class DictNode(ExpressionNode):
+
+    pass
+
+
+@dataclass
+class SetNode(ExpressionNode):
+
+    pass
+
+
+@dataclass
+class IndexNode(ExpressionNode):
+
+    pass
+
+
+@dataclass
+class SliceNode(ExpressionNode):
+
+    pass
+
+
+@dataclass
+class LiteralNode(ExpressionNode):
+
+    value: object | None = None

@@ -1,19 +1,6 @@
 from transpiler.ast.mapping_table import CYTHON_TO_NORMALIZED
 from transpiler.ast.unsupported_nodes import UNSUPPORTED_CYTHON_NODES
-from transpiler.ast.nodes import (
-    CallNode,
-    ClassNode,
-    EnumNode,
-    FunctionNode,
-    ImportNode,
-    ModuleNode,
-    StructNode,
-    TypeDefNode,
-    VariableNode,
-    ExpressionNode,
-    ExternNode,
-    AssignmentNode,
-)
+from transpiler.ast.nodes import *
 
 from collections import Counter
 
@@ -23,30 +10,52 @@ def get_cython_children(node):
 
     children = []
 
-    if not hasattr(node, "__dict__"):
+    if not hasattr(
+        node,
+        "__dict__",
+    ):
 
         return children
 
-    for value in vars(node).values():
+    for value in vars(
+        node,
+    ).values():
 
-        if hasattr(value, "__dict__"):
+        if hasattr(
+            value,
+            "__dict__",
+        ):
 
-            children.append(value)
+            children.append(
+                value,
+            )
 
         elif isinstance(
             value,
-            (list, tuple),
+            (
+                list,
+                tuple,
+            ),
         ):
 
             for item in value:
 
-                if hasattr(item, "__dict__"):
+                if hasattr(
+                    item,
+                    "__dict__",
+                ):
 
-                    children.append(item)
+                    children.append(
+                        item,
+                    )
 
     return children
 
 def _get_name(node):
+
+    if node is None:
+
+        return "unknown"
 
     for attr in (
         "name",
@@ -55,12 +64,21 @@ def _get_name(node):
         "cname",
     ):
 
-        value = getattr(node, attr, None)
+        value = getattr(
+            node,
+            attr,
+            None,
+        )
 
         if value:
+
             return value
 
-    declarator = getattr(node, "declarator", None)
+    declarator = getattr(
+        node,
+        "declarator",
+        None,
+    )
 
     if declarator is not None:
 
@@ -71,12 +89,16 @@ def _get_name(node):
 
             try:
 
-                value = declarator.declared_name()
+                value = (
+                    declarator.declared_name()
+                )
 
                 if value:
+
                     return value
 
             except Exception:
+
                 pass
 
         value = getattr(
@@ -86,47 +108,47 @@ def _get_name(node):
         )
 
         if value:
+
             return value
 
     return "unknown"
 
-def normalize_call(node):
-
-    function = getattr(
-        node,
-        "function",
-        None,
-    )
-
-    name = _get_name(
-        function,
-    )
-
-    return CallNode(
-        name=name,
-    )
-
 def normalize_import(node):
 
-    node_type = type(node).__name__
+    node_type = type(
+        node,
+    ).__name__
 
     if node_type == "ImportNode":
 
         names = []
 
-        for item in getattr(node, "items", []):
+        for item in getattr(
+            node,
+            "items",
+            [],
+        ):
 
-            if isinstance(item, tuple):
+            if isinstance(
+                item,
+                tuple,
+            ):
 
-                names.append(item[1])
+                names.append(
+                    item[1],
+                )
 
             else:
 
-                name = _get_name(item)
+                name = _get_name(
+                    item,
+                )
 
                 if name != "unknown":
 
-                    names.append(name)
+                    names.append(
+                        name,
+                    )
 
         return ImportNode(
             module="",
@@ -147,57 +169,74 @@ def normalize_import(node):
         [],
     ):
 
-        if isinstance(item, tuple):
+        if isinstance(
+            item,
+            tuple,
+        ):
 
-            names.append(item[1])
+            names.append(
+                item[1],
+            )
 
         else:
 
-            names.append(_get_name(item))
+            names.append(
+                _get_name(
+                    item,
+                )
+            )
 
     return ImportNode(
         module=module_name,
         names=names,
     )
 
-def normalize_expression(node):
-
-    return ExpressionNode(
-        name=_get_name(node),
-    )
-
 def normalize_function(node):
 
     return FunctionNode(
-        name=_get_name(node),
+        name=_get_name(
+            node,
+        ),
     )
 
 
 def normalize_class(node):
 
     return ClassNode(
-        name=_get_name(node),
+        name=_get_name(
+            node,
+        ),
         bases=[],
-        methods=[],
     )
+
 
 def normalize_variable(node):
 
     return VariableNode(
-        name=_get_name(node),
+        name=_get_name(
+            node,
+        ),
     )
 
-def normalize_struct(node):
 
-    return StructNode(
-        name=_get_name(node),
+def normalize_call(node):
+
+    function = getattr(
+        node,
+        "function",
+        None,
     )
 
-def normalize_enum(node):
-
-    return EnumNode(
-        name=_get_name(node),
+    return CallNode(
+        name=_get_name(
+            function,
+        ),
     )
+
+def normalize_expression(node):
+
+    return ExpressionNode()
+
 
 def normalize_assignment(node):
 
@@ -207,35 +246,65 @@ def normalize_assignment(node):
         None,
     )
 
-    name = _get_name(lhs)
-
     return AssignmentNode(
-        name=name,
+        target=_get_name(
+            lhs,
+        ),
     )
 
-def normalize_extern(node):
 
-    return ExternNode(
-        name=_get_name(node),
+def normalize_struct(node):
+
+    return StructNode(
+        name=_get_name(
+            node,
+        ),
     )
+
+
+def normalize_enum(node):
+
+    return EnumNode(
+        name=_get_name(
+            node,
+        ),
+    )
+
 
 def normalize_typedef(node):
 
     return TypeDefNode(
-        name=_get_name(node),
+        name=_get_name(
+            node,
+        ),
     )
 
 
+def normalize_extern(node):
+
+    return ExternNode(
+        name=_get_name(
+            node,
+        ),
+    )
+
 def normalize_node(node):
 
-    node_type = type(node).__name__
+    node_type = type(
+        node,
+    ).__name__
 
-    if node_type in UNSUPPORTED_CYTHON_NODES:
+    if (
+        node_type
+        in UNSUPPORTED_CYTHON_NODES
+    ):
 
         return None
 
-    normalized_type = CYTHON_TO_NORMALIZED.get(
-        node_type,
+    normalized_type = (
+        CYTHON_TO_NORMALIZED.get(
+            node_type,
+        )
     )
 
     if normalized_type is None:
@@ -246,49 +315,77 @@ def normalize_node(node):
 
         return None
 
+    normalized = None
+
     if normalized_type == "ImportNode":
 
-        normalized = normalize_import(node)
+        normalized = normalize_import(
+            node,
+        )
 
     elif normalized_type == "ClassNode":
 
-        normalized = normalize_class(node)
+        normalized = normalize_class(
+            node,
+        )
 
     elif normalized_type == "FunctionNode":
 
-        normalized = normalize_function(node)
+        normalized = normalize_function(
+            node,
+        )
 
     elif normalized_type == "VariableNode":
 
-        normalized = normalize_variable(node)
+        normalized = normalize_variable(
+            node,
+        )
 
     elif normalized_type == "StructNode":
 
-        normalized = normalize_struct(node)
+        normalized = normalize_struct(
+            node,
+        )
 
     elif normalized_type == "EnumNode":
 
-        normalized = normalize_enum(node)
+        normalized = normalize_enum(
+            node,
+        )
 
     elif normalized_type == "TypeDefNode":
 
-        normalized = normalize_typedef(node)
-
-    elif normalized_type == "ExpressionNode":
-
-        normalized = normalize_expression(node)
+        normalized = normalize_typedef(
+            node,
+        )
 
     elif normalized_type == "ExternNode":
 
-        normalized = normalize_extern(node)
+        normalized = normalize_extern(
+            node,
+        )
 
     elif normalized_type == "AssignmentNode":
 
-        normalized = normalize_assignment(node)
+        normalized = (
+            normalize_assignment(
+                node,
+            )
+        )
 
     elif normalized_type == "CallNode":
 
-        normalized = normalize_call(node)
+        normalized = normalize_call(
+            node,
+        )
+
+    elif normalized_type == "ExpressionNode":
+
+        normalized = (
+            normalize_expression(
+                node,
+            )
+        )
 
     else:
 
@@ -298,26 +395,24 @@ def normalize_node(node):
 
         return None
 
-    for child in get_cython_children(node):
+    for child in get_cython_children(
+        node,
+    ):
 
-        normalized_child = normalize_node(
-            child,
+        normalized_child = (
+            normalize_node(
+                child,
+            )
         )
 
-        if normalized_child is not None:
+        if (
+            normalized_child
+            is not None
+        ):
 
             normalized.children.append(
                 normalized_child,
             )
-
-            if (
-                normalized.node_type == "class"
-                and normalized_child.node_type == "function"
-            ):
-
-                normalized.methods.append(
-                    normalized_child,
-                )
 
     return normalized
 
@@ -339,11 +434,13 @@ def normalize_cython_ast(tree):
 
     for node in stats:
 
-        normalized = normalize_node(node)
+        normalized = normalize_node(
+            node,
+        )
 
         if normalized is not None:
 
-            module.add_child(
+            module.children.append(
                 normalized,
             )
 
