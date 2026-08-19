@@ -4,40 +4,26 @@ import ast
 
 from transpiler_custom.parser.parser import parse_file
 
-IMPORT_NODE_TYPES = {
-    # Python
-    "Import",
-    "ImportFrom",
 
-    # Cython
-    "ImportNode",
-    "CImportStatNode",
-    "FromCImportStatNode",
-}
+python_nodes = Counter()
+cython_nodes = Counter()
 
 
-seen = {}
-counts = Counter()
-pxi_files = []
+def walk(node, counter):
 
+    if node is None:
 
-def walk(node):
+        return
 
     node_type = type(node).__name__
 
-    if node_type in IMPORT_NODE_TYPES:
-
-        counts[node_type] += 1
-
-        if node_type not in seen:
-
-            seen[node_type] = node
+    counter[node_type] += 1
 
     if isinstance(node, ast.AST):
 
         for child in ast.iter_child_nodes(node):
 
-            walk(child)
+            walk(child, counter)
 
         return
 
@@ -51,14 +37,18 @@ def walk(node):
 
                 if hasattr(item, "child_attrs"):
 
-                    walk(item)
+                    walk(item, counter)
 
         elif hasattr(value, "child_attrs"):
 
-            walk(value)
+            walk(value, counter)
 
 
 for path in Path("sklearn").rglob("*"):
+
+    if path.suffix not in {".py", ".pyx", ".pxd"}:
+
+        continue
 
     try:
 
@@ -72,26 +62,24 @@ for path in Path("sklearn").rglob("*"):
 
         continue
 
-    walk(tree)
+    if path.suffix == ".py":
+
+        walk(tree, python_nodes)
+
+    else:
+
+        walk(tree, cython_nodes)
 
 
-print("\n=== IMPORT NODE TYPES ===\n")
+print("\n=== PYTHON NODES ===\n")
 
-for node_type in sorted(seen):
+for node_type, count in sorted(python_nodes.items()):
 
-    print(node_type)
-
-    print(f"count: {counts[node_type]}")
-
-    print(seen[node_type].__dict__.keys())
-
-    print(seen[node_type].__dict__)
-
-    print()
+    print(f"{node_type}: {count}")
 
 
-print("\n=== .pxi ===\n")
+print("\n=== CYTHON NODES ===\n")
 
-for path in sorted(pxi_files):
+for node_type, count in sorted(cython_nodes.items()):
 
-    print(path)
+    print(f"{node_type}: {count}")
