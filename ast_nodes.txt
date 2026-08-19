@@ -1,0 +1,1674 @@
+
+================================================================================
+Module
+================================================================================
+body: list[11]
+type_ignores: list[0]
+
+================================================================================
+Expr
+================================================================================
+col_offset: 0 (int)
+end_col_offset: 48 (int)
+end_lineno: 1 (int)
+lineno: 1 (int)
+value: <ast.Constant object at 0x7e6625eb8ed0> (Constant)
+
+================================================================================
+Constant
+================================================================================
+col_offset: 0 (int)
+end_col_offset: 48 (int)
+end_lineno: 1 (int)
+kind: None (NoneType)
+lineno: 1 (int)
+value: 'All minimum dependencies for scikit-learn.' (str)
+
+================================================================================
+Import
+================================================================================
+col_offset: 0 (int)
+end_col_offset: 15 (int)
+end_lineno: 6 (int)
+lineno: 6 (int)
+names: list[1]
+
+================================================================================
+alias
+================================================================================
+asname: None (NoneType)
+col_offset: 7 (int)
+end_col_offset: 15 (int)
+end_lineno: 6 (int)
+lineno: 6 (int)
+name: 'argparse' (str)
+
+================================================================================
+Assign
+================================================================================
+col_offset: 0 (int)
+end_col_offset: 28 (int)
+end_lineno: 9 (int)
+lineno: 9 (int)
+targets: list[1]
+type_comment: None (NoneType)
+value: <ast.Constant object at 0x7e6625e6ff10> (Constant)
+
+================================================================================
+Name
+================================================================================
+col_offset: 0 (int)
+ctx: <ast.Store object at 0x7e6626ab7ed0> (Store)
+end_col_offset: 17 (int)
+end_lineno: 9 (int)
+id: 'NUMPY_MIN_VERSION' (str)
+lineno: 9 (int)
+
+================================================================================
+Store
+================================================================================
+
+================================================================================
+Dict
+================================================================================
+col_offset: 21 (int)
+end_col_offset: 1 (int)
+end_lineno: 62 (int)
+keys: list[35]
+lineno: 22 (int)
+values: list[35]
+
+================================================================================
+Tuple
+================================================================================
+col_offset: 13 (int)
+ctx: <ast.Load object at 0x7e6626ab7e50> (Load)
+elts: list[2]
+end_col_offset: 50 (int)
+end_lineno: 23 (int)
+lineno: 23 (int)
+
+================================================================================
+Load
+================================================================================
+
+================================================================================
+If
+================================================================================
+body: list[5]
+col_offset: 0 (int)
+end_col_offset: 22 (int)
+end_lineno: 72 (int)
+lineno: 66 (int)
+orelse: list[0]
+test: <ast.Compare object at 0x7e6625e42610> (Compare)
+
+================================================================================
+Compare
+================================================================================
+col_offset: 3 (int)
+comparators: list[1]
+end_col_offset: 25 (int)
+end_lineno: 66 (int)
+left: <ast.Name object at 0x7e6625e425d0> (Name)
+lineno: 66 (int)
+ops: list[1]
+
+================================================================================
+Eq
+================================================================================
+
+================================================================================
+Call
+================================================================================
+args: list[0]
+col_offset: 13 (int)
+end_col_offset: 86 (int)
+end_lineno: 67 (int)
+func: <ast.Attribute object at 0x7e6625e42210> (Attribute)
+keywords: list[1]
+lineno: 67 (int)
+
+================================================================================
+Attribute
+================================================================================
+attr: 'ArgumentParser' (str)
+col_offset: 13 (int)
+ctx: <ast.Load object at 0x7e6626ab7e50> (Load)
+end_col_offset: 36 (int)
+end_lineno: 67 (int)
+lineno: 67 (int)
+value: <ast.Name object at 0x7e6625e421d0> (Name)
+
+================================================================================
+keyword
+================================================================================
+arg: 'description' (str)
+col_offset: 37 (int)
+end_col_offset: 85 (int)
+end_lineno: 67 (int)
+lineno: 67 (int)
+value: <ast.Constant object at 0x7e6625e41d50> (Constant)
+
+================================================================================
+Subscript
+================================================================================
+col_offset: 18 (int)
+ctx: <ast.Load object at 0x7e6626ab7e50> (Load)
+end_col_offset: 53 (int)
+end_lineno: 71 (int)
+lineno: 71 (int)
+slice: <ast.Constant object at 0x7e6625e411d0> (Constant)
+value: <ast.Subscript object at 0x7e6625e41410> (Subscript)
+
+================================================================================
+ImportFrom
+================================================================================
+col_offset: 0 (int)
+end_col_offset: 55 (int)
+end_lineno: 8 (int)
+level: 0 (int)
+lineno: 8 (int)
+module: 'contextlib' (str)
+names: list[1]
+
+================================================================================
+FunctionDef
+================================================================================
+args: <ast.arguments object at 0x7e6625e39cd0> (arguments)
+body: list[3]
+col_offset: 0 (int)
+decorator_list: list[0]
+end_col_offset: 37 (int)
+end_lineno: 33 (int)
+lineno: 28 (int)
+name: '_get_threadlocal_config' (str)
+returns: None (NoneType)
+type_comment: None (NoneType)
+type_params: list[0]
+
+================================================================================
+arguments
+================================================================================
+args: list[0]
+defaults: list[0]
+kw_defaults: list[0]
+kwarg: None (NoneType)
+kwonlyargs: list[0]
+posonlyargs: list[0]
+vararg: None (NoneType)
+
+================================================================================
+UnaryOp
+================================================================================
+col_offset: 7 (int)
+end_col_offset: 49 (int)
+end_lineno: 31 (int)
+lineno: 31 (int)
+op: <ast.Not object at 0x7e6626ac4c10> (Not)
+operand: <ast.Call object at 0x7e6625e39910> (Call)
+
+================================================================================
+Not
+================================================================================
+
+================================================================================
+Return
+================================================================================
+col_offset: 4 (int)
+end_col_offset: 37 (int)
+end_lineno: 33 (int)
+lineno: 33 (int)
+value: <ast.Attribute object at 0x7e6625e391d0> (Attribute)
+
+================================================================================
+arg
+================================================================================
+annotation: None (NoneType)
+arg: 'assume_finite' (str)
+col_offset: 4 (int)
+end_col_offset: 17 (int)
+end_lineno: 65 (int)
+lineno: 65 (int)
+type_comment: None (NoneType)
+
+================================================================================
+IsNot
+================================================================================
+
+================================================================================
+Try
+================================================================================
+body: list[1]
+col_offset: 4 (int)
+end_col_offset: 32 (int)
+end_lineno: 435 (int)
+finalbody: list[1]
+handlers: list[0]
+lineno: 432 (int)
+orelse: list[0]
+
+================================================================================
+Yield
+================================================================================
+col_offset: 8 (int)
+end_col_offset: 13 (int)
+end_lineno: 433 (int)
+lineno: 433 (int)
+value: None (NoneType)
+
+================================================================================
+List
+================================================================================
+col_offset: 10 (int)
+ctx: <ast.Load object at 0x7e6626ab7e50> (Load)
+elts: list[4]
+end_col_offset: 1 (int)
+end_lineno: 56 (int)
+lineno: 51 (int)
+
+================================================================================
+IfExp
+================================================================================
+body: <ast.Dict object at 0x7e6625e55350> (Dict)
+col_offset: 25 (int)
+end_col_offset: 81 (int)
+end_lineno: 71 (int)
+lineno: 71 (int)
+orelse: <ast.Name object at 0x7e6625e552d0> (Name)
+test: <ast.Compare object at 0x7e6625e55390> (Compare)
+
+================================================================================
+Is
+================================================================================
+
+================================================================================
+GeneratorExp
+================================================================================
+col_offset: 22 (int)
+elt: <ast.Call object at 0x7e6625e9a710> (Call)
+end_col_offset: 70 (int)
+end_lineno: 90 (int)
+generators: list[1]
+lineno: 90 (int)
+
+================================================================================
+comprehension
+================================================================================
+ifs: list[0]
+is_async: 0 (int)
+iter: <ast.Attribute object at 0x7e6625e9a310> (Attribute)
+target: <ast.Name object at 0x7e6625e9a3d0> (Name)
+
+================================================================================
+ClassDef
+================================================================================
+bases: list[2]
+body: list[7]
+col_offset: 0 (int)
+decorator_list: list[0]
+end_col_offset: 21 (int)
+end_lineno: 336 (int)
+keywords: list[1]
+lineno: 100 (int)
+name: '_MultiOutputEstimator' (str)
+type_params: list[0]
+
+================================================================================
+AnnAssign
+================================================================================
+annotation: <ast.Name object at 0x7e6625e99310> (Name)
+col_offset: 4 (int)
+end_col_offset: 5 (int)
+end_lineno: 104 (int)
+lineno: 101 (int)
+simple: 1 (int)
+target: <ast.Name object at 0x7e6625e993d0> (Name)
+value: <ast.Dict object at 0x7e6625e99290> (Dict)
+
+================================================================================
+Raise
+================================================================================
+cause: None (NoneType)
+col_offset: 12 (int)
+end_col_offset: 13 (int)
+end_lineno: 165 (int)
+exc: <ast.Call object at 0x7e6625eda790> (Call)
+lineno: 162 (int)
+
+================================================================================
+BoolOp
+================================================================================
+col_offset: 15 (int)
+end_col_offset: 13 (int)
+end_lineno: 178 (int)
+lineno: 176 (int)
+op: <ast.And object at 0x7e6626ac4150> (And)
+values: list[2]
+
+================================================================================
+And
+================================================================================
+
+================================================================================
+Slice
+================================================================================
+col_offset: 18 (int)
+end_col_offset: 19 (int)
+end_lineno: 190 (int)
+lineno: 190 (int)
+lower: None (NoneType)
+step: None (NoneType)
+upper: None (NoneType)
+
+================================================================================
+ListComp
+================================================================================
+col_offset: 24 (int)
+elt: <ast.Attribute object at 0x7e6625e8e050> (Attribute)
+end_col_offset: 78 (int)
+end_lineno: 541 (int)
+generators: list[1]
+lineno: 541 (int)
+
+================================================================================
+NotEq
+================================================================================
+
+================================================================================
+Or
+================================================================================
+
+================================================================================
+Set
+================================================================================
+col_offset: 43 (int)
+elts: list[1]
+end_col_offset: 53 (int)
+end_lineno: 638 (int)
+lineno: 638 (int)
+
+================================================================================
+JoinedStr
+================================================================================
+col_offset: 15 (int)
+end_col_offset: 70 (int)
+end_lineno: 662 (int)
+lineno: 662 (int)
+values: list[6]
+
+================================================================================
+FormattedValue
+================================================================================
+col_offset: 18 (int)
+conversion: -1 (int)
+end_col_offset: 33 (int)
+end_lineno: 662 (int)
+format_spec: None (NoneType)
+lineno: 662 (int)
+value: <ast.Name object at 0x7e6625ee06d0> (Name)
+
+================================================================================
+For
+================================================================================
+body: list[7]
+col_offset: 8 (int)
+end_col_offset: 61 (int)
+end_lineno: 696 (int)
+iter: <ast.Call object at 0x7e6625ee3690> (Call)
+lineno: 675 (int)
+orelse: list[0]
+target: <ast.Tuple object at 0x7e6625ee3490> (Tuple)
+type_comment: None (NoneType)
+
+================================================================================
+Delete
+================================================================================
+col_offset: 8 (int)
+end_col_offset: 24 (int)
+end_lineno: 771 (int)
+lineno: 771 (int)
+targets: list[1]
+
+================================================================================
+Del
+================================================================================
+
+================================================================================
+BinOp
+================================================================================
+col_offset: 30 (int)
+end_col_offset: 43 (int)
+end_lineno: 790 (int)
+left: <ast.Name object at 0x7e6625d0b1d0> (Name)
+lineno: 790 (int)
+op: <ast.Add object at 0x7e6626ac4390> (Add)
+right: <ast.Constant object at 0x7e6625d0b290> (Constant)
+
+================================================================================
+Add
+================================================================================
+
+================================================================================
+With
+================================================================================
+body: list[1]
+col_offset: 12 (int)
+end_col_offset: 17 (int)
+end_lineno: 800 (int)
+items: list[1]
+lineno: 795 (int)
+type_comment: None (NoneType)
+
+================================================================================
+withitem
+================================================================================
+context_expr: <ast.Call object at 0x7e6625d180d0> (Call)
+optional_vars: None (NoneType)
+
+================================================================================
+Lt
+================================================================================
+
+================================================================================
+Sub
+================================================================================
+
+================================================================================
+Gt
+================================================================================
+
+================================================================================
+In
+================================================================================
+
+================================================================================
+ExceptHandler
+================================================================================
+body: list[1]
+col_offset: 8 (int)
+end_col_offset: 79 (int)
+end_lineno: 136 (int)
+lineno: 135 (int)
+name: None (NoneType)
+type: <ast.Name object at 0x7e6625e8bd90> (Name)
+
+================================================================================
+Mult
+================================================================================
+
+================================================================================
+Mod
+================================================================================
+
+================================================================================
+GtE
+================================================================================
+
+================================================================================
+NotIn
+================================================================================
+
+================================================================================
+USub
+================================================================================
+
+================================================================================
+Div
+================================================================================
+
+================================================================================
+Lambda
+================================================================================
+args: <ast.arguments object at 0x7e6625e9a0d0> (arguments)
+body: <ast.Call object at 0x7e6625e9ba10> (Call)
+col_offset: 22 (int)
+end_col_offset: 49 (int)
+end_lineno: 306 (int)
+lineno: 306 (int)
+
+================================================================================
+Starred
+================================================================================
+col_offset: 21 (int)
+ctx: <ast.Load object at 0x7e6626ab7e50> (Load)
+end_col_offset: 26 (int)
+end_lineno: 108 (int)
+lineno: 108 (int)
+value: <ast.Name object at 0x7e6625e56710> (Name)
+
+================================================================================
+BitAnd
+================================================================================
+
+================================================================================
+Continue
+================================================================================
+col_offset: 12 (int)
+end_col_offset: 20 (int)
+end_lineno: 155 (int)
+lineno: 155 (int)
+
+================================================================================
+AugAssign
+================================================================================
+col_offset: 12 (int)
+end_col_offset: 52 (int)
+end_lineno: 164 (int)
+lineno: 164 (int)
+op: <ast.BitOr object at 0x7e6626ac4810> (BitOr)
+target: <ast.Name object at 0x7e6625e40a90> (Name)
+value: <ast.Name object at 0x7e6625e40b50> (Name)
+
+================================================================================
+BitOr
+================================================================================
+
+================================================================================
+Pass
+================================================================================
+col_offset: 8 (int)
+end_col_offset: 12 (int)
+end_lineno: 336 (int)
+lineno: 336 (int)
+
+================================================================================
+FloorDiv
+================================================================================
+
+================================================================================
+LtE
+================================================================================
+
+================================================================================
+Pow
+================================================================================
+
+================================================================================
+MatMult
+================================================================================
+
+================================================================================
+ModuleNode
+================================================================================
+body: <Cython.Compiler.Nodes.StatListNode object at 0x7e66255c3d70> (StatListNode)
+directive_comments: {} (dict)
+doc: None (NoneType)
+full_module_name: '_isotonic' (str)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 1, 0) (tuple)
+
+================================================================================
+StatListNode
+================================================================================
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 8, 0) (tuple)
+stats: list[4]
+
+================================================================================
+SingleAssignmentNode
+================================================================================
+lhs: <Cython.Compiler.ExprNodes.NameNode object at 0x7e66258bef60> (NameNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 8, 7) (tuple)
+rhs: <Cython.Compiler.ExprNodes.ImportNode object at 0x7e6625d7dd90> (ImportNode)
+
+================================================================================
+ImportNode
+================================================================================
+imported_names: None (NoneType)
+is_import_as_name: True (bool)
+level: 0 (int)
+module_name: <Cython.Compiler.ExprNodes.IdentifierStringNode object at 0x7e66258bf980> (IdentifierStringNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 8, 7) (tuple)
+
+================================================================================
+FromCImportStatNode
+================================================================================
+imported_names: list[1]
+module_name: 'cython' (EncodedString)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 9, 0) (tuple)
+relative_level: 0 (int)
+
+================================================================================
+DefNode
+================================================================================
+args: list[2]
+body: <Cython.Compiler.Nodes.StatListNode object at 0x7e66257920c0> (StatListNode)
+decorators: None (NoneType)
+doc: None (NoneType)
+is_async_def: False (bool)
+name: '_inplace_contiguous_isotonic_regression' (EncodedString)
+num_kwonly_args: 0 (int)
+num_posonly_args: 0 (int)
+num_required_args: 2 (int)
+num_required_kw_args: 0 (int)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 12, 0) (tuple)
+return_type_annotation: None (NoneType)
+star_arg: None (NoneType)
+starstar_arg: None (NoneType)
+
+================================================================================
+CArgDeclNode
+================================================================================
+annotation: None (NoneType)
+base_type: <Cython.Compiler.Nodes.MemoryViewSliceTypeNode object at 0x7e66255b70e0> (MemoryViewSliceTypeNode)
+declarator: <Cython.Compiler.Nodes.CNameDeclaratorNode object at 0x7e66255b70b0> (CNameDeclaratorNode)
+default: None (NoneType)
+kw_only: False (bool)
+not_none: False (bool)
+or_none: False (bool)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 12, 44) (tuple)
+
+================================================================================
+MemoryViewSliceTypeNode
+================================================================================
+axes: list[1]
+base_type_node: <Cython.Compiler.Nodes.CSimpleBaseTypeNode object at 0x7e66255b7200> (CSimpleBaseTypeNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 12, 52) (tuple)
+
+================================================================================
+CSimpleBaseTypeNode
+================================================================================
+complex: False (bool)
+is_basic_c_type: False (bool)
+longness: 0 (int)
+module_path: list[0]
+name: 'floating' (EncodedString)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 12, 44) (tuple)
+signed: 1 (int)
+templates: None (NoneType)
+
+================================================================================
+SliceNode
+================================================================================
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 12, 52) (tuple)
+start: <Cython.Compiler.ExprNodes.NoneNode object at 0x7e66255b6ed0> (NoneNode)
+step: <Cython.Compiler.ExprNodes.IntNode object at 0x7e66255b6210> (IntNode)
+stop: <Cython.Compiler.ExprNodes.NoneNode object at 0x7e66255b7590> (NoneNode)
+
+================================================================================
+NoneNode
+================================================================================
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 12, 52) (tuple)
+
+================================================================================
+CNameDeclaratorNode
+================================================================================
+calling_convention: '' (EncodedString)
+cname: None (NoneType)
+default: None (NoneType)
+name: 'y' (EncodedString)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 12, 58) (tuple)
+
+================================================================================
+CVarDefNode
+================================================================================
+api: False (bool)
+base_type: <Cython.Compiler.Nodes.CSimpleBaseTypeNode object at 0x7e66255b7ec0> (CSimpleBaseTypeNode)
+declarators: list[3]
+doc: None (NoneType)
+in_pxd: False (bool)
+modifiers: list[0]
+overridable: False (bool)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 14, 8) (tuple)
+visibility: 'private' (str)
+
+================================================================================
+IndexNode
+================================================================================
+base: <Cython.Compiler.ExprNodes.AttributeNode object at 0x7e66255b7f80> (AttributeNode)
+index: <Cython.Compiler.ExprNodes.IntNode object at 0x7e66255b7fb0> (IntNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 14, 30) (tuple)
+
+================================================================================
+AttributeNode
+================================================================================
+attribute: 'shape' (EncodedString)
+obj: <Cython.Compiler.ExprNodes.NameNode object at 0x7e66255b7f20> (NameNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 14, 24) (tuple)
+
+================================================================================
+GeneralCallNode
+================================================================================
+function: <Cython.Compiler.ExprNodes.AttributeNode object at 0x7e66255b7860> (AttributeNode)
+keyword_args: <Cython.Compiler.ExprNodes.DictNode object at 0x7e66255b4290> (DictNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 16, 42) (tuple)
+positional_args: <Cython.Compiler.ExprNodes.TupleNode object at 0x7e66255b78f0> (TupleNode)
+
+================================================================================
+TupleNode
+================================================================================
+args: list[1]
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 16, 42) (tuple)
+
+================================================================================
+DictNode
+================================================================================
+key_value_pairs: list[1]
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 16, 46) (tuple)
+reject_duplicates: True (bool)
+
+================================================================================
+DictItemNode
+================================================================================
+key: <Cython.Compiler.ExprNodes.IdentifierStringNode object at 0x7e6626950f20> (IdentifierStringNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 16, 46) (tuple)
+value: <Cython.Compiler.ExprNodes.AttributeNode object at 0x7e66255b4bc0> (AttributeNode)
+
+================================================================================
+GILStatNode
+================================================================================
+body: <Cython.Compiler.Nodes.StatListNode object at 0x7e66255aacc0> (StatListNode)
+condition: None (NoneType)
+finally_clause: <Cython.Compiler.Nodes.GILExitNode object at 0x7e66257cb440> (GILExitNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 25, 9) (tuple)
+state: 'nogil' (EncodedString)
+
+================================================================================
+WhileStatNode
+================================================================================
+body: <Cython.Compiler.Nodes.StatListNode object at 0x7e66255abc80> (StatListNode)
+condition: <Cython.Compiler.ExprNodes.PrimaryCmpNode object at 0x7e66255b4140> (PrimaryCmpNode)
+else_clause: None (NoneType)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 27, 8) (tuple)
+
+================================================================================
+PrimaryCmpNode
+================================================================================
+operand1: <Cython.Compiler.ExprNodes.NameNode object at 0x7e66255b41d0> (NameNode)
+operand2: <Cython.Compiler.ExprNodes.NameNode object at 0x7e66255b4110> (NameNode)
+operator: '<' (str)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 27, 16) (tuple)
+
+================================================================================
+AddNode
+================================================================================
+inplace: False (bool)
+operand1: <Cython.Compiler.ExprNodes.IndexNode object at 0x7e66255b4b90> (IndexNode)
+operand2: <Cython.Compiler.ExprNodes.IntNode object at 0x7e66255b4b60> (IntNode)
+operator: '+' (str)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 28, 26) (tuple)
+
+================================================================================
+IfStatNode
+================================================================================
+else_clause: None (NoneType)
+if_clauses: list[1]
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 29, 12) (tuple)
+
+================================================================================
+IfClauseNode
+================================================================================
+body: <Cython.Compiler.Nodes.BreakStatNode object at 0x7e66255b4aa0> (BreakStatNode)
+condition: <Cython.Compiler.ExprNodes.PrimaryCmpNode object at 0x7e66255b4cb0> (PrimaryCmpNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 29, 15) (tuple)
+
+================================================================================
+BreakStatNode
+================================================================================
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 30, 16) (tuple)
+
+================================================================================
+ContinueStatNode
+================================================================================
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 33, 16) (tuple)
+
+================================================================================
+MulNode
+================================================================================
+inplace: False (bool)
+operand1: <Cython.Compiler.ExprNodes.IndexNode object at 0x7e66255b45f0> (IndexNode)
+operand2: <Cython.Compiler.ExprNodes.IndexNode object at 0x7e66255b4920> (IndexNode)
+operator: '*' (str)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 34, 26) (tuple)
+
+================================================================================
+BoolNode
+================================================================================
+constant_result: True (bool)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 36, 18) (tuple)
+value: True (bool)
+
+================================================================================
+InPlaceAssignmentNode
+================================================================================
+lhs: <Cython.Compiler.ExprNodes.NameNode object at 0x7e66255b49b0> (NameNode)
+operator: '+' (str)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 39, 16) (tuple)
+rhs: <Cython.Compiler.ExprNodes.MulNode object at 0x7e66255aaff0> (MulNode)
+
+================================================================================
+BoolBinopNode
+================================================================================
+inplace: False (bool)
+operand1: <Cython.Compiler.ExprNodes.PrimaryCmpNode object at 0x7e66255abad0> (PrimaryCmpNode)
+operand2: <Cython.Compiler.ExprNodes.PrimaryCmpNode object at 0x7e66255ab2f0> (PrimaryCmpNode)
+operator: 'or' (str)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 42, 26) (tuple)
+
+================================================================================
+DivNode
+================================================================================
+inplace: False (bool)
+operand1: <Cython.Compiler.ExprNodes.NameNode object at 0x7e66255ab410> (NameNode)
+operand2: <Cython.Compiler.ExprNodes.NameNode object at 0x7e66255ab650> (NameNode)
+operator: '/' (str)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 45, 34) (tuple)
+truedivision: True (bool)
+
+================================================================================
+SubNode
+================================================================================
+inplace: False (bool)
+operand1: <Cython.Compiler.ExprNodes.NameNode object at 0x7e66255ab890> (NameNode)
+operand2: <Cython.Compiler.ExprNodes.IntNode object at 0x7e66255ab6e0> (IntNode)
+operator: '-' (str)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 47, 34) (tuple)
+
+================================================================================
+SliceIndexNode
+================================================================================
+base: <Cython.Compiler.ExprNodes.NameNode object at 0x7e66255aa9c0> (NameNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 59, 13) (tuple)
+start: <Cython.Compiler.ExprNodes.AddNode object at 0x7e66255aa960> (AddNode)
+stop: <Cython.Compiler.ExprNodes.NameNode object at 0x7e66255aa930> (NameNode)
+
+================================================================================
+GILExitNode
+================================================================================
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 25, 9) (tuple)
+state: 'nogil' (EncodedString)
+state_temp: None (NoneType)
+
+================================================================================
+CConstOrVolatileTypeNode
+================================================================================
+base_type: <Cython.Compiler.Nodes.CSimpleBaseTypeNode object at 0x7e66255aab10> (CSimpleBaseTypeNode)
+is_const: True (bool)
+is_volatile: False (bool)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 63, 17) (tuple)
+
+================================================================================
+SimpleCallNode
+================================================================================
+args: list[1]
+function: <Cython.Compiler.ExprNodes.NameNode object at 0x7e66255c3e00> (NameNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 74, 23) (tuple)
+
+================================================================================
+ForInStatNode
+================================================================================
+body: <Cython.Compiler.Nodes.StatListNode object at 0x7e66255ce750> (StatListNode)
+else_clause: None (NoneType)
+is_async: False (bool)
+iterator: <Cython.Compiler.ExprNodes.IteratorNode object at 0x7e66255cd6a0> (IteratorNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 94, 4) (tuple)
+target: <Cython.Compiler.ExprNodes.NameNode object at 0x7e66255cd340> (NameNode)
+
+================================================================================
+IteratorNode
+================================================================================
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 94, 13) (tuple)
+sequence: <Cython.Compiler.ExprNodes.SimpleCallNode object at 0x7e66255cd670> (SimpleCallNode)
+
+================================================================================
+ReturnStatNode
+================================================================================
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/_isotonic.pyx>, 112, 4) (tuple)
+value: <Cython.Compiler.ExprNodes.TupleNode object at 0x7e66255cf230> (TupleNode)
+
+================================================================================
+Invert
+================================================================================
+
+================================================================================
+DictComp
+================================================================================
+col_offset: 24 (int)
+end_col_offset: 67 (int)
+end_lineno: 1219 (int)
+generators: list[1]
+key: <ast.Name object at 0x7e6625393550> (Name)
+lineno: 1219 (int)
+value: <ast.Name object at 0x7e6625393450> (Name)
+
+================================================================================
+Break
+================================================================================
+col_offset: 16 (int)
+end_col_offset: 21 (int)
+end_lineno: 373 (int)
+lineno: 373 (int)
+
+================================================================================
+CEnumDefNode
+================================================================================
+api: False (bool)
+cname: None (NoneType)
+create_wrapper: True (bool)
+doc: None (NoneType)
+in_pxd: True (bool)
+items: list[2]
+name: 'BLAS_Order' (EncodedString)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_cython_blas.pxd>, 4, 0) (tuple)
+scoped: False (bool)
+typedef_flag: False (bool)
+underlying_type: <Cython.Compiler.Nodes.CSimpleBaseTypeNode object at 0x7e661f97bc80> (CSimpleBaseTypeNode)
+visibility: 'private' (str)
+
+================================================================================
+CEnumDefItemNode
+================================================================================
+cname: None (NoneType)
+name: 'RowMajor' (EncodedString)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_cython_blas.pxd>, 5, 4) (tuple)
+value: None (NoneType)
+
+================================================================================
+CFuncDeclaratorNode
+================================================================================
+args: list[5]
+base: <Cython.Compiler.Nodes.CNameDeclaratorNode object at 0x7e6625ed49e0> (CNameDeclaratorNode)
+exception_check: False (bool)
+exception_value: None (NoneType)
+has_explicit_exc_clause: True (bool)
+has_varargs: False (bool)
+nogil: True (bool)
+overridable: False (bool)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_cython_blas.pxd>, 15, 18) (tuple)
+with_gil: False (bool)
+
+================================================================================
+CPtrDeclaratorNode
+================================================================================
+base: <Cython.Compiler.Nodes.CNameDeclaratorNode object at 0x7e6625ed47d0> (CNameDeclaratorNode)
+calling_convention: '' (EncodedString)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_cython_blas.pxd>, 15, 38) (tuple)
+
+================================================================================
+CTypeDefNode
+================================================================================
+api: False (bool)
+base_type: <Cython.Compiler.Nodes.CSimpleBaseTypeNode object at 0x7e6625ed5ac0> (CSimpleBaseTypeNode)
+declarator: <Cython.Compiler.Nodes.CNameDeclaratorNode object at 0x7e6625ed4440> (CNameDeclaratorNode)
+in_pxd: True (bool)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_bitset.pxd>, 10, 0) (tuple)
+visibility: 'private' (str)
+
+================================================================================
+SizeofVarNode
+================================================================================
+operand: <Cython.Compiler.ExprNodes.NameNode object at 0x7e6625ed6db0> (NameNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_bitset.pxd>, 16, 24) (tuple)
+
+================================================================================
+TemplatedTypeNode
+================================================================================
+base_type_node: <Cython.Compiler.Nodes.CSimpleBaseTypeNode object at 0x7e661d101340> (CSimpleBaseTypeNode)
+keyword_args: <Cython.Compiler.ExprNodes.DictNode object at 0x7e661d101670> (DictNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_bitset.pxd>, 20, 29) (tuple)
+positional_args: list[1]
+
+================================================================================
+CFuncDefNode
+================================================================================
+api: False (bool)
+base_type: <Cython.Compiler.Nodes.CSimpleBaseTypeNode object at 0x7e6625ed72c0> (CSimpleBaseTypeNode)
+body: <Cython.Compiler.Nodes.StatListNode object at 0x7e661d101ac0> (StatListNode)
+declarator: <Cython.Compiler.Nodes.CFuncDeclaratorNode object at 0x7e661d101700> (CFuncDeclaratorNode)
+doc: None (NoneType)
+is_const_method: False (bool)
+modifiers: list[1]
+overridable: False (bool)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_bitset.pxd>, 22, 0) (tuple)
+visibility: 'private' (str)
+
+================================================================================
+IntBinopNode
+================================================================================
+inplace: False (bool)
+operand1: <Cython.Compiler.ExprNodes.IntNode object at 0x7e661d101e20> (IntNode)
+operand2: <Cython.Compiler.ExprNodes.ModNode object at 0x7e661d101eb0> (ModNode)
+operator: '<<' (str)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_bitset.pxd>, 31, 43) (tuple)
+
+================================================================================
+ModNode
+================================================================================
+inplace: False (bool)
+operand1: <Cython.Compiler.ExprNodes.NameNode object at 0x7e661d101e80> (NameNode)
+operand2: <Cython.Compiler.ExprNodes.NameNode object at 0x7e661d101e50> (NameNode)
+operator: '%' (str)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_bitset.pxd>, 31, 51) (tuple)
+
+================================================================================
+SetComp
+================================================================================
+col_offset: 11 (int)
+elt: <ast.Call object at 0x7e662561be50> (Call)
+end_col_offset: 56 (int)
+end_lineno: 429 (int)
+generators: list[1]
+lineno: 429 (int)
+
+================================================================================
+FusedTypeNode
+================================================================================
+name: 'real_numeric' (EncodedString)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/arrayfuncs.pyx>, 10, 0) (tuple)
+types: list[6]
+
+================================================================================
+CondExprNode
+================================================================================
+false_val: <Cython.Compiler.ExprNodes.NameNode object at 0x7e661d1029f0> (NameNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/arrayfuncs.pyx>, 45, 28) (tuple)
+test: <Cython.Compiler.ExprNodes.PrimaryCmpNode object at 0x7e661d102a50> (PrimaryCmpNode)
+true_val: <Cython.Compiler.ExprNodes.NameNode object at 0x7e661d101fd0> (NameNode)
+
+================================================================================
+CascadedCmpNode
+================================================================================
+operand2: <Cython.Compiler.ExprNodes.NameNode object at 0x7e661d102720> (NameNode)
+operator: '<' (str)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/arrayfuncs.pyx>, 47, 21) (tuple)
+
+================================================================================
+SizeofTypeNode
+================================================================================
+base_type: <Cython.Compiler.Nodes.CSimpleBaseTypeNode object at 0x7e661d120830> (CSimpleBaseTypeNode)
+declarator: <Cython.Compiler.Nodes.CNameDeclaratorNode object at 0x7e661d120890> (CNameDeclaratorNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/arrayfuncs.pyx>, 96, 13) (tuple)
+
+================================================================================
+AmpersandNode
+================================================================================
+operand: <Cython.Compiler.ExprNodes.IndexNode object at 0x7e661d120d10> (IndexNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/arrayfuncs.pyx>, 101, 9) (tuple)
+
+================================================================================
+ExprStatNode
+================================================================================
+expr: <Cython.Compiler.ExprNodes.SimpleCallNode object at 0x7e661d1212e0> (SimpleCallNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/arrayfuncs.pyx>, 103, 13) (tuple)
+
+================================================================================
+UnaryMinusNode
+================================================================================
+operand: <Cython.Compiler.ExprNodes.NameNode object at 0x7e661d122090> (NameNode)
+operator: '-' (str)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/arrayfuncs.pyx>, 112, 16) (tuple)
+
+================================================================================
+CClassDefNode
+================================================================================
+api: False (bool)
+as_name: 'IntFloatDict' (EncodedString)
+bases: <Cython.Compiler.ExprNodes.TupleNode object at 0x7e661d103ef0> (TupleNode)
+body: <Cython.Compiler.Nodes.StatListNode object at 0x7e661d102000> (StatListNode)
+check_size: None (NoneType)
+class_name: 'IntFloatDict' (EncodedString)
+doc: None (NoneType)
+in_pxd: True (bool)
+module_name: '' (str)
+objstruct_name: None (NoneType)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_fast_dict.pxd>, 17, 0) (tuple)
+typedef_flag: False (bool)
+typeobj_name: None (NoneType)
+visibility: 'private' (str)
+
+================================================================================
+TypecastNode
+================================================================================
+base_type: <Cython.Compiler.Nodes.CSimpleBaseTypeNode object at 0x7e661cd90380> (CSimpleBaseTypeNode)
+declarator: <Cython.Compiler.Nodes.CNameDeclaratorNode object at 0x7e661cd903b0> (CNameDeclaratorNode)
+operand: <Cython.Compiler.ExprNodes.IntBinopNode object at 0x7e661cd90530> (IntBinopNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_random.pxd>, 26, 15) (tuple)
+typecheck: False (bool)
+
+================================================================================
+CDefExternNode
+================================================================================
+body: <Cython.Compiler.Nodes.StatListNode object at 0x7e661cd921b0> (StatListNode)
+include_file: None (NoneType)
+namespace: None (NoneType)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_openmp_helpers.pxd>, 7, 0) (tuple)
+verbatim_include: '\n    #ifdef _OPENMP\n        #include <omp.h>\n        #define SKLEARN_OPENMP_PARALLELISM_ENABLED 1\n    #else\n        #define SKLEARN_OPENMP_PARALLELISM_ENABLED 0\n        #define omp_lock_t int\n        #define omp_init_lock(l) (void)0\n        #define omp_destroy_lock(l) (void)0\n        #define omp_set_lock(l) (void)0\n        #define omp_unset_lock(l) (void)0\n        #define omp_get_thread_num() 0\n        #define omp_get_max_threads() 1\n    #endif\n    ' (EncodedString)
+
+================================================================================
+CStructOrUnionDefNode
+================================================================================
+api: False (bool)
+attributes: list[0]
+cname: None (NoneType)
+in_pxd: True (bool)
+kind: 'struct' (EncodedString)
+name: 'omp_lock_t' (EncodedString)
+packed: False (bool)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_openmp_helpers.pxd>, 25, 4) (tuple)
+typedef_flag: True (bool)
+visibility: 'extern' (str)
+
+================================================================================
+FromImportStatNode
+================================================================================
+items: list[1]
+module: <Cython.Compiler.ExprNodes.ImportNode object at 0x7e661d102000> (ImportNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_openmp_helpers.pyx>, 2, 0) (tuple)
+
+================================================================================
+RaiseStatNode
+================================================================================
+cause: None (NoneType)
+exc_tb: None (NoneType)
+exc_type: <Cython.Compiler.ExprNodes.SimpleCallNode object at 0x7e661cd2b260> (SimpleCallNode)
+exc_value: None (NoneType)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_openmp_helpers.pyx>, 54, 8) (tuple)
+
+================================================================================
+NotNode
+================================================================================
+operand: <Cython.Compiler.ExprNodes.NameNode object at 0x7e661cd2b0b0> (NameNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_openmp_helpers.pyx>, 56, 7) (tuple)
+
+================================================================================
+TryExceptStatNode
+================================================================================
+body: <Cython.Compiler.Nodes.SingleAssignmentNode object at 0x7e661cd2b6b0> (SingleAssignmentNode)
+else_clause: None (NoneType)
+except_clauses: list[1]
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_openmp_helpers.pyx>, 65, 8) (tuple)
+
+================================================================================
+ExceptClauseNode
+================================================================================
+body: <Cython.Compiler.Nodes.StatListNode object at 0x7e661cd296d0> (StatListNode)
+is_except_as: False (bool)
+pattern: list[1]
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_openmp_helpers.pyx>, 67, 8) (tuple)
+target: None (NoneType)
+
+================================================================================
+Assert
+================================================================================
+col_offset: 4 (int)
+end_col_offset: 39 (int)
+end_lineno: 79 (int)
+lineno: 79 (int)
+msg: None (NoneType)
+test: <ast.Compare object at 0x7e661d1ef8d0> (Compare)
+
+================================================================================
+CImportStatNode
+================================================================================
+as_name: 'cnp' (EncodedString)
+is_absolute: True (bool)
+module_name: 'numpy' (EncodedString)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_vector_sentinel.pxd>, 1, 8) (tuple)
+
+================================================================================
+CythonArrayNode
+================================================================================
+base_type_node: <Cython.Compiler.Nodes.MemoryViewSliceTypeNode object at 0x7e66254c7b00> (MemoryViewSliceTypeNode)
+operand: <Cython.Compiler.ExprNodes.AmpersandNode object at 0x7e66254c7680> (AmpersandNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_typedefs.pyx>, 22, 38) (tuple)
+
+================================================================================
+While
+================================================================================
+body: list[13]
+col_offset: 4 (int)
+end_col_offset: 19 (int)
+end_lineno: 294 (int)
+lineno: 258 (int)
+orelse: list[0]
+test: <ast.Compare object at 0x7e661c9d2710> (Compare)
+
+================================================================================
+NamedExpr
+================================================================================
+col_offset: 12 (int)
+end_col_offset: 49 (int)
+end_lineno: 259 (int)
+lineno: 259 (int)
+target: <ast.Name object at 0x7e661c9d2a10> (Name)
+value: <ast.Call object at 0x7e661c9d2ad0> (Call)
+FAILED: sklearn/utils/_cython_blas.pyx
+CompileError
+
+
+================================================================================
+DecoratorNode
+================================================================================
+decorator: <Cython.Compiler.ExprNodes.NameNode object at 0x7e661cbc9430> (NameNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_vector_sentinel.pyx>, 36, 4) (tuple)
+
+================================================================================
+Global
+================================================================================
+col_offset: 4 (int)
+end_col_offset: 33 (int)
+end_lineno: 189 (int)
+lineno: 189 (int)
+names: list[1]
+
+================================================================================
+CNestedBaseTypeNode
+================================================================================
+base_type: <Cython.Compiler.Nodes.TemplatedTypeNode object at 0x7e661cfa0530> (TemplatedTypeNode)
+name: 'iterator' (EncodedString)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_fast_dict.pyx>, 44, 13) (tuple)
+
+================================================================================
+YieldExprNode
+================================================================================
+arg: <Cython.Compiler.ExprNodes.TupleNode object at 0x7e661ce2adb0> (TupleNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_fast_dict.pyx>, 73, 12) (tuple)
+
+================================================================================
+CascadedAssignmentNode
+================================================================================
+lhs_list: list[2]
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_sorting.pyx>, 130, 16) (tuple)
+rhs: <Cython.Compiler.ExprNodes.IntNode object at 0x7e662557a600> (IntNode)
+
+================================================================================
+ListNode
+================================================================================
+args: list[2]
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/sparsefuncs_fast.pyx>, 26, 22) (tuple)
+
+================================================================================
+PowNode
+================================================================================
+inplace: False (bool)
+operand1: <Cython.Compiler.ExprNodes.IndexNode object at 0x7e662537faa0> (IndexNode)
+operand2: <Cython.Compiler.ExprNodes.IntNode object at 0x7e662537f920> (IntNode)
+operator: '**' (str)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/sparsefuncs_fast.pyx>, 161, 57) (tuple)
+
+================================================================================
+YieldFrom
+================================================================================
+col_offset: 12 (int)
+end_col_offset: 57 (int)
+end_lineno: 740 (int)
+lineno: 740 (int)
+value: <ast.Call object at 0x7e661c876410> (Call)
+
+================================================================================
+ForFromStatNode
+================================================================================
+body: <Cython.Compiler.Nodes.StatListNode object at 0x7e661c884770> (StatListNode)
+bound1: <Cython.Compiler.ExprNodes.NameNode object at 0x7e661c8840e0> (NameNode)
+bound2: <Cython.Compiler.ExprNodes.NameNode object at 0x7e661c884140> (NameNode)
+else_clause: None (NoneType)
+is_async: False (bool)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/utils/_random.pyx>, 214, 4) (tuple)
+relation1: '<=' (str)
+relation2: '<' (str)
+step: None (NoneType)
+target: <Cython.Compiler.ExprNodes.NameNode object at 0x7e661c8840b0> (NameNode)
+
+================================================================================
+UAdd
+================================================================================
+
+================================================================================
+WithStatNode
+================================================================================
+body: <Cython.Compiler.Nodes.StatListNode object at 0x7e661c813350> (StatListNode)
+is_async: False (bool)
+manager: <Cython.Compiler.ExprNodes.GeneralCallNode object at 0x7e661c82fad0> (GeneralCallNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/manifold/_barnes_hut_tsne.pyx>, 126, 16) (tuple)
+target: None (NoneType)
+
+================================================================================
+AssertStatNode
+================================================================================
+condition: <Cython.Compiler.ExprNodes.PrimaryCmpNode object at 0x7e661c6dfa40> (PrimaryCmpNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/manifold/_barnes_hut_tsne.pyx>, 263, 4) (tuple)
+value: None (NoneType)
+
+================================================================================
+NullNode
+================================================================================
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/ensemble/_gradient_boosting.pyx>, 100, 27) (tuple)
+
+================================================================================
+JoinedStrNode
+================================================================================
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/ensemble/_gradient_boosting.pyx>, 190, 29) (tuple)
+values: list[2]
+
+================================================================================
+FormattedValueNode
+================================================================================
+conversion_char: None (NoneType)
+format_spec: None (NoneType)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/ensemble/_gradient_boosting.pyx>, 190, 69) (tuple)
+value: <Cython.Compiler.ExprNodes.SimpleCallNode object at 0x7e661c811280> (SimpleCallNode)
+
+================================================================================
+TryFinallyStatNode
+================================================================================
+body: <Cython.Compiler.Nodes.StatListNode object at 0x7e662552ee10> (StatListNode)
+finally_clause: <Cython.Compiler.Nodes.ExprStatNode object at 0x7e662552ee40> (ExprStatNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/svm/_libsvm.pyx>, 450, 4) (tuple)
+
+================================================================================
+CComplexBaseTypeNode
+================================================================================
+base_type: <Cython.Compiler.Nodes.CSimpleBaseTypeNode object at 0x7e661cd878f0> (CSimpleBaseTypeNode)
+declarator: <Cython.Compiler.Nodes.CPtrDeclaratorNode object at 0x7e661cd84fe0> (CPtrDeclaratorNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/preprocessing/_target_encoder_fast.pyx>, 56, 15) (tuple)
+
+================================================================================
+LambdaNode
+================================================================================
+args: list[1]
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/cluster/_hierarchical_fast.pyx>, 421, 16) (tuple)
+result_expr: <Cython.Compiler.ExprNodes.SimpleCallNode object at 0x7e661ce2ad50> (SimpleCallNode)
+star_arg: None (NoneType)
+starstar_arg: None (NoneType)
+
+================================================================================
+BitXor
+================================================================================
+
+================================================================================
+CArrayDeclaratorNode
+================================================================================
+base: <Cython.Compiler.Nodes.CNameDeclaratorNode object at 0x7e661c888050> (CNameDeclaratorNode)
+dimension: <Cython.Compiler.ExprNodes.IntNode object at 0x7e661c88a570> (IntNode)
+overridable: False (bool)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/tree/_utils.pxd>, 86, 27) (tuple)
+
+================================================================================
+CReferenceDeclaratorNode
+================================================================================
+base: <Cython.Compiler.Nodes.CNameDeclaratorNode object at 0x7e661bff11f0> (CNameDeclaratorNode)
+calling_convention: '' (EncodedString)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/tree/_tree.pyx>, 385, 24) (tuple)
+
+================================================================================
+ComprehensionNode
+================================================================================
+append: <Cython.Compiler.ExprNodes.DictComprehensionAppendNode object at 0x7e661c514890> (DictComprehensionAppendNode)
+loop: <Cython.Compiler.Nodes.ForInStatNode object at 0x7e661c514b90> (ForInStatNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/tree/_tree.pyx>, 1562, 11) (tuple)
+type: <(&PyDict_Type)> (BuiltinTypeConstructorObjectType)
+
+================================================================================
+StarredUnpackingNode
+================================================================================
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/tree/_tree.pyx>, 1562, 40) (tuple)
+target: <Cython.Compiler.ExprNodes.NameNode object at 0x7e661c514920> (NameNode)
+
+================================================================================
+DictComprehensionAppendNode
+================================================================================
+key_expr: <Cython.Compiler.ExprNodes.NameNode object at 0x7e661c514770> (NameNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/tree/_tree.pyx>, 1562, 12) (tuple)
+value_expr: <Cython.Compiler.ExprNodes.AttributeNode object at 0x7e661c514800> (AttributeNode)
+
+================================================================================
+PassStatNode
+================================================================================
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/tree/_splitter.pyx>, 111, 8) (tuple)
+
+================================================================================
+CTupleBaseTypeNode
+================================================================================
+components: list[2]
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/linear_model/_cd_fast.pyx>, 208, 5) (tuple)
+
+================================================================================
+ComprehensionAppendNode
+================================================================================
+expr: <Cython.Compiler.ExprNodes.SimpleCallNode object at 0x7e661c2af680> (SimpleCallNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/datasets/_svmlight_format_fast.pyx>, 69, 25) (tuple)
+
+================================================================================
+GeneratorExpressionNode
+================================================================================
+call_parameters: list[0]
+loop: <Cython.Compiler.Nodes.ForInStatNode object at 0x7e661c850ef0> (ForInStatNode)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/datasets/_svmlight_format_fast.pyx>, 237, 58) (tuple)
+
+================================================================================
+Nonlocal
+================================================================================
+col_offset: 16 (int)
+end_col_offset: 32 (int)
+end_lineno: 1126 (int)
+lineno: 1126 (int)
+names: list[1]
+
+================================================================================
+PyClassDefNode
+================================================================================
+bases: <Cython.Compiler.ExprNodes.TupleNode object at 0x7e661c2372c0> (TupleNode)
+body: <Cython.Compiler.Nodes.StatListNode object at 0x7e661cd13c20> (StatListNode)
+class_cell: <Cython.Compiler.ExprNodes.ClassCellInjectorNode object at 0x7e661cd11370> (ClassCellInjectorNode)
+classobj: <Cython.Compiler.ExprNodes.Py3ClassNode object at 0x7e661cd10bf0> (Py3ClassNode)
+decorators: None (NoneType)
+dict: <Cython.Compiler.ExprNodes.PyClassNamespaceNode object at 0x7e661cd10320> (PyClassNamespaceNode)
+doc: 'Pure data class to store information about a potential split.\n\n    Parameters\n    ----------\n    gain : float\n        The gain of the split.\n    feature_idx : int\n        The index of the feature to be split.\n    bin_idx : int\n        The index of the bin on which the split is made. Should be ignored if\n        `is_categorical` is True: `left_cat_bitset` will be used to determine\n        the split.\n    missing_go_to_left : bool\n        Whether missing values should go to the left child. This is used\n        whether the split is categorical or not.\n    sum_gradient_left : float\n        The sum of the gradients of all the samples in the left child.\n    sum_hessian_left : float\n        The sum of the hessians of all the samples in the left child.\n    sum_gradient_right : float\n        The sum of the gradients of all the samples in the right child.\n    sum_hessian_right : float\n        The sum of the hessians of all the samples in the right child.\n    n_samples_left : int, default=0\n        The number of samples in the left child.\n    n_samples_right : int\n        The number of samples in the right child.\n    is_categorical : bool\n        Whether the split is done on a categorical feature.\n    left_cat_bitset : ndarray of shape=(8,), dtype=uint32 or None\n        Bitset representing the categories that go to the left. This is used\n        only when `is_categorical` is True.\n        Note that missing values are part of that bitset if there are missing\n        values in the training data. For missing values, we rely on that\n        bitset for splitting, but at prediction time, we rely on\n        missing_go_to_left.\n    ' (EncodedString)
+doc_node: <Cython.Compiler.ExprNodes.NameNode object at 0x7e661c2342c0> (NameNode)
+name: 'SplitInfo' (EncodedString)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/ensemble/_hist_gradient_boosting/splitting.pyx>, 54, 0) (tuple)
+target: <Cython.Compiler.ExprNodes.NameNode object at 0x7e661cd11e20> (NameNode)
+
+================================================================================
+PyClassNamespaceNode
+================================================================================
+class_def_node: <Cython.Compiler.Nodes.PyClassDefNode object at 0x7e661c237950> (PyClassDefNode)
+doc: <Cython.Compiler.ExprNodes.UnicodeNode object at 0x7e661c234a70> (UnicodeNode)
+name: 'SplitInfo' (EncodedString)
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/ensemble/_hist_gradient_boosting/splitting.pyx>, 54, 0) (tuple)
+
+================================================================================
+ClassCellInjectorNode
+================================================================================
+pos: (<FileSourceDescriptor:/home/anupam/Anupam/sklearn_compile/sklearn/ensemble/_hist_gradient_boosting/splitting.pyx>, 54, 0) (tuple)
+
+================================================================================
+LShift
+================================================================================
+
+
+================================================================================
+PYTHON NODE COUNTS
+================================================================================
+Load: 397793
+Name: 317752
+Constant: 153295
+Call: 96733
+Attribute: 93391
+Store: 73283
+Assign: 54143
+keyword: 45633
+List: 25316
+arg: 24536
+Expr: 21879
+Tuple: 18970
+Subscript: 15311
+Compare: 15238
+BinOp: 12253
+alias: 11516
+arguments: 11468
+FunctionDef: 11204
+If: 9898
+Eq: 7978
+Assert: 7805
+UnaryOp: 6416
+Return: 5577
+ImportFrom: 4780
+USub: 4600
+Slice: 4171
+Add: 3729
+Mult: 3546
+withitem: 3008
+Dict: 3003
+With: 3003
+For: 2505
+Sub: 2278
+FormattedValue: 2106
+BoolOp: 1848
+Div: 1687
+Raise: 1663
+Not: 1620
+Import: 1514
+comprehension: 1469
+Is: 1460
+JoinedStr: 1364
+AugAssign: 1320
+And: 1310
+Gt: 1091
+IsNot: 1068
+In: 1048
+ClassDef: 973
+ListComp: 896
+IfExp: 835
+Lt: 831
+NotEq: 785
+Module: 654
+Pow: 611
+Set: 569
+Mod: 566
+BitOr: 559
+Or: 538
+Starred: 418
+AnnAssign: 413
+LtE: 412
+GeneratorExp: 409
+GtE: 365
+MatMult: 345
+Try: 338
+NotIn: 336
+ExceptHandler: 323
+Yield: 290
+Lambda: 264
+Pass: 206
+FloorDiv: 203
+Continue: 158
+Invert: 144
+Break: 118
+DictComp: 117
+Del: 82
+Delete: 75
+While: 57
+UAdd: 52
+BitAnd: 43
+SetComp: 15
+NamedExpr: 15
+YieldFrom: 8
+Nonlocal: 6
+BitXor: 4
+Global: 2
+LShift: 2
+
+
+================================================================================
+CYTHON NODE COUNTS
+================================================================================
+NameNode: 16955
+CNameDeclaratorNode: 5438
+CSimpleBaseTypeNode: 5159
+AttributeNode: 3544
+IntNode: 3314
+NoneNode: 3045
+IndexNode: 2766
+CArgDeclNode: 2664
+SingleAssignmentNode: 2303
+CVarDefNode: 2169
+SimpleCallNode: 1890
+StatListNode: 1408
+SliceNode: 1240
+MemoryViewSliceTypeNode: 1015
+PrimaryCmpNode: 915
+TupleNode: 913
+IfClauseNode: 863
+IfStatNode: 807
+IdentifierStringNode: 741
+DictItemNode: 683
+CConstOrVolatileTypeNode: 590
+CPtrDeclaratorNode: 580
+CFuncDeclaratorNode: 505
+ExprStatNode: 502
+AmpersandNode: 482
+DictNode: 458
+InPlaceAssignmentNode: 449
+ForInStatNode: 442
+IteratorNode: 442
+UnicodeNode: 438
+MulNode: 423
+AddNode: 412
+ReturnStatNode: 391
+SubNode: 355
+GeneralCallNode: 327
+TypecastNode: 287
+CFuncDefNode: 281
+FloatNode: 281
+FromCImportStatNode: 237
+DefNode: 191
+DivNode: 188
+BoolBinopNode: 152
+BoolNode: 135
+TemplatedTypeNode: 114
+NullNode: 94
+CondExprNode: 84
+ModuleNode: 74
+WhileStatNode: 74
+RaiseStatNode: 74
+NotNode: 72
+ImportNode: 71
+SliceIndexNode: 66
+CClassDefNode: 60
+GILStatNode: 57
+GILExitNode: 57
+SizeofVarNode: 57
+ContinueStatNode: 47
+ModNode: 47
+UnaryMinusNode: 43
+BreakStatNode: 36
+PowNode: 36
+ListNode: 35
+CStructOrUnionDefNode: 33
+FromImportStatNode: 32
+FormattedValueNode: 29
+CTypeDefNode: 27
+JoinedStrNode: 25
+CEnumDefItemNode: 22
+CDefExternNode: 22
+DecoratorNode: 22
+CImportStatNode: 20
+FusedTypeNode: 19
+CNestedBaseTypeNode: 19
+IntBinopNode: 17
+ComprehensionNode: 16
+SizeofTypeNode: 15
+AssertStatNode: 14
+CEnumDefNode: 12
+ComprehensionAppendNode: 11
+CComplexBaseTypeNode: 10
+PassStatNode: 9
+WithStatNode: 8
+CArrayDeclaratorNode: 7
+CascadedCmpNode: 5
+CascadedAssignmentNode: 5
+DictComprehensionAppendNode: 5
+TryFinallyStatNode: 4
+CTupleBaseTypeNode: 4
+CReferenceDeclaratorNode: 3
+CythonArrayNode: 2
+GeneratorExpressionNode: 2
+TryExceptStatNode: 1
+ExceptClauseNode: 1
+YieldExprNode: 1
+ForFromStatNode: 1
+LambdaNode: 1
+StarredUnpackingNode: 1
+BytesNode: 1
+PyClassDefNode: 1
+PyClassNamespaceNode: 1
+ClassCellInjectorNode: 1

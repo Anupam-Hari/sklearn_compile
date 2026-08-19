@@ -89,39 +89,39 @@ def find_symbol_files(
                 import_node
             )
 
-            print(
-                "\nFOLLOWING RE-EXPORT:"
-            )
+            # print(
+            #     "\nFOLLOWING RE-EXPORT:"
+            # )
 
-            print(
-                "CURRENT FILE:",
-                module_file,
-            )
+            # print(
+            #     "CURRENT FILE:",
+            #     module_file,
+            # )
 
-            print(
-                "IMPORT:",
-                import_node.module,
-            )
+            # print(
+            #     "IMPORT:",
+            #     import_node.module,
+            # )
 
-            print(
-                "LEVEL:",
-                import_node.level,
-            )
+            # print(
+            #     "LEVEL:",
+            #     import_node.level,
+            # )
 
-            print(
-                "RESOLVED MODULE:",
-                module,
-            )
+            # print(
+            #     "RESOLVED MODULE:",
+            #     module,
+            # )
 
             next_module_file = find_module_file(
                 module,
                 import_node.is_cimport,
             )
 
-            print(
-                "NEXT FILE:",
-                next_module_file,
-            )
+            # print(
+            #     "NEXT FILE:",
+            #     next_module_file,
+            # )
 
             files.update(
                 find_symbol_files(
@@ -153,12 +153,12 @@ def resolve_import(import_node: ImportNode,) -> ResolvedImportNode:
         and not symbol_files
     ):
 
-        print(
-            "\nUNRESOLVED:",
-            import_node.module,
-            import_node.symbols,
-            module_file,
-        )
+        # print(
+        #     "\nUNRESOLVED:",
+        #     import_node.module,
+        #     import_node.symbols,
+        #     module_file,
+        # )
 
         try:
 
@@ -174,29 +174,29 @@ def resolve_import(import_node: ImportNode,) -> ResolvedImportNode:
                             module_file,
                         )
 
-            print("\nAVAILABLE SYMBOLS:\n")
+            # print("\nAVAILABLE SYMBOLS:\n")
 
-            for symbol in symbols:
+            # for symbol in symbols:
 
-                print(
-                    f"{symbol.kind:<20}"
-                    f"{symbol.name}"
-                )
+            #     print(
+            #         f"{symbol.kind:<20}"
+            #         f"{symbol.name}"
+            #     )
 
-            print("\nAVAILABLE IMPORTS:\n")
+            # print("\nAVAILABLE IMPORTS:\n")
 
-            for imp in imports:
+            # for imp in imports:
 
-                print(
-                    imp.module,
-                    imp.symbols,
-                )
+            #     print(
+            #         imp.module,
+            #         imp.symbols,
+            #     )
 
         except Exception as e:
 
             print("\nFAILED TO PARSE:", e)
 
-        print("\n" + "=" * 80)
+        # print("\n" + "=" * 80)
 
     return ResolvedImportNode(
         original=import_node,
