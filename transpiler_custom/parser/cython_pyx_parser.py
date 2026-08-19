@@ -7,7 +7,7 @@ from Cython.Compiler.Main import (
     default_options,
 )
 from Cython.Compiler.Scanning import FileSourceDescriptor
-from parser.utils import path_to_module
+from transpiler_custom.parser.utils import path_to_module
 
 SKLEARN_ROOT = Path("sklearn").resolve()
 
