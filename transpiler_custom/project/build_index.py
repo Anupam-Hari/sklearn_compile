@@ -14,10 +14,11 @@ from transpiler_custom.resolver.import_resolver import (
 parsed_files = 0
 resolved_files = 0
 parse_errors = 0
+unresolved_symbols = 0
 
 def build_index(entry_file: str | Path):
 
-    global parsed_files, resolved_files, parse_errors
+    global parsed_files, resolved_files, parse_errors, unresolved_symbols
 
     entry_file = Path(entry_file)
 
@@ -62,12 +63,23 @@ def build_index(entry_file: str | Path):
 
                 continue
 
-            #resolved_files+=1
-            if resolved.module_file not in discovered:
+            next_files = []
 
-                queue.append(
+            if resolved.original.symbols:
+
+                next_files = resolved.symbol_files
+
+            elif resolved.module_file:
+
+                next_files = [
                     resolved.module_file,
-                )
+                ]
+
+            for file in next_files:
+
+                if file not in discovered:
+
+                    queue.append(file)
 
     return sorted(discovered)
 

@@ -10,3 +10,17 @@ class SymbolNode:
     kind: str
 
     source_file: Path
+
+    parent_name: str | None = None
+
+    parent_kind: str | None = None
+
+
+@dataclass
+class ResolvedSymbolNode:
+
+    original: SymbolNode
+
+    resolved_file: Path
+
+    external: bool

@@ -3,9 +3,9 @@ from __future__ import annotations
 import ast
 from pathlib import Path
 
-from parser.python_parser import parse_python_file
-from parser.cython_pxd_parser import parse_cython_pxd
-from parser.cython_pyx_parser import parse_cython_pyx
+from transpiler_custom.parser.python_parser import parse_python_file
+from transpiler_custom.parser.cython_pxd_parser import parse_cython_pxd
+from transpiler_custom.parser.cython_pyx_parser import parse_cython_pyx
 
 
 ROOT = Path(

@@ -5,11 +5,50 @@ import ast
 from transpiler_custom.parser.parser import parse_file
 
 
+PYTHON_TARGETS = {
+    # "Name",
+    # "Attribute",
+    # "Call",
+}
+
+CYTHON_TARGETS = {
+    "CVarDefNode",
+    # "AttributeNode",
+    # "SimpleCallNode",
+    # "GeneralCallNode",
+}
+
+
 python_nodes = Counter()
 cython_nodes = Counter()
 
+printed_nodes = set()
 
-def walk(node, counter):
+
+def print_node_details(node):
+
+    node_type = type(node).__name__
+
+    if node_type in printed_nodes:
+
+        return
+
+    printed_nodes.add(node_type)
+
+    print("\n" + "=" * 80)
+
+    print(node_type)
+
+    print()
+
+    for key, value in sorted(node.__dict__.items()):
+
+        print(f"{key}: {value}")
+
+    print()
+
+
+def walk(node, counter, targets):
 
     if node is None:
 
@@ -19,34 +58,68 @@ def walk(node, counter):
 
     counter[node_type] += 1
 
+    if node_type in targets:
+
+        print_node_details(node)
+
     if isinstance(node, ast.AST):
 
         for child in ast.iter_child_nodes(node):
 
-            walk(child, counter)
+            walk(
+                child,
+                counter,
+                targets,
+            )
 
         return
 
-    for child_attr in getattr(node, "child_attrs", ()):
+    for child_attr in getattr(
+        node,
+        "child_attrs",
+        (),
+    ):
 
-        value = getattr(node, child_attr, None)
+        value = getattr(
+            node,
+            child_attr,
+            None,
+        )
 
         if isinstance(value, list):
 
             for item in value:
 
-                if hasattr(item, "child_attrs"):
+                if hasattr(
+                    item,
+                    "child_attrs",
+                ):
 
-                    walk(item, counter)
+                    walk(
+                        item,
+                        counter,
+                        targets,
+                    )
 
-        elif hasattr(value, "child_attrs"):
+        elif hasattr(
+            value,
+            "child_attrs",
+        ):
 
-            walk(value, counter)
+            walk(
+                value,
+                counter,
+                targets,
+            )
 
 
 for path in Path("sklearn").rglob("*"):
 
-    if path.suffix not in {".py", ".pyx", ".pxd"}:
+    if path.suffix not in {
+        ".py",
+        ".pyx",
+        ".pxd",
+    }:
 
         continue
 
@@ -64,22 +137,16 @@ for path in Path("sklearn").rglob("*"):
 
     if path.suffix == ".py":
 
-        walk(tree, python_nodes)
+        walk(
+            tree,
+            python_nodes,
+            PYTHON_TARGETS,
+        )
 
     else:
 
-        walk(tree, cython_nodes)
-
-
-print("\n=== PYTHON NODES ===\n")
-
-for node_type, count in sorted(python_nodes.items()):
-
-    print(f"{node_type}: {count}")
-
-
-print("\n=== CYTHON NODES ===\n")
-
-for node_type, count in sorted(cython_nodes.items()):
-
-    print(f"{node_type}: {count}")
+        walk(
+            tree,
+            cython_nodes,
+            CYTHON_TARGETS,
+        )

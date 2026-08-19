@@ -6,9 +6,9 @@ PYTHON_SYMBOLS = {
 
     "FunctionDef": "FunctionNode",
 
-    # "Assign": "AssignmentNode",
+    "Assign": "AssignmentNode",
 
-    # "AnnAssign": "AssignmentNode",
+    "AnnAssign": "AssignmentNode",
 
 }
 
