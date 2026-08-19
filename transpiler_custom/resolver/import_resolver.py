@@ -81,7 +81,7 @@ def find_symbol_files(
         # Symbol re-exported from another file
         for import_node in imports:
 
-            if symbol_name not in import_node.symbols:
+            if symbol_name not in import_node.symbols and "*" not in import_node.symbols:
 
                 continue
 
@@ -89,9 +89,38 @@ def find_symbol_files(
                 import_node
             )
 
+            print(
+                "\nFOLLOWING RE-EXPORT:"
+            )
+
+            print(
+                "CURRENT FILE:",
+                module_file,
+            )
+
+            print(
+                "IMPORT:",
+                import_node.module,
+            )
+
+            print(
+                "LEVEL:",
+                import_node.level,
+            )
+
+            print(
+                "RESOLVED MODULE:",
+                module,
+            )
+
             next_module_file = find_module_file(
                 module,
                 import_node.is_cimport,
+            )
+
+            print(
+                "NEXT FILE:",
+                next_module_file,
             )
 
             files.update(
@@ -123,12 +152,51 @@ def resolve_import(import_node: ImportNode,) -> ResolvedImportNode:
         and import_node.symbols
         and not symbol_files
     ):
+
         print(
-            "UNRESOLVED:",
+            "\nUNRESOLVED:",
             import_node.module,
             import_node.symbols,
             module_file,
         )
+
+        try:
+
+            tree = parse_file(module_file)
+
+            symbols = normalize_symbols(
+                tree,
+                module_file,
+            )
+
+            imports = normalize_imports(
+                            tree,
+                            module_file,
+                        )
+
+            print("\nAVAILABLE SYMBOLS:\n")
+
+            for symbol in symbols:
+
+                print(
+                    f"{symbol.kind:<20}"
+                    f"{symbol.name}"
+                )
+
+            print("\nAVAILABLE IMPORTS:\n")
+
+            for imp in imports:
+
+                print(
+                    imp.module,
+                    imp.symbols,
+                )
+
+        except Exception as e:
+
+            print("\nFAILED TO PARSE:", e)
+
+        print("\n" + "=" * 80)
 
     return ResolvedImportNode(
         original=import_node,
@@ -139,7 +207,9 @@ def resolve_import(import_node: ImportNode,) -> ResolvedImportNode:
     )
 
 
-def resolve_module_name(import_node: ImportNode) -> str:
+def resolve_module_name(
+    import_node: ImportNode,
+) -> str:
 
     if import_node.level == 0:
 
@@ -149,12 +219,21 @@ def resolve_module_name(import_node: ImportNode) -> str:
 
     package = source.parent.parts
 
-    prefix = package[:-import_node.level]
+    if source.stem == "__init__":
+
+        prefix = package[: -(import_node.level - 1)]
+
+    else:
+
+        prefix = package[: -import_node.level]
 
     if import_node.module:
 
         return ".".join(
-            (*prefix, *import_node.module.split("."))
+            (
+                *prefix,
+                *import_node.module.split("."),
+            )
         )
 
     return ".".join(prefix)

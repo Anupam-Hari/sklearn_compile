@@ -83,6 +83,7 @@ def normalize_symbols(tree, source_file):
             )
 
             entered_parent = True
+            
 
         elif node_type in CYTHON_PARENTS:
 
@@ -177,6 +178,34 @@ def normalize_python_symbol(
             parent_kind=parent_kind,
         )
 
+    if isinstance(node, ast.Assign):
+
+        if len(node.targets) == 1:
+
+            target = node.targets[0]
+
+            if isinstance(target, ast.Name):
+
+                return SymbolNode(
+                    name=target.id,
+                    kind="AssignmentNode",
+                    source_file=source_file,
+                    parent_name=parent_name,
+                    parent_kind=parent_kind,
+                )
+
+    if isinstance(node, ast.AnnAssign):
+
+        if isinstance(node.target, ast.Name):
+
+            return SymbolNode(
+                name=node.target.id,
+                kind="AssignmentNode",
+                source_file=source_file,
+                parent_name=parent_name,
+                parent_kind=parent_kind,
+            )
+
     return None
 
 def normalize_cython_symbol(
@@ -216,10 +245,14 @@ def normalize_cython_symbol(
     if node_type == "CTypeDefNode":
 
         name = getattr(
-            node.declarator,
+            node.declarator.name,
             "name",
             None,
         )
+        # print(
+        #     node_type,
+        #     node.declarator.__dict__,
+        # )
 
         if name:
 
@@ -239,25 +272,49 @@ def normalize_cython_symbol(
 
         for declarator in node.declarators:
 
-            name = getattr(
-                declarator,
-                "name",
-                None,
-            )
-
-            if name:
+            if hasattr(declarator, "name"):
 
                 symbols.append(
                     SymbolNode(
-                        name=name,
-                        kind="VariableNode",
+                        name=declarator.name,
+                        kind=CYTHON_SYMBOLS[node_type],
                         source_file=source_file,
                         parent_name=parent_name,
                         parent_kind=parent_kind,
                     )
                 )
 
+            elif hasattr(declarator, "base"):
+
+                base = declarator
+
+                while hasattr(base, "base"):
+
+                    base = base.base
+
+                if hasattr(base, "name"):
+
+                    symbols.append(
+                        SymbolNode(
+                            name=base.name,
+                            kind=CYTHON_SYMBOLS[node_type],
+                            source_file=source_file,
+                            parent_name=parent_name,
+                            parent_kind=parent_kind,
+                        )
+                    )
+
         return symbols
+
+    if node_type == "CFuncDefNode":
+
+        declarator = node.declarator
+
+        while hasattr(declarator, "base"):
+
+            declarator = declarator.base
+
+        name = declarator.name
 
     name = getattr(
         node,

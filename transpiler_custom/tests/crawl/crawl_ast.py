@@ -12,10 +12,9 @@ PYTHON_TARGETS = {
 }
 
 CYTHON_TARGETS = {
-    "CVarDefNode",
-    # "AttributeNode",
-    # "SimpleCallNode",
-    # "GeneralCallNode",
+    # "CTypeDefNode",
+    # "CVarDefNode",
+    "CFuncDefNode",
 }
 
 
@@ -61,6 +60,7 @@ def walk(node, counter, targets):
     if node_type in targets:
 
         print_node_details(node)
+        print(node.declarator.base.__dict__)
 
     if isinstance(node, ast.AST):
 

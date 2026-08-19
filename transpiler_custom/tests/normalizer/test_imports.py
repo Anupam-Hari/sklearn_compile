@@ -5,9 +5,9 @@ from transpiler_custom.normalizer.normalize_imports import normalize_imports
 
 
 FILES = [
-    Path("sklearn/ensemble/_forest.py"),
-    Path("sklearn/tree/_tree.pyx"),
-    Path("sklearn/tree/_tree.pxd"),
+    Path("sklearn/externals/array_api_compat/common/__init__.py"),
+    # Path("sklearn/tree/_tree.pyx"),
+    # Path("sklearn/tree/_tree.pxd"),
 ]
 
 
