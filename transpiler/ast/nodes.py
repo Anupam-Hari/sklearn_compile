@@ -9,10 +9,10 @@ from dataclasses import dataclass, field
 
 @dataclass
 class ASTNode:
-    node_type: str
-    name: str | None = None
-    attributes: dict = field(default_factory=dict)
-    children: list["ASTNode"] = field(default_factory=list)
+
+    children: list["ASTNode"] = field(
+        default_factory=list,
+    )
 
 
 class TypedNode(ASTNode):
@@ -83,6 +83,7 @@ class ImportNode(TypedNode):
         self.names = names or []
         self.level = level
 
+    pass
 
 class ImportAliasNode(TypedNode):
 

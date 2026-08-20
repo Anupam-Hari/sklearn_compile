@@ -487,7 +487,6 @@ def normalize_function(node):
         parameters=[],
     )
 
-
 def normalize_class(node):
 
     bases = []
@@ -507,7 +506,70 @@ def normalize_class(node):
     return ClassNode(
         name=node.name,
         bases=bases,
-        methods=[],
+    )
+
+def normalize_literal(node):
+
+    return LiteralNode(
+        value=getattr(
+            node,
+            "value",
+            None,
+        ),
+    )
+
+def normalize_assignment(node):
+
+    target = None
+
+    if isinstance(node, ast.Assign):
+
+        if node.targets:
+
+            try:
+
+                target = ast.unparse(
+                    node.targets[0],
+                )
+
+            except Exception:
+
+                pass
+
+    elif isinstance(node, ast.AnnAssign):
+
+        try:
+
+            target = ast.unparse(
+                node.target,
+            )
+
+        except Exception:
+
+            pass
+
+    elif isinstance(node, ast.AugAssign):
+
+        try:
+
+            target = ast.unparse(
+                node.target,
+            )
+
+        except Exception:
+
+            pass
+
+    value = None
+    if node.value is not None:
+
+        value = normalize_node(
+            node.value,
+        )
+
+    return AssignmentNode(
+        target=target,
+        value=value,
     )
 
 def normalize_variable(node):
@@ -516,19 +578,15 @@ def normalize_variable(node):
         name=node.id,
     )
 
-def normalize_constant(node):
+def normalize_literal(node):
 
-    value = getattr(
-        node,
-        "value",
-        None,
+    return LiteralNode(
+        value=getattr(
+            node,
+            "value",
+            None,
+        ),
     )
-
-    return ConstantNode(
-        name=str(value),
-        value=value,
-    )
-
 def normalize_struct(node):
 
     return StructNode(
@@ -550,6 +608,12 @@ def normalize_typedef(node):
 def normalize_node(node):
 
     node_type = type(node).__name__
+    print(
+        node_type,
+        PYTHON_TO_NORMALIZED.get(
+            node_type,
+        ),
+    )
 
     normalized_name = PYTHON_TO_NORMALIZED.get(node_type)
 
@@ -572,6 +636,35 @@ def normalize_node(node):
     for child in get_python_children(node):
 
         normalized_child = normalize_node(child)
+
+        if isinstance(
+            normalized,
+            ReturnNode,
+        ):
+
+            return normalized
+
+        if isinstance(
+            normalized,
+            (
+                ReturnNode,
+                BinaryOperationNode,
+            ),
+        ):
+
+            return normalized
+
+        if isinstance(
+            normalized,
+            (
+                ReturnNode,
+                BinaryOperationNode,
+                AssignmentNode,
+                CallNode,
+            ),
+        ):
+
+            return normalized
 
         if normalized_child is not None:
 

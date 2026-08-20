@@ -14,26 +14,44 @@ def get_cython_children(node):
 
     children = []
 
-    if not hasattr(node, "__dict__"):
+    if not hasattr(
+        node,
+        "__dict__",
+    ):
 
         return children
 
-    for value in vars(node).values():
+    for value in vars(
+        node,
+    ).values():
 
-        if hasattr(value, "__dict__"):
+        if hasattr(
+            value,
+            "__dict__",
+        ):
 
-            children.append(value)
+            children.append(
+                value,
+            )
 
         elif isinstance(
             value,
-            (list, tuple),
+            (
+                list,
+                tuple,
+            ),
         ):
 
             for item in value:
 
-                if hasattr(item, "__dict__"):
+                if hasattr(
+                    item,
+                    "__dict__",
+                ):
 
-                    children.append(item)
+                    children.append(
+                        item,
+                    )
 
     return children
 
@@ -41,6 +59,10 @@ def safe_unparse(node):
 
     if node is None:
         return None
+
+    if node is None:
+
+        return "unknown"
 
     for attr in (
         "name",
@@ -50,12 +72,21 @@ def safe_unparse(node):
         "id",
     ):
 
-        value = getattr(node, attr, None)
+        value = getattr(
+            node,
+            attr,
+            None,
+        )
 
         if value:
+
             return value
 
-    declarator = getattr(node, "declarator", None)
+    declarator = getattr(
+        node,
+        "declarator",
+        None,
+    )
 
     if declarator is not None:
 
@@ -63,12 +94,16 @@ def safe_unparse(node):
 
             try:
 
-                value = declarator.declared_name()
+                value = (
+                    declarator.declared_name()
+                )
 
                 if value:
+
                     return value
 
             except Exception:
+
                 pass
 
         value = getattr(
@@ -78,6 +113,7 @@ def safe_unparse(node):
         )
 
         if value:
+
             return value
 
     return type(node).__name__
@@ -462,17 +498,28 @@ def normalize_call(node):
 
 def normalize_import(node):
 
-    node_type = type(node).__name__
+    node_type = type(
+        node,
+    ).__name__
 
     if node_type == "ImportNode":
 
         names = []
 
-        for item in getattr(node, "items", []):
+        for item in getattr(
+            node,
+            "items",
+            [],
+        ):
 
-            if isinstance(item, tuple):
+            if isinstance(
+                item,
+                tuple,
+            ):
 
-                names.append(item[1])
+                names.append(
+                    item[1],
+                )
 
             else:
 
@@ -480,7 +527,9 @@ def normalize_import(node):
 
                 if name != "unknown":
 
-                    names.append(name)
+                    names.append(
+                        name,
+                    )
 
         return ImportNode(
             module="",
@@ -501,9 +550,14 @@ def normalize_import(node):
         [],
     ):
 
-        if isinstance(item, tuple):
+        if isinstance(
+            item,
+            tuple,
+        ):
 
-            names.append(item[1])
+            names.append(
+                item[1],
+            )
 
         else:
 
@@ -533,8 +587,8 @@ def normalize_class(node):
     return ClassNode(
         name=getattr(node, "name", None),
         bases=[],
-        methods=[],
     )
+
 
 def normalize_variable(node):
 
@@ -548,7 +602,6 @@ def normalize_enum(node):
         name=safe_unparse(node),
     )
 
-def normalize_extern(node):
 
     return ExternNode(
         name=safe_unparse(node),
@@ -556,9 +609,14 @@ def normalize_extern(node):
 
 def normalize_node(node):
 
-    node_type = type(node).__name__
+    node_type = type(
+        node,
+    ).__name__
 
-    if node_type in UNSUPPORTED_CYTHON_NODES:
+    if (
+        node_type
+        in UNSUPPORTED_CYTHON_NODES
+    ):
 
         return None
 
@@ -583,11 +641,16 @@ def normalize_node(node):
 
         return None
 
-    for child in get_cython_children(node):
+    for child in get_cython_children(
+        node,
+    ):
 
         normalized_child = normalize_node(child)
 
-        if normalized_child is not None:
+        if (
+            normalized_child
+            is not None
+        ):
 
             normalized.children.append(
                 normalized_child,
@@ -622,7 +685,9 @@ def normalize_cython_ast(tree):
 
     for node in stats:
 
-        normalized = normalize_node(node)
+        normalized = normalize_node(
+            node,
+        )
 
         if normalized is not None:
 
