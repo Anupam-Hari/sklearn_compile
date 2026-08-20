@@ -316,11 +316,13 @@ def normalize_cython_symbol(
 
         name = declarator.name
 
-    name = getattr(
-        node,
-        "name",
-        None,
-    )
+    else:
+
+        name = getattr(
+            node,
+            "name",
+            None,
+        )
 
     if name:
 

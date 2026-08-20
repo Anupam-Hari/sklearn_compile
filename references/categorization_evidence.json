@@ -1,0 +1,1590 @@
+{
+  "cython": {
+    "AddNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "AmpersandNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "AnnotationNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "AsTupleNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "AssertStatNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "AssignmentExpressionNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "AssignmentNode": {
+      "category": "declarations",
+      "rule": "StatNode base + Assign/Decl in name"
+    },
+    "AsyncDefNode": {
+      "category": "declarations",
+      "rule": "name ends with declaration suffix"
+    },
+    "AsyncForStatNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "AsyncGenNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "AsyncIteratorNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "AsyncNextNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "AtomicExprNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "AttributeNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "AwaitExprNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "AwaitIterNextExprNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "BackquoteNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "BinopNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "BitwiseOrNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "BoolBinopNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "BoolBinopResultNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "BoolNode": {
+      "category": "literals",
+      "rule": "name matches literal hint"
+    },
+    "BreakStatNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "BufferIndexNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "BytesNode": {
+      "category": "literals",
+      "rule": "name matches literal hint"
+    },
+    "CAnalysedBaseTypeNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CArgDeclNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CArrayDeclaratorNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CBaseTypeNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CBinopNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "CClassDefNode": {
+      "category": "declarations",
+      "rule": "name ends with declaration suffix"
+    },
+    "CComplexBaseTypeNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CConstDeclaratorNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CConstOrVolatileTypeNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CDeclaratorNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CDefExternNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "CEnumDefItemNode": {
+      "category": "declarations",
+      "rule": "name ends with declaration suffix"
+    },
+    "CEnumDefNode": {
+      "category": "declarations",
+      "rule": "name ends with declaration suffix"
+    },
+    "CFuncDeclaratorNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CFuncDefNode": {
+      "category": "declarations",
+      "rule": "name ends with declaration suffix"
+    },
+    "CImportStatNode": {
+      "category": "imports",
+      "rule": "name contains 'Import'"
+    },
+    "CMethodSelfCloneNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CNameDeclaratorNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CNestedBaseTypeNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CPropertyNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "CPtrDeclaratorNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CReferenceDeclaratorNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CSimpleBaseTypeNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CStructOrUnionDefNode": {
+      "category": "declarations",
+      "rule": "name ends with declaration suffix"
+    },
+    "CTupleBaseTypeNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CTypeDefNode": {
+      "category": "declarations",
+      "rule": "name ends with declaration suffix"
+    },
+    "CUnopNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "CVarDefNode": {
+      "category": "declarations",
+      "rule": "name ends with declaration suffix"
+    },
+    "CachedBuiltinMethodCallNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CallNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CascadedAssignmentNode": {
+      "category": "declarations",
+      "rule": "StatNode base + Assign/Decl in name"
+    },
+    "CascadedCmpNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CastNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CharNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "ClassCellInjectorNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "ClassCellNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "ClassDefNode": {
+      "category": "declarations",
+      "rule": "name ends with declaration suffix"
+    },
+    "ClassNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "ClassPatternNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CloneNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CnameDecoratorNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "CodeObjectNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CoerceCStringToBooleanNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CoerceFromPyTypeNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CoerceIntToBytesNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CoerceToBooleanNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CoerceToComplexNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CoerceToMemViewSliceNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CoerceToPyTypeNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CoerceToTempNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CoercionNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CompilerDirectivesNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "ComprehensionAppendNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "ComprehensionNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CondExprNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "ConstNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "ContinueStatNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "CppClassNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "CppIteratorNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CppOptionalTempCoercion": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CppRvalueReferenceDeclaratorNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "CriticalSectionExitNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "CriticalSectionStatNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "CythonArrayNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "CythonLockExitNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "CythonLockStatNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "DecoratorNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "DecrementIncrementNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "DefNode": {
+      "category": "declarations",
+      "rule": "name ends with declaration suffix"
+    },
+    "DefNodeWrapper": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "DefaultLiteralArgNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "DefaultNonLiteralArgNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "DefaultsKwDictNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "DefaultsTupleNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "DelStatNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "DereferenceNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "DictComprehensionAppendNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "DictItemNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "DictIterationNextNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "DictNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "DivNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "DocstringRefNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "EllipsisNode": {
+      "category": "literals",
+      "rule": "name matches literal hint"
+    },
+    "EnsureGILNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "ErrorNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "ExcValueNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "ExceptClauseNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "ExecStatNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "ExprStatNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "FirstArgumentForCriticalSectionNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "FloatNode": {
+      "category": "literals",
+      "rule": "name matches literal hint"
+    },
+    "ForFromStatNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "ForInStatNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "ForStatNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "FormattedValueNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "FromCImportStatNode": {
+      "category": "imports",
+      "rule": "name contains 'Import'"
+    },
+    "FromImportStatNode": {
+      "category": "imports",
+      "rule": "name contains 'Import'"
+    },
+    "FuncDefNode": {
+      "category": "declarations",
+      "rule": "name ends with declaration suffix"
+    },
+    "FuncLocalsExprNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "FusedTypeNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "GILExitNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "GILStatNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "GeneralCallNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "GeneratorBodyDefNode": {
+      "category": "declarations",
+      "rule": "name ends with declaration suffix"
+    },
+    "GeneratorDefNode": {
+      "category": "declarations",
+      "rule": "name ends with declaration suffix"
+    },
+    "GeneratorExpressionNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "GlobalNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "GlobalsExprNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "IdentifierStringNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "IfClauseNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "IfStatNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "ImagNode": {
+      "category": "literals",
+      "rule": "name matches literal hint"
+    },
+    "ImportNode": {
+      "category": "imports",
+      "rule": "name contains 'Import'"
+    },
+    "InPlaceAssignmentNode": {
+      "category": "declarations",
+      "rule": "StatNode base + Assign/Decl in name"
+    },
+    "IndexNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "IndirectionNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "InlinedDefNodeCallNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "InlinedGeneratorExpressionNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "InnerFunctionNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "IntBinopNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "IntNode": {
+      "category": "literals",
+      "rule": "name matches literal hint"
+    },
+    "IterableAsyncDefNode": {
+      "category": "declarations",
+      "rule": "name ends with declaration suffix"
+    },
+    "IteratorNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "JoinedStrNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "LambdaNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "ListNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "LocalsDictItemNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "LocalsExprNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "MatMultNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "MatchAndAssignPatternNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "MatchCaseNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "MatchMappingPatternNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "MatchNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "MatchSequencePatternNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "MatchValuePatternNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "MemoryCopyNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "MemoryCopyScalar": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "MemoryCopySlice": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "MemoryViewIndexNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "MemoryViewSliceNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "MemoryViewSliceTypeNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "MergedDictNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "MergedSequenceNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "ModNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "ModuleNode": {
+      "category": "declarations",
+      "rule": "exact match: module root symbol"
+    },
+    "ModuleRefNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "MulNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "NameNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "NewExprNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "NextNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "NogilTryFinallyStatNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "NoneCheckNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "NoneNode": {
+      "category": "literals",
+      "rule": "name matches literal hint"
+    },
+    "NonlocalNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "NotNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "NullNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "NumBinopNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "NumPyMethodCallNode": {
+      "category": "literals",
+      "rule": "name matches literal hint"
+    },
+    "OrPatternNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "OverrideCheckNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "ParallelAssignmentNode": {
+      "category": "declarations",
+      "rule": "StatNode base + Assign/Decl in name"
+    },
+    "ParallelNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "ParallelRangeNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "ParallelStatNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "ParallelThreadIdNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "ParallelThreadsAvailableNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "ParallelWithBlockNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "PassStatNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "PowNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "PrimaryCmpNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "PrintStatNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "PropertyNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "ProxyNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "Py3ClassNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "PyArgDeclNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "PyCFunctionNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "PyClassDefNode": {
+      "category": "declarations",
+      "rule": "name ends with declaration suffix"
+    },
+    "PyClassLocalsExprNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "PyClassMetaclassNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "PyClassNamespaceNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "PyConstNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "PyMethodCallNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "PyTempNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "PyTypeTestNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "PythonCapiCallNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "PythonCapiFunctionNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "RaiseStatNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "RawCNameExprNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "ReraiseStatNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "ReturnStatNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "ScopedExprNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "SequenceNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "SetIterationNextNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "SetNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "SimpleCallNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "SingleAssignmentNode": {
+      "category": "declarations",
+      "rule": "StatNode base + Assign/Decl in name"
+    },
+    "SizeofNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "SizeofTypeNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "SizeofVarNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "SliceIndexNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "SliceIntNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "SliceNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "SortedDictKeysNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "SortedListNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "StarredUnpackingNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "StatListNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "StatNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "SubNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "SwitchCaseNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "SwitchStatNode": {
+      "category": "statements",
+      "rule": "StatNode in base chain (uncategorized further)"
+    },
+    "TStringInterpolationNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "TempNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "TemplateStringNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "TemplatedTypeNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "TildeNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "TryExceptStatNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "TryFinallyStatNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "TupleNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "TypecastNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "TypeidNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "TypeofNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "UnaryMinusNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "UnaryPlusNode": {
+      "category": "operators",
+      "rule": "base class or name matches operator hint"
+    },
+    "UnicodeNode": {
+      "category": "literals",
+      "rule": "name matches literal hint"
+    },
+    "UnopNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "WhileStatNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "WithExitCallNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "WithStatNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "WithTargetAssignmentStatNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "YieldExprNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "YieldFromExprNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "_CReferenceDeclaratorBaseNode": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "_ForInStatNode": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "_IndexingBaseNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "_TempModifierNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "_YieldDelegationExprNode": {
+      "category": "expressions",
+      "rule": "ExprNode in base chain"
+    },
+    "binop_node": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "c_binop_constructor": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "inc_dec_constructor": {
+      "category": "other",
+      "rule": "no rule matched"
+    },
+    "unop_node": {
+      "category": "other",
+      "rule": "no rule matched"
+    }
+  },
+  "python": {
+    "Add": {
+      "category": "operators",
+      "rule": "ast category='operator'"
+    },
+    "And": {
+      "category": "operators",
+      "rule": "ast category='boolop'"
+    },
+    "AnnAssign": {
+      "category": "declarations",
+      "rule": "exact match: AnnAssign"
+    },
+    "Assert": {
+      "category": "statements",
+      "rule": "ast category='stmt' (uncategorized further)"
+    },
+    "Assign": {
+      "category": "declarations",
+      "rule": "exact match: Assign"
+    },
+    "AsyncFor": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "AsyncFunctionDef": {
+      "category": "declarations",
+      "rule": "exact statement/def match: AsyncFunctionDef"
+    },
+    "AsyncWith": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "Attribute": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "AugAssign": {
+      "category": "declarations",
+      "rule": "exact match: AugAssign"
+    },
+    "AugLoad": {
+      "category": "other",
+      "rule": "ast category='expr_context'"
+    },
+    "AugStore": {
+      "category": "other",
+      "rule": "ast category='expr_context'"
+    },
+    "Await": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "BinOp": {
+      "category": "operators",
+      "rule": "name matches operator hint"
+    },
+    "BitAnd": {
+      "category": "operators",
+      "rule": "ast category='operator'"
+    },
+    "BitOr": {
+      "category": "operators",
+      "rule": "ast category='operator'"
+    },
+    "BitXor": {
+      "category": "operators",
+      "rule": "ast category='operator'"
+    },
+    "BoolOp": {
+      "category": "operators",
+      "rule": "name matches operator hint"
+    },
+    "Break": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "Call": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "ClassDef": {
+      "category": "declarations",
+      "rule": "exact statement/def match: ClassDef"
+    },
+    "Compare": {
+      "category": "operators",
+      "rule": "name matches operator hint"
+    },
+    "Constant": {
+      "category": "literals",
+      "rule": "expr + name matches literal hint"
+    },
+    "Continue": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "Del": {
+      "category": "other",
+      "rule": "ast category='expr_context'"
+    },
+    "Delete": {
+      "category": "statements",
+      "rule": "ast category='stmt' (uncategorized further)"
+    },
+    "Dict": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "DictComp": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "Div": {
+      "category": "operators",
+      "rule": "ast category='operator'"
+    },
+    "Ellipsis": {
+      "category": "literals",
+      "rule": "expr + name matches literal hint"
+    },
+    "Eq": {
+      "category": "operators",
+      "rule": "ast category='cmpop'"
+    },
+    "ExceptHandler": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "Expr": {
+      "category": "statements",
+      "rule": "ast category='stmt' (uncategorized further)"
+    },
+    "Expression": {
+      "category": "other",
+      "rule": "ast category='mod'"
+    },
+    "ExtSlice": {
+      "category": "other",
+      "rule": "ast category='other'"
+    },
+    "FloorDiv": {
+      "category": "operators",
+      "rule": "ast category='operator'"
+    },
+    "For": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "FormattedValue": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "FunctionDef": {
+      "category": "declarations",
+      "rule": "exact statement/def match: FunctionDef"
+    },
+    "FunctionType": {
+      "category": "other",
+      "rule": "ast category='mod'"
+    },
+    "GeneratorExp": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "Global": {
+      "category": "declarations",
+      "rule": "exact statement/def match: Global"
+    },
+    "Gt": {
+      "category": "operators",
+      "rule": "ast category='cmpop'"
+    },
+    "GtE": {
+      "category": "operators",
+      "rule": "ast category='cmpop'"
+    },
+    "If": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "IfExp": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "Import": {
+      "category": "imports",
+      "rule": "name contains 'Import'"
+    },
+    "ImportFrom": {
+      "category": "imports",
+      "rule": "name contains 'Import'"
+    },
+    "In": {
+      "category": "operators",
+      "rule": "ast category='cmpop'"
+    },
+    "Index": {
+      "category": "other",
+      "rule": "ast category='other'"
+    },
+    "Interactive": {
+      "category": "other",
+      "rule": "ast category='mod'"
+    },
+    "Invert": {
+      "category": "operators",
+      "rule": "ast category='unaryop'"
+    },
+    "Is": {
+      "category": "operators",
+      "rule": "ast category='cmpop'"
+    },
+    "IsNot": {
+      "category": "operators",
+      "rule": "ast category='cmpop'"
+    },
+    "JoinedStr": {
+      "category": "literals",
+      "rule": "expr + name matches literal hint"
+    },
+    "LShift": {
+      "category": "operators",
+      "rule": "ast category='operator'"
+    },
+    "Lambda": {
+      "category": "declarations",
+      "rule": "exact statement/def match: Lambda"
+    },
+    "List": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "ListComp": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "Load": {
+      "category": "other",
+      "rule": "ast category='expr_context'"
+    },
+    "Lt": {
+      "category": "operators",
+      "rule": "ast category='cmpop'"
+    },
+    "LtE": {
+      "category": "operators",
+      "rule": "ast category='cmpop'"
+    },
+    "MatMult": {
+      "category": "operators",
+      "rule": "ast category='operator'"
+    },
+    "Match": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "MatchAs": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "MatchClass": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "MatchMapping": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "MatchOr": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "MatchSequence": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "MatchSingleton": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "MatchStar": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "MatchValue": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "Mod": {
+      "category": "operators",
+      "rule": "ast category='operator'"
+    },
+    "Module": {
+      "category": "declarations",
+      "rule": "exact match: Module"
+    },
+    "Mult": {
+      "category": "operators",
+      "rule": "ast category='operator'"
+    },
+    "Name": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "NamedExpr": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "Nonlocal": {
+      "category": "declarations",
+      "rule": "exact statement/def match: Nonlocal"
+    },
+    "Not": {
+      "category": "operators",
+      "rule": "ast category='unaryop'"
+    },
+    "NotEq": {
+      "category": "operators",
+      "rule": "ast category='cmpop'"
+    },
+    "NotIn": {
+      "category": "operators",
+      "rule": "ast category='cmpop'"
+    },
+    "Or": {
+      "category": "operators",
+      "rule": "ast category='boolop'"
+    },
+    "Param": {
+      "category": "other",
+      "rule": "ast category='expr_context'"
+    },
+    "ParamSpec": {
+      "category": "other",
+      "rule": "ast category='type_param'"
+    },
+    "Pass": {
+      "category": "statements",
+      "rule": "ast category='stmt' (uncategorized further)"
+    },
+    "Pow": {
+      "category": "operators",
+      "rule": "ast category='operator'"
+    },
+    "RShift": {
+      "category": "operators",
+      "rule": "ast category='operator'"
+    },
+    "Raise": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "Return": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "Set": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "SetComp": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "Slice": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "Starred": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "Store": {
+      "category": "other",
+      "rule": "ast category='expr_context'"
+    },
+    "Sub": {
+      "category": "operators",
+      "rule": "ast category='operator'"
+    },
+    "Subscript": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "Suite": {
+      "category": "other",
+      "rule": "ast category='mod'"
+    },
+    "Try": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "TryStar": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "Tuple": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "TypeAlias": {
+      "category": "statements",
+      "rule": "ast category='stmt' (uncategorized further)"
+    },
+    "TypeIgnore": {
+      "category": "other",
+      "rule": "ast category='type_ignore'"
+    },
+    "TypeVar": {
+      "category": "other",
+      "rule": "ast category='type_param'"
+    },
+    "TypeVarTuple": {
+      "category": "other",
+      "rule": "ast category='type_param'"
+    },
+    "UAdd": {
+      "category": "operators",
+      "rule": "ast category='unaryop'"
+    },
+    "USub": {
+      "category": "operators",
+      "rule": "ast category='unaryop'"
+    },
+    "UnaryOp": {
+      "category": "operators",
+      "rule": "name matches operator hint"
+    },
+    "While": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "With": {
+      "category": "control_flow",
+      "rule": "name matches control-flow hint"
+    },
+    "Yield": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "YieldFrom": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "alias": {
+      "category": "other",
+      "rule": "ast category='alias'"
+    },
+    "arg": {
+      "category": "declarations",
+      "rule": "exact match: arg"
+    },
+    "arguments": {
+      "category": "other",
+      "rule": "ast category='arguments'"
+    },
+    "boolop": {
+      "category": "operators",
+      "rule": "ast category='boolop'"
+    },
+    "cmpop": {
+      "category": "operators",
+      "rule": "ast category='cmpop'"
+    },
+    "comprehension": {
+      "category": "other",
+      "rule": "ast category='comprehension'"
+    },
+    "excepthandler": {
+      "category": "other",
+      "rule": "ast category='excepthandler'"
+    },
+    "expr": {
+      "category": "expressions",
+      "rule": "ast category='expr'"
+    },
+    "expr_context": {
+      "category": "other",
+      "rule": "ast category='expr_context'"
+    },
+    "keyword": {
+      "category": "other",
+      "rule": "ast category='keyword'"
+    },
+    "match_case": {
+      "category": "other",
+      "rule": "ast category='match_case'"
+    },
+    "mod": {
+      "category": "other",
+      "rule": "ast category='mod'"
+    },
+    "operator": {
+      "category": "operators",
+      "rule": "ast category='operator'"
+    },
+    "pattern": {
+      "category": "other",
+      "rule": "ast category='pattern'"
+    },
+    "slice": {
+      "category": "other",
+      "rule": "ast category='other'"
+    },
+    "stmt": {
+      "category": "statements",
+      "rule": "ast category='stmt' (uncategorized further)"
+    },
+    "type_ignore": {
+      "category": "other",
+      "rule": "ast category='type_ignore'"
+    },
+    "type_param": {
+      "category": "other",
+      "rule": "ast category='type_param'"
+    },
+    "unaryop": {
+      "category": "operators",
+      "rule": "ast category='unaryop'"
+    },
+    "withitem": {
+      "category": "other",
+      "rule": "ast category='withitem'"
+    }
+  }
+}
