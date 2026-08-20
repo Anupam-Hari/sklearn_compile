@@ -1,20 +1,21 @@
 PYTHON_REFERENCES = {
-
-    "Name": "NameReference",
-
-    "Attribute": "AttributeReference",
-
-    "Call": "CallReference",
+    "Name": "NameReferenceNode",
+    "Attribute": "AttributeReferenceNode",
+    "Subscript": "SubscriptReferenceNode",
 }
-
 
 CYTHON_REFERENCES = {
 
-    "NameNode": "NameReference",
+    "NameNode": "NameReferenceNode",
 
-    "AttributeNode": "AttributeReference",
+    "AttributeNode": "AttributeReferenceNode",
 
-    "SimpleCallNode": "CallReference",
+    "IndexNode": "IndexReferenceNode",
 
-    "GeneralCallNode": "CallReference",
+    "SliceIndexNode": "SliceReferenceNode",
+
+    "MemoryViewSliceTypeNode": "MemoryViewReferenceNode",
+
+    "IteratorNode": "IteratorReferenceNode",
+
 }

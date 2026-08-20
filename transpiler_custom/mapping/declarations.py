@@ -1,13 +1,34 @@
 PYTHON_DECLARATIONS = {
-
     "Assign": "AssignmentNode",
-
-    "AnnAssign": "AnnotatedAssignmentNode",
-
+    "AnnAssign": "AssignmentNode",
+    "arguments": "ArgumentsNode",
+    "arg": "ArgumentNode",
+    "keyword": "KeywordArgumentNode",
+    "alias": "AliasNode",
 }
 
 CYTHON_DECLARATIONS = {
 
-    "CVarDefNode": "VariableDefinitionNode",
+    "SingleAssignmentNode": "AssignmentNode",
+
+    "InPlaceAssignmentNode": "AssignmentNode",
+
+    "CascadedAssignmentNode": "AssignmentNode",
+
+    "CVarDefNode": "VariableDeclarationNode",
+
+    "CArgDeclNode": "ArgumentDeclarationNode",
+
+    "CNameDeclaratorNode": "DeclaratorNode",
+
+    "CPtrDeclaratorNode": "PointerDeclaratorNode",
+
+    "CFuncDeclaratorNode": "FunctionDeclaratorNode",
+
+    "CArrayDeclaratorNode": "ArrayDeclaratorNode",
+
+    "CReferenceDeclaratorNode": "ReferenceDeclaratorNode",
+
+    "DecoratorNode": "DecoratorNode",
 
 }

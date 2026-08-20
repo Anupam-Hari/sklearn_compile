@@ -1,59 +1,56 @@
 PYTHON_CONTROL_FLOW = {
-
-    "If": "IfNode",
-
-    "For": "ForNode",
-
-    "While": "WhileNode",
-
-    "Try": "TryNode",
-
-    "With": "WithNode",
-
-    "Return": "ReturnNode",
-
-    "Raise": "RaiseNode",
-
-    "Yield": "YieldNode",
-
-    "YieldFrom": "YieldFromNode",
-
-    "Break": "BreakNode",
-
-    "Continue": "ContinueNode",
-
-    "Pass": "PassNode",
-
+    "If": "IfStatementNode",
+    "For": "ForLoopNode",
+    "While": "WhileLoopNode",
+    "With": "WithStatementNode",
+    "withitem": "WithItemNode",
+    "Try": "TryStatementNode",
+    "ExceptHandler": "ExceptHandlerNode",
+    "Raise": "RaiseStatementNode",
+    "Return": "ReturnStatementNode",
+    "Break": "BreakStatementNode",
+    "Continue": "ContinueStatementNode",
+    "Pass": "PassStatementNode",
 }
 
 CYTHON_CONTROL_FLOW = {
 
-    "IfStatNode": "IfNode",
+    "StatListNode": "StatementListNode",
+
+    "ExprStatNode": "ExpressionStatementNode",
+
+    "IfStatNode": "IfStatementNode",
+
     "IfClauseNode": "IfClauseNode",
 
-    "ForInStatNode": "ForNode",
-    "ForFromStatNode": "ForNode",
+    "ForInStatNode": "ForLoopNode",
 
-    "WhileStatNode": "WhileNode",
+    "ForFromStatNode": "RangeLoopNode",
 
-    "WithStatNode": "WithNode",
+    "WhileStatNode": "WhileLoopNode",
 
-    "TryExceptStatNode": "TryNode",
-    "TryFinallyStatNode": "TryNode",
-    "ExceptClauseNode": "ExceptHandlerNode",
+    "WithStatNode": "WithStatementNode",
 
-    "ReturnStatNode": "ReturnNode",
+    "TryExceptStatNode": "TryExceptStatementNode",
 
-    "RaiseStatNode": "RaiseNode",
+    "TryFinallyStatNode": "TryFinallyStatementNode",
 
-    "YieldExprNode": "YieldNode",
+    "ExceptClauseNode": "ExceptClauseNode",
 
-    "BreakStatNode": "BreakNode",
+    "AssertStatNode": "AssertStatementNode",
 
-    "ContinueStatNode": "ContinueNode",
+    "RaiseStatNode": "RaiseStatementNode",
 
-    "PassStatNode": "PassNode",
+    "ReturnStatNode": "ReturnStatementNode",
 
-    "AssertStatNode": "AssertNode",
+    "BreakStatNode": "BreakStatementNode",
+
+    "ContinueStatNode": "ContinueStatementNode",
+
+    "PassStatNode": "PassStatementNode",
+
+    "GILStatNode": "GILStatementNode",
+
+    "GILExitNode": "GILExitNode",
 
 }

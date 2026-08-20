@@ -1,35 +1,70 @@
 PYTHON_OPERATIONS = {
-
     "BinOp": "BinaryOperationNode",
-
-    "BoolOp": "BooleanOperationNode",
-
     "UnaryOp": "UnaryOperationNode",
+    "BoolOp": "BooleanOperationNode",
+    "Compare": "ComparisonOperationNode",
+    "AugAssign": "AugmentedAssignmentNode",
 
-    "Compare": "ComparisonNode",
+    "Add": "AddOperationNode",
+    "Sub": "SubtractOperationNode",
+    "Mult": "MultiplyOperationNode",
+    "Div": "DivideOperationNode",
+    "FloorDiv": "FloorDivideOperationNode",
+    "Mod": "ModuloOperationNode",
+    "Pow": "PowerOperationNode",
+    "MatMult": "MatrixMultiplyOperationNode",
 
+    "BitOr": "BitwiseOrOperationNode",
+    "BitAnd": "BitwiseAndOperationNode",
+    "BitXor": "BitwiseXorOperationNode",
+    "LShift": "LeftShiftOperationNode",
+
+    "And": "LogicalAndOperationNode",
+    "Or": "LogicalOrOperationNode",
+
+    "USub": "UnaryMinusOperationNode",
+    "UAdd": "UnaryPlusOperationNode",
+    "Not": "LogicalNotOperationNode",
+    "Invert": "BitwiseInvertOperationNode",
+
+    "Eq": "EqualOperationNode",
+    "NotEq": "NotEqualOperationNode",
+    "Lt": "LessThanOperationNode",
+    "LtE": "LessThanOrEqualOperationNode",
+    "Gt": "GreaterThanOperationNode",
+    "GtE": "GreaterThanOrEqualOperationNode",
+    "Is": "IdentityOperationNode",
+    "IsNot": "NotIdentityOperationNode",
+    "In": "MembershipOperationNode",
+    "NotIn": "NotMembershipOperationNode",
 }
 
 CYTHON_OPERATIONS = {
 
-    "AddNode": "BinaryOperationNode",
-    "SubNode": "BinaryOperationNode",
-    "MulNode": "BinaryOperationNode",
-    "DivNode": "BinaryOperationNode",
-    "ModNode": "BinaryOperationNode",
-    "PowNode": "BinaryOperationNode",
+    "AddNode": "AddOperationNode",
 
-    "AmpersandNode": "BinaryOperationNode",
+    "SubNode": "SubtractOperationNode",
+
+    "MulNode": "MultiplyOperationNode",
+
+    "DivNode": "DivideOperationNode",
+
+    "ModNode": "ModuloOperationNode",
+
+    "PowNode": "PowerOperationNode",
+
+    "IntBinopNode": "IntegerBinaryOperationNode",
 
     "BoolBinopNode": "BooleanOperationNode",
 
-    "IntBinopNode": "BinaryOperationNode",
+    "PrimaryCmpNode": "ComparisonOperationNode",
 
-    "PrimaryCmpNode": "ComparisonNode",
-    "CascadedCmpNode": "ComparisonNode",
+    "CascadedCmpNode": "CascadedComparisonNode",
 
-    "NotNode": "UnaryOperationNode",
+    "UnaryMinusNode": "UnaryMinusOperationNode",
 
-    "UnaryMinusNode": "UnaryOperationNode",
+    "NotNode": "LogicalNotOperationNode",
+
+    "AmpersandNode": "AddressOfOperationNode",
 
 }

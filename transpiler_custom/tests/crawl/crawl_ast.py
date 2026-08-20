@@ -21,6 +21,110 @@ SKIP_NODES = {
 }
 
 
+def print_attribute(
+    name,
+    value,
+    indent=0,
+    visited=None,
+):
+
+    if visited is None:
+
+        visited = set()
+
+    prefix = "    " * indent
+
+    print(
+        f"{prefix}{name}: "
+        f"({type(value).__name__})"
+    )
+
+    if value is None:
+
+        print(
+            f"{prefix}    None"
+        )
+
+        return
+
+    if isinstance(
+        value,
+        (
+            str,
+            int,
+            float,
+            bool,
+            bytes,
+        ),
+    ):
+
+        print(
+            f"{prefix}    {repr(value)}"
+        )
+
+        return
+
+    if isinstance(
+        value,
+        tuple,
+    ):
+
+        print(
+            f"{prefix}    {repr(value)}"
+        )
+
+        return
+
+    if isinstance(
+        value,
+        list,
+    ):
+
+        print(
+            f"{prefix}    list[{len(value)}]"
+        )
+
+        for i, item in enumerate(value):
+
+            print_attribute(
+                f"[{i}]",
+                item,
+                indent + 1,
+                visited,
+            )
+
+        return
+
+    if not hasattr(
+        value,
+        "__dict__",
+    ):
+
+        print(
+            f"{prefix}    {repr(value)}"
+        )
+
+        return
+
+    object_id = id(value)
+
+    if object_id in visited:
+
+        return
+
+    visited.add(object_id)
+
+    for key, child in sorted(
+        value.__dict__.items()
+    ):
+
+        print_attribute(
+            key,
+            child,
+            indent + 1,
+            visited,
+        )
+
 def print_node_details(node):
 
     node_type = type(node).__name__
@@ -31,28 +135,42 @@ def print_node_details(node):
 
     printed_nodes.add(node_type)
 
-    print("\n" + "=" * 80)
+    print(
+        "\n"
+        + "=" * 80
+    )
+
     print(node_type)
-    print("=" * 80)
 
-    for key, value in sorted(node.__dict__.items()):
+    print(
+        "=" * 80
+    )
 
-        value_type = type(value).__name__
+    visited = {
+        id(node),
+    }
 
-        if isinstance(value, list):
+    for key, value in sorted(
+        node.__dict__.items()
+    ):
 
-            print(
-                f"{key}: "
-                f"list[{len(value)}]"
-            )
+        print_attribute(
+            key,
+            value,
+            visited=visited,
+        )
 
-        else:
+    print()
 
-            print(
-                f"{key}: "
-                f"{value!r} "
-                f"({value_type})"
-            )
+    print("child_attrs:")
+
+    print(
+        getattr(
+            node,
+            "child_attrs",
+            (),
+        )
+    )
 
 
 def walk(node, counter):

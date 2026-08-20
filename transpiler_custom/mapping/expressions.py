@@ -1,63 +1,83 @@
 PYTHON_EXPRESSIONS = {
-
-    "Call": "CallNode",
-
-    "Attribute": "AttributeNode",
-
-    "Name": "NameNode",
-
-    "Subscript": "SubscriptNode",
-
-    "Lambda": "LambdaNode",
-
-    "Dict": "DictNode",
-
-    "List": "ListNode",
-
-    "Tuple": "TupleNode",
-
-    "Set": "SetNode",
-
-    "GeneratorExp": "GeneratorExpressionNode",
-
+    "Call": "CallExpressionNode",
+    "Constant": "ConstantNode",
+    "List": "ListExpressionNode",
+    "Tuple": "TupleExpressionNode",
+    "Dict": "DictExpressionNode",
+    "Set": "SetExpressionNode",
     "ListComp": "ListComprehensionNode",
-
     "DictComp": "DictComprehensionNode",
-
     "SetComp": "SetComprehensionNode",
-
+    "GeneratorExp": "GeneratorExpressionNode",
+    "Lambda": "LambdaExpressionNode",
+    "Slice": "SliceExpressionNode",
+    "IfExp": "ConditionalExpressionNode",
+    "Yield": "YieldExpressionNode",
+    "YieldFrom": "YieldFromExpressionNode",
+    "JoinedStr": "FStringNode",
+    "FormattedValue": "FormattedValueNode",
+    "Starred": "StarredExpressionNode",
+    "comprehension": "ComprehensionNode",
 }
 
 CYTHON_EXPRESSIONS = {
 
-    "AttributeNode": "AttributeNode",
+    "IntNode": "IntegerLiteralNode",
 
-    "NameNode": "NameNode",
+    "FloatNode": "FloatLiteralNode",
 
-    "GeneralCallNode": "CallNode",
-    "SimpleCallNode": "CallNode",
+    "BoolNode": "BooleanLiteralNode",
 
-    "LambdaNode": "LambdaNode",
+    "UnicodeNode": "StringLiteralNode",
 
-    "DictNode": "DictNode",
-    "ListNode": "ListNode",
-    "TupleNode": "TupleNode",
+    "BytesNode": "BytesLiteralNode",
 
-    "GeneratorExpressionNode": "GeneratorExpressionNode",
+    "IdentifierStringNode": "IdentifierLiteralNode",
 
-    "ComprehensionNode": "ComprehensionNode",
+    "NoneNode": "NoneLiteralNode",
 
-    "IndexNode": "IndexNode",
-    "SliceNode": "SliceNode",
-    "SliceIndexNode": "SliceNode",
+    "NullNode": "NullLiteralNode",
+
+    "ListNode": "ListExpressionNode",
+
+    "TupleNode": "TupleExpressionNode",
+
+    "DictNode": "DictionaryExpressionNode",
+
+    "DictItemNode": "DictionaryItemNode",
+
+    "SliceNode": "SliceExpressionNode",
+
+    "SimpleCallNode": "CallExpressionNode",
+
+    "GeneralCallNode": "CallExpressionNode",
+
+    "LambdaNode": "LambdaExpressionNode",
 
     "CondExprNode": "ConditionalExpressionNode",
 
+    "YieldExprNode": "YieldExpressionNode",
+
+    "JoinedStrNode": "FStringNode",
+
+    "FormattedValueNode": "FormattedValueNode",
+
+    "ComprehensionNode": "ComprehensionNode",
+
+    "ComprehensionAppendNode": "ComprehensionAppendNode",
+
+    "DictComprehensionAppendNode": "DictionaryComprehensionAppendNode",
+
+    "GeneratorExpressionNode": "GeneratorExpressionNode",
+
+    "StarredUnpackingNode": "StarredUnpackingNode",
+
     "TypecastNode": "TypeCastNode",
 
-    "SizeofTypeNode": "SizeofNode",
-    "SizeofVarNode": "SizeofNode",
+    "SizeofVarNode": "SizeofVariableNode",
 
-    "CythonArrayNode": "ArrayNode",
+    "SizeofTypeNode": "SizeofTypeNode",
+
+    "CythonArrayNode": "ArrayExpressionNode",
 
 }
